@@ -7,7 +7,7 @@ import moment from "moment";
 const FooterStruct = () => {
   return (
     <footer className="footer">
-      Ponte en contacto con nosotros
+      <span>Ponte en contacto con nosotros</span>
       <div className="redes">
         <ul className="redes-elementos">
           <li className="redes-elemento">
