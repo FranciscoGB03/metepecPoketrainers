@@ -1,16 +1,19 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import RankingMundial from "./components/rankingMundial/RankingMundial";
-import RankingRegional from "./components/rankingRegional/RankingRegional";
-
+import ROUTES from "./routes/Routes";
 function App() {
   return (
     <Routes>
-      <Route path='/' element={<RankingRegional/>}/>
-      <Route path='/rankingMundial' element={<RankingMundial/>}/>
-      <Route path='/rankingRegional' element={<RankingRegional/>}/>
+      {ROUTES.map((route, idx) => (
+        <Route
+          key={idx}
+          exact={route.exact}
+          path={route.path}
+          element={<route.element />}
+        />
+      ))}
     </Routes>
-    );
+  );
 }
 
 export default App;

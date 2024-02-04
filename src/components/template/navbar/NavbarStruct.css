@@ -3,3 +3,18 @@
     font-size: larger;
     height: 50px;
 }
+
+.right-menu{
+    background-color: #D62;
+}
+
+.right-menu, a:link, a:visited, a:active {
+ text-decoration: none;
+ color: white;
+ padding: 0px 5px 0px 10px;
+}
+
+a:hover{
+    color: darkcyan;
+    text-decoration:solid;
+}

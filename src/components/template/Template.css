@@ -1,0 +1,10 @@
+.page{
+    position: relative;
+    
+
+}
+
+.content{
+    position:relative;
+    min-height: 100vh;
+}    

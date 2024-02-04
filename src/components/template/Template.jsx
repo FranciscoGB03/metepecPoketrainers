@@ -3,11 +3,11 @@ import NavbarStruct from "./navbar/NavbarStruct";
 
 const Template = (props) => {
   return (
-  <div>
-    <NavbarStruct/>
-    {props.children}
-    <FooterStruct/>
-  </div>
+    <div className="page">
+      <NavbarStruct />
+      <div className="content">{props.children}</div>
+      <FooterStruct />
+    </div>
   );
 };
 

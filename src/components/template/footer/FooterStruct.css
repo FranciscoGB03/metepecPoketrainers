@@ -1,6 +1,21 @@
-.footer{
-   max-height: max-content; 
-   background-color: blueviolet;
-   text-align: center;
+.footer {  
+   background-color: darkcyan;
    color: white;
+   height: 7em;
+   text-align: center;
+}
+
+.redes-elementos{
+   list-style: none;
+   display: block;
+   margin-top: 0;
+   margin-bottom: 0;
+}
+
+.redes-elemento a:hover{
+   color: blue;
+}
+
+.terminos a:hover{
+   color: blue;
 }

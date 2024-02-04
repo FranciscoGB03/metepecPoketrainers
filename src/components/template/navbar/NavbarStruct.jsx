@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 
 const NavbarStruct = () => {
   return (
-    <Navbar collapseOnSelect expand="lg" data-bs-theme="dark" className="nav-color">
+    <Navbar fixed="top" collapseOnSelect expand="lg" data-bs-theme="dark" className="nav-color">
       <Container fluid>
         <Navbar.Brand className="nav-container" href="/metepecPokeTrainers">
           <AiOutlinePicture />
@@ -15,12 +15,10 @@ const NavbarStruct = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto"></Nav>
-          <Nav>
+          <Nav className="right-menu">
             <NavLink to="/rankingMundial">Ranking Mundial</NavLink>
             <NavLink to="/rankingRegional">Ranking Local</NavLink>
             <NavLink href="#deets">Equipos Top</NavLink>
-            <NavLink eventKey={2} href="#memes">             
-            </NavLink>
           </Nav>
         </Navbar.Collapse>
       </Container>
