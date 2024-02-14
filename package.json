@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@fontsource-variable/dosis": "^5.0.18",
+    "@tremor/react": "^3.14.0",
     "bootstrap": "^5.3.2",
     "moment": "^2.30.1",
     "react": "^18.2.0",
