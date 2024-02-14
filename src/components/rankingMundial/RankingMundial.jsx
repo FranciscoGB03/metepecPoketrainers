@@ -17,7 +17,7 @@ function RankingMundial() {
     <Template>
       <div className="ranmun_body">
         <div>
-          <h3>Ranking Regional</h3>
+          <h3>Ranking Mundial</h3>
         </div>
         <Card className="ranreg-card">
           <Table className="ranreg-table">
