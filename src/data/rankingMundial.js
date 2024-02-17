@@ -1,5 +1,5 @@
 export const RANKING_MUNDIAL=[
-    {nombre:'jugador1', equipo:'valor', puntos:3400},
+    {nombre:'Pgonbo', equipo:'instinto', puntos:3425},
     {nombre:'jugador2', equipo:'valor', puntos:3350},
     {nombre:'jugador3', equipo:'valor', puntos:3200},
     {nombre:'jugador4', equipo:'valor', puntos:3150},
