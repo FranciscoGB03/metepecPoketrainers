@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind componets;
+@tailwind utilities;
 *{
-  font-family: 'Dosis Variable', sans-serif;;
+  font-family: 'Dosis Variable', sans-serif;
 }
