@@ -1,11 +1,55 @@
 .footer {  
+   width: 100%;
    background-color: darkcyan;
    color: white;
-   height: 7em;
+   /* height: 10%; */
    text-align: center;
+   /* position: fixed;
+   bottom: 0;   */
+   flex-wrap: wrap;            
 }
+.footer .redes-elementos li{
+   list-style: none;
 
-.redes-elementos{
+}
+.footer .redes-elementos li a{
+   font-size: 2em;
+   color:#fff;
+   margin:0 10px;
+   display: inline-block;
+   transition: 0.5s;
+}
+.footer .redes-elementos li a:hover,
+.footer .menu li a:hover{
+   color: blue;
+   transform: translate(-10px);
+}
+.footer .menu{
+   font-size: 1.2em;
+   color:#fff;
+   margin:0 10px;
+   display: inline-block;
+   text-decoration: none;
+   opacity:0.75;
+}
+.footer span{
+   padding: 15px;
+}
+.terminos{
+   margin-top: 15px;
+   margin-bottom: 15px;
+}
+.derechos{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+/* .submenu{
+   justify-content: center;
+   text-align: center;
+
+} */
+/* .redes-elementos{
    list-style: none;
    display: block;
    margin-top: 0;
@@ -18,4 +62,4 @@
 
 .terminos a:hover{
    color: blue;
-}
+} */

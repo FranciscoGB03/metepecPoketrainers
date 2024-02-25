@@ -9,10 +9,10 @@ import moment from "moment";
 
 const FooterStruct = () => {
   return (
-    <footer className="footer">
-      <span>Ponte en contacto con nosotros:</span>
-      <div className="redes">
-        <ul className="redes-elementos">
+    <footer className="footer justify-end pt-8 mt-5">
+      <span className="mt-8	" style={{margin:'20px'}}>Ponte en contacto con nosotros:</span>
+      <div className="redes mt-5">
+        <ul className="redes-elementos mb-5">
           <li className="redes-elemento">
             <Link
               to={"https://www.facebook.com/gaming/MetepecPokeTrainers"}
@@ -45,8 +45,16 @@ const FooterStruct = () => {
           </li>
         </ul>
       </div>
-      <span className="terminos"><Link to="/terminosCondiciones">Términos y Condiciones</Link></span><br/>
-      <span><AiOutlineCopyright /> {moment().year()}. Todos los derechos reservados.</span>
+      <ul className="menu">
+        <li>
+          <Link to="/rankingMundial">Ranking Mundial</Link>
+          <Link to="/rankingRegional">Ranking Local</Link>
+          <Link href="#deets">Equipos Top</Link>
+          <Link to="/terminosCondiciones">Términos y Condiciones</Link>
+        </li>
+
+      </ul>
+      <span className="derechos ">< AiOutlineCopyright  className="mr-2"/>  { moment().year()}. Todos los derechos reservados.</span>
     </footer>
   );
 };
