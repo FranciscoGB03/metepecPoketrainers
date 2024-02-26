@@ -5,3 +5,6 @@
 .ranreg-table{
     padding: 10px;
 }*/
+.tooltip:hover .tooltip-item {
+    visibility: visible;
+}
