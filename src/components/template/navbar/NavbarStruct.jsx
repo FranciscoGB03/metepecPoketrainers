@@ -8,10 +8,10 @@ const NavbarStruct = () => {
   return (
     <Navbar fixed="top" collapseOnSelect expand="lg" data-bs-theme="dark" className="nav-color">
       <Container fluid>
-        <Navbar.Brand className="nav-container" href="/metepecPokeTrainers">
+        <NavLink className="nav-container" to="/">
           <AiOutlinePicture />
           <span className="ms-1">Metepec Poke Trainers</span>
-        </Navbar.Brand>
+        </NavLink>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto"></Nav>
