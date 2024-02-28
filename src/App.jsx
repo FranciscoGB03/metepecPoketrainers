@@ -4,9 +4,9 @@ import ROUTES from "./routes/Routes";
 function App() {
   return (
     <Routes>
-      {ROUTES.map((route, idx) => (
+      {ROUTES.map(route => (
         <Route
-          key={idx}
+          key={route.id}
           exact={route.exact}
           path={route.path}
           element={<route.element />}
