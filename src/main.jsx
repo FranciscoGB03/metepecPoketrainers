@@ -10,7 +10,7 @@ import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter basename="/metepecPokeTrainers">
+    <BrowserRouter basename="/metepecPoketrainers">
       <App />
     </BrowserRouter>
   </React.StrictMode>

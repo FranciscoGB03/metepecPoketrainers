@@ -3,10 +3,10 @@ import RankingRegional from "../components/rankingRegional/RankingRegional";
 import TerminosCondiciones from "../components/terminosCondiciones/TerminosCondiciones";
 
 const ROUTES = [
-  { exact: true, path: "/", element: RankingRegional },
-  { exact: true, path: "/rankingMundial", element: RankingMundial },
-  { exact: true, path: "/rankingRegional", element: RankingRegional },
-  { exact: true, path:"/terminosCondiciones", element: TerminosCondiciones},
+  { id:1, exact: true, path: "/", element: RankingRegional },
+  { id:2, exact: true, path: "/rankingMundial", element: RankingMundial },
+  { id:3, exact: true, path: "/rankingRegional", element: RankingRegional },
+  { id:4, exact: true, path:"/terminosCondiciones", element: TerminosCondiciones},
 ];
 
 export default ROUTES;
