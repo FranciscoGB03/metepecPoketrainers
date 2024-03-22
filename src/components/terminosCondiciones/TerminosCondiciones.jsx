@@ -11,7 +11,7 @@ const TerminosCondiciones = () => {
 					<p>
 						Las presentes condiciones de servicio regulan el acceso y la
 						utilización de la página web [MPT], titularidad de [Francisco
-						Gonzales, Itzel Cruz y Octavio Reyes]{" "}
+						González, Itzel Cruz y Octavio Reyes]{" "}
 					</p>
 				</section>
 				<section>
