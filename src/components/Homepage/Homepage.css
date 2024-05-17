@@ -20,7 +20,7 @@
 } */
 @media only screen and (min-width: 768px) {
     .trainer-img{
-    background-color: aqua;
+    /* background-color: aqua; */
     }
    
   }
@@ -45,16 +45,15 @@
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
-    .trainer-img{
+    /* .trainer-img{
     background-color: pink;
-    }
+    } */
     
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
     .trainer-img{
-        background-color: rgb(96, 210, 44);
         height: 500px;
         width: auto;
     }
@@ -73,10 +72,6 @@
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
-    .trainer-img{
-        background-color: rgb(255, 162, 0);
-        }
-         
     .texto-descripcion{
         font-size: 1rem;
         line-height: 1rem;
@@ -86,9 +81,7 @@
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
-    .trainer-img{
-        background-color: rgb(17, 144, 222);
-        }
+    
     .texto-descripcion{
         font-size: 2.25rem;
         line-height: 2.5rem;

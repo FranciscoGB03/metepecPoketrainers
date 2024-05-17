@@ -1,7 +1,7 @@
 import { BsJustify } from "react-icons/bs";
 import Template from "../template/Template";
 import "./Homepage.css";
-
+import figureHeader from "/public/img/imgchicos.png"
 const Homepage = () => {
   const handleClick = () => {
     console.log("this is:", this);
@@ -27,7 +27,7 @@ const Homepage = () => {
             </div>
           </div>
           <div>
-            <img className="trainer-img" src={"./public/img/imgchicos.png"} />
+            <img className="trainer-img" src={figureHeader} />
           </div>
         </div>
       </div>

@@ -3,7 +3,8 @@ import {useState} from "react";
 import { NavLink } from "react-router-dom";
 import {FaTimes} from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
-
+import logo from "/public/img/logo.png";
+ 
 const NavbarStruct = () => {
   /**hooks */
    const [click, setClick] = useState(false);
@@ -28,7 +29,7 @@ const NavbarStruct = () => {
         <div className="h-10vh flex justify-between text-white lg:py-4 py-3 flex-1">
           <div className="flex items-center">
             <NavLink to="/">
-              <img  className="w-6/12" src={'./public/img/logo.png'}/>
+              <img  className="w-6/12" src={logo}/>
             </NavLink>
           </div>
           <div className="lg:flex md:flex lg: flex-1 items center justify-end font-normal hidden">
