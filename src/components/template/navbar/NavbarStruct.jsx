@@ -6,31 +6,41 @@ import { IoMenu } from "react-icons/io5";
 
 const NavbarStruct = () => {
   /**hooks */
-  const [click, setClick] = useState(false);
+   const [click, setClick] = useState(false);
   /** functions */
-  const handleClick = () => setClick(!click);
+   const handleClick = () => setClick(!click);
   /**variables */
-  const content = <div className="lg:hidden flex-grow block absolute top-12 w-full left-0 right-0 transition nav-color z-50 ">
-      <ul className="text-center text-xl flex flex-col">
-        <NavLink to="/rankingMundial"><li className="py-2.5	" spy={true} smooth={true}>Ranking Mundial</li></NavLink>
-        <NavLink to="/rankingRegional"><li className="py-2.5"  spy={true} smooth={true}>Ranking Local</li></NavLink>
-        <NavLink href="#deets"><li className="py-2.5" spy={true} smooth={true}>Equipos Top</li></NavLink>     
-      </ul>
-    </div>
+   const content = <div className="lg:hidden flex-grow block absolute top-14 w-full left-0 right-0 transition nav-color z-50 ">
+       <ul className="text-center text-xl flex flex-col">
+         <NavLink to="/rankingMundial"><li className="py-2.5" spy={1} smooth={1}>Ranking Mundial</li></NavLink>
+         <NavLink to="/rankingRegional"><li className="py-2.5"  spy={1} smooth={1}>Ranking Local</li></NavLink>
+         <NavLink href="#deets"><li className="py-2.5" spy={1} smooth={1}>Equipos Top</li></NavLink>    
+         <NavLink href="#deets"><li className="py-2.5" spy={1} smooth={1}>Torneo</li></NavLink>     
+         <NavLink href="#deets"><li className="py-2.5" spy={1} smooth={1}>Nosotros</li></NavLink>     
+         <NavLink href="#deets"><li className="py-2.5" spy={1} smooth={1}>Contactanos</li></NavLink>   
+         <NavLink href="#deets"><li className="py-2.5" spy={1} smooth={1}>Login</li></NavLink> 
+       </ul>
+     </div>
   /**render */
   return (
     <div className="nav-color ">
-      <nav>
+       <nav>
         <div className="h-10vh flex justify-between text-white lg:py-4 py-3 flex-1">
-          <div className=" flex items-center flex-1">
-            <NavLink to="/"><span className=" ml-8 text-3x1 font-bold">Metepec Poke Trainers</span></NavLink>
+          <div className="flex items-center">
+            <NavLink to="/">
+              <img  className="w-6/12" src={'./public/img/logo.png'}/>
+            </NavLink>
           </div>
           <div className="lg:flex md:flex lg: flex-1 items center justify-end font-normal hidden">
             <div className="flex-10">
-              <ul className="flex gap-8 mr-16 text-[18px]">
-              <NavLink to="/rankingMundial"><li spy={true} smooth={true}>Ranking Mundial</li></NavLink>
-              <NavLink to="/rankingRegional"><li spy={true} smooth={true}>Ranking Local</li></NavLink>
-              <NavLink href="#deets"><li spy={true} smooth={true}>Equipos Top</li></NavLink>
+              <ul className="flex  gap-8 mr-16 text-[18px]">
+                <NavLink to="/rankingMundial"><li className="py-7" spy={1} smooth={1}>Ranking Mundial</li></NavLink>
+                <NavLink to="/rankingRegional"><li className="py-7" spy={1} smooth={1}>Ranking Local</li></NavLink>
+                <NavLink href="#deets"><li  className="py-7" spy={1} smooth={1}>Equipos Top</li></NavLink>
+                <NavLink href="#deets"><li className="py-7" spy={1} smooth={1}>Torneo</li></NavLink>     
+                <NavLink href="#deets"><li className="py-7" spy={1} smooth={1}>Nosotros</li></NavLink>     
+                <NavLink href="#deets"><li className="py-7" spy={1} smooth={1}>Contactanos</li></NavLink>   
+                <NavLink href="#deets"><li className="py-7" spy={1} smooth={1}>Login</li></NavLink> 
               </ul>
             </div>
           </div>
@@ -41,7 +51,7 @@ const NavbarStruct = () => {
             {click ? <FaTimes/> : <IoMenu/>}
           </button>
         </div>
-      </nav>
+      </nav> 
     </div>
   );
 };

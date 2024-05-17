@@ -1,11 +1,11 @@
 .nav-color{
-    background-color:#D62;/*#D63122;*/    
+    background-color:#00608C;/*#D63122;*/    
     font-size: larger;
    /* height: 50px;*/
 }
 
 .right-menu{
-    background-color: #D62;
+    background-color: #00608C;
 }
 
 .right-menu, a:link, a:visited, a:active {
@@ -18,3 +18,8 @@ a:hover{
     color: darkcyan;
     text-decoration:solid;
 }
+/* @media only screen and (min-width: 768px) {
+    .menu-link{
+
+    }
+} */
