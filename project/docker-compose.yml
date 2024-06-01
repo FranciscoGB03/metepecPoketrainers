@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_INITDB_SKIP_TZINFO: "yes"
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ALLOW_LOCAL_INFILE: "true"
+      MYSQL_CLIENT_ALLOW_PUBLIC_KEY_RETRIEVAL: "true"
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/data/db
+
+volumes:
+  db_data:
