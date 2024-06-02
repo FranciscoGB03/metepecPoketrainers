@@ -3,7 +3,7 @@ import {useState} from "react";
 import { NavLink } from "react-router-dom";
 import {FaTimes} from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
-import logo from "/public/img/logo.png";
+import logo from "../../../img/logo.png";
  
 const NavbarStruct = () => {
   /**hooks */

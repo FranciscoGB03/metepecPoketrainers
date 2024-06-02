@@ -13,8 +13,8 @@ func NewJugadorRepository(db *sql.DB) *JugadorRepository {
 	return &JugadorRepository{db}
 }
 
-func (r *JugadorRepository) GetJugadores() ([]models.Jugador, error) {
-	var jugadores []models.Jugador
+func (r *JugadorRepository) GetJugadores() ([]models.JugadorTop, error) {
+	var jugadores []models.JugadorTop
 
 	rows, err := r.db.Query("SELECT id, nombre_jugador, equipo_insignia, puntos_totales FROM top_mundial")
 	if err != nil {
@@ -23,7 +23,7 @@ func (r *JugadorRepository) GetJugadores() ([]models.Jugador, error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		var jugador models.Jugador
+		var jugador models.JugadorTop
 		if err := rows.Scan(&jugador.ID, &jugador.NombreJugador, &jugador.EquipoInsignia, &jugador.PuntosTotales); err != nil {
 			return nil, err
 		}
@@ -34,4 +34,22 @@ func (r *JugadorRepository) GetJugadores() ([]models.Jugador, error) {
 	}
 
 	return jugadores, nil
+}
+
+func (r *JugadorRepository) SaveJugadorTop(jugador models.JugadorTop) (models.JugadorTop, error) {
+
+	query := "INSERT INTO top_mundial (nombre_jugador, equipo_insignia, puntos_totales) VALUES (?, ?, ?)"
+	result, err := r.db.Exec(query, jugador.NombreJugador, jugador.EquipoInsignia, jugador.PuntosTotales)
+	if err != nil {
+		return models.JugadorTop{}, err
+	}
+
+	// Obtener el ID del último insertado si es necesario
+	lastInsertID, err := result.LastInsertId()
+	if err != nil {
+		return models.JugadorTop{}, err
+	}
+	jugador.ID = int(lastInsertID)
+
+	return jugador, nil
 }

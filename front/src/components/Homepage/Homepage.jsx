@@ -1,7 +1,7 @@
 import { BsJustify } from "react-icons/bs";
 import Template from "../template/Template";
 import "./Homepage.css";
-import figureHeader from "/public/img/imgchicos.png"
+import figureHeader from "../../img/imgchicos.png"
 const Homepage = () => {
   const handleClick = () => {
     console.log("this is:", this);

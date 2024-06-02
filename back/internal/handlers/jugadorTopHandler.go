@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"back/internal/models"
 	"back/internal/repositories"
 	"database/sql"
 	"encoding/json"
@@ -25,9 +26,30 @@ func GetTopMundial(db *sql.DB) http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-
-		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(jugadores)
 	}
 
+}
+
+func PostSaveJugadorTop(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// objeto para mapear la informacion entrante
+		var jugador models.JugadorTop
+
+		// Parsear el body del request como JSON
+		err := json.NewDecoder(r.Body).Decode(&jugador)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		// llamada al repositorio
+		jugadorRepo := repositories.NewJugadorRepository(db)
+
+		jugador, err = jugadorRepo.SaveJugadorTop(jugador)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		json.NewEncoder(w).Encode(jugador)
+	}
 }

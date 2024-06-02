@@ -1,6 +1,6 @@
 package models
 
-type Jugador struct {
+type JugadorTop struct {
 	ID             int    `json:"id"`
 	NombreJugador  string `json:"nombre_jugador"`
 	EquipoInsignia string `json:"equipo_insignia"`
