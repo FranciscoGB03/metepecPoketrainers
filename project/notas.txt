@@ -1,0 +1,19 @@
+librerias a usar para el back:
+go get github.com/rs/cors
+go get github.com/spf13/viper
+go get github.com/gorilla/mux
+go get github.com/go-sql-driver/mysql
+
+para correr el back se utiliza:
+ir a la carpeta de back
+cd back
+go run cmd/api/main.go
+
+es importante crear las siguientes variables de entorno ya que los necesita para crear la imagen de mysql con docker
+y ademas los toma para realizar la conexion con la misma en el back con go:
+MYSQL_USER->usuario que usara la base de datos
+MYSQL_PASSWORD->password 
+DB_HOST->localhost
+DB_PORT_MYSQL->3306
+MYSQL_DATABASE->pokemon
+MYSQL_ROOT_PASSWORD->password root 
