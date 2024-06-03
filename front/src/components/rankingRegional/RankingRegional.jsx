@@ -1,6 +1,5 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import Template from "../template/Template";
-import { Card } from "@tremor/react";
 import "./RankingRegional.css";
 import {
   Table,
@@ -10,9 +9,15 @@ import {
   TableHeaderCell,
   TableRow,
 } from "@tremor/react";
-import { RANKING_REGIONAL } from "../../data/rankingRegional";
+import useAxiosGet from "../../hooks/useAxiosGetBack";
 
 function RankingRegional() {
+  /**hooks */
+  const{data,fetchData }=useAxiosGet();
+  /**useEffect */
+  useEffect(()=>{
+    fetchData('/getLigaLocal');
+  },[])
   return (
     <Template>
       <div className="container mx-auto px-4 sm:px-8">
@@ -93,30 +98,32 @@ function RankingRegional() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {RANKING_REGIONAL.map((reg) => (
-                      <TableRow key={reg.id}>
+                    {(data||[]).map((reg) => (
+                      <TableRow key={reg?.id}>
                         <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          {reg.nombre}
+                          {reg?.nombre}
                         </TableCell>
                         <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          {reg.equipo}
+                          {reg?.equipo?.nombre}
                         </TableCell>
                         <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          {reg.puntos}
+                          {reg?.puntos}
                         </TableCell>
-                        <TableCell className="border-b border-gray-200 bg-white text-sm">{reg.equipo_pokemon.map(pokemon=>
-                          <Fragment key={pokemon.id}>
-                          <div className="flex items-center justify-center ">
-                            <div className="relative inline-block tooltip  my-2 ">
-                             <a to="" className="hover:text-gray-400 font-medium"><strong>{pokemon.nombre}</strong></a>
+                        <TableCell className="border-b border-gray-200 bg-white text-sm">{reg?.equipo_competidores?.map(pokemon=>
+                          <Fragment key={pokemon?.id}>
+                          <div className="justify-content-between">
+                            <div className="relative inline-block tooltip  my-1 ">
+                             <a to="" className="hover:text-gray-400 font-medium">
+                              <strong>{pokemon?.pokemon}</strong>
+                              <img src={pokemon.url_pokemon} alt={`imagen de:`+pokemon.pokemon}/>
+                            </a>
                               <div className="flex flex-col bg-orange-500 w-60 h-auto rounded-md z-20 absolute right-0 invisible tooltip-item pl-4">
-                                <span className="mt-4">ataque basico: {pokemon.ataque_basico}</span><br/>
-                                <span className="mb-4">ataques cargados: {pokemon.ataque_cargado1}, {pokemon.ataque_cargado2}</span>
+                                <span className="mt-4">ataque basico: {pokemon?.ataque_basico}</span><br/>
+                                <span className="mb-4">ataques cargados: {pokemon?.primer_ataque_cargado}, {pokemon?.segundo_ataque_cargado}</span>
                                 
                               </div>
                             </div>
                           </div>
-
                           </Fragment>
                           )}    
                         </TableCell>

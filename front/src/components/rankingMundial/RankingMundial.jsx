@@ -1,9 +1,6 @@
-import React, { Fragment } from "react";
 import Template from "../template/Template";
 import "./RankingMundial.css";
-import { RANKING_MUNDIAL } from "../../data/rankingMundial";
 import {
-  Card,
   Table,
   TableBody,
   TableCell,
@@ -11,8 +8,17 @@ import {
   TableHeaderCell,
   TableRow,
 } from "@tremor/react";
+import useAxiosGet from "../../hooks/useAxiosGetBack";
+import { useEffect } from "react";
 
-function RankingMundial() {
+const RankingMundial=()=> {
+  /** hooks */
+  const {data, error, loading, fetchData}=useAxiosGet();
+  
+  /** useEffect */
+  useEffect(()=>{fetchData('/getTopMundial')},[]);
+  
+  /** render */
   return (
     <Template>
       <div className="container mx-auto px-4 sm:px-8">
@@ -74,6 +80,8 @@ function RankingMundial() {
               </div>
             </div>
             <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+              {loading?<div>Cargando...</div>:null}
+              {error!=null?<error>Ocurrio un error:{error}</error>:
               <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
                 <Table className="min-w-full leading-normal">
                   <TableHead className="bg-light border border-1">
@@ -90,22 +98,21 @@ function RankingMundial() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {RANKING_MUNDIAL.map((reg) => (
-                      <TableRow key={reg.nombre}>
+                    {(data||[]).map((reg) => (
+                      <TableRow key={reg.id}>
                         <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          {reg.nombre}
+                          {reg.nombre_jugador}
                         </TableCell>
                         <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          {reg.equipo}
+                          {reg.equipo_insignia}
                         </TableCell>
                         <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          {reg.puntos}
+                          {reg.puntos_totales}
                         </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
-
                 <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
                   <span className="text-xs xs:text-sm text-gray-900">
                     Showing 1 to 4 of 50 Entries
@@ -119,7 +126,7 @@ function RankingMundial() {
                     </button>
                   </div>
                 </div>
-              </div>
+              </div>}
             </div>
           </div>
         </div>

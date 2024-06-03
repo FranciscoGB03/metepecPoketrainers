@@ -5,15 +5,15 @@ import (
 	"database/sql"
 )
 
-type JugadorRepository struct {
+type JugadorTopRepository struct {
 	db *sql.DB
 }
 
-func NewJugadorRepository(db *sql.DB) *JugadorRepository {
-	return &JugadorRepository{db}
+func NewJugadorRepository(db *sql.DB) *JugadorTopRepository {
+	return &JugadorTopRepository{db}
 }
 
-func (r *JugadorRepository) GetJugadores() ([]models.JugadorTop, error) {
+func (r *JugadorTopRepository) GetJugadores() ([]models.JugadorTop, error) {
 	var jugadores []models.JugadorTop
 
 	rows, err := r.db.Query("SELECT id, nombre_jugador, equipo_insignia, puntos_totales FROM top_mundial")
@@ -36,7 +36,7 @@ func (r *JugadorRepository) GetJugadores() ([]models.JugadorTop, error) {
 	return jugadores, nil
 }
 
-func (r *JugadorRepository) SaveJugadorTop(jugador models.JugadorTop) (models.JugadorTop, error) {
+func (r *JugadorTopRepository) SaveJugadorTop(jugador models.JugadorTop) (models.JugadorTop, error) {
 
 	query := "INSERT INTO top_mundial (nombre_jugador, equipo_insignia, puntos_totales) VALUES (?, ?, ?)"
 	result, err := r.db.Exec(query, jugador.NombreJugador, jugador.EquipoInsignia, jugador.PuntosTotales)

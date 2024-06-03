@@ -20,5 +20,7 @@ func SetupRouter(db *sql.DB) *mux.Router {
 	router.HandleFunc("/getTopMundial", handlers.GetTopMundial(db)).Methods("GET")
 	//guardar un jugador top
 	router.HandleFunc("/guardarJugador", handlers.PostSaveJugadorTop(db)).Methods("POST")
+	//Metodo para obtener todos los competidores de la liga local
+	router.HandleFunc("/getLigaLocal", handlers.GetLigaLocal(db)).Methods("GET")
 	return router
 }
