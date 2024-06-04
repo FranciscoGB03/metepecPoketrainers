@@ -12,15 +12,19 @@ func SetupRouter(db *sql.DB) *mux.Router {
 	// Crear el enrutador
 	router := mux.NewRouter()
 
-	// Agregar middleware CORS para todas las rutas
-	//router.Use(mux.CORSMethodMiddleware(router))
-	//router.Use(enableCORS)
+	//ruta de prueba
 	router.HandleFunc("/getPrueba", handlers.HelloWorldHandler).Methods("GET")
+	//obtencion de catalogos liga y equipos insignia
+	router.HandleFunc("/getCatalogosLigaEquipos", handlers.GetCatalogosLigaEquipos(db)).Methods("GET")
 	//obtener todos los jugadores top
 	router.HandleFunc("/getTopMundial", handlers.GetTopMundial(db)).Methods("GET")
 	//guardar un jugador top
 	router.HandleFunc("/guardarJugador", handlers.PostSaveJugadorTop(db)).Methods("POST")
 	//Metodo para obtener todos los competidores de la liga local
 	router.HandleFunc("/getLigaLocal", handlers.GetLigaLocal(db)).Methods("GET")
+	//Registro de equipo de competidores
+	router.HandleFunc("/registrarEquipo", handlers.RegistrarEquipo(db)).Methods("POST")
+	// Registrar competidor sin equipo
+	router.HandleFunc("/registrarCompetidor", handlers.RegistrarCompetidor(db)).Methods("POST")
 	return router
 }

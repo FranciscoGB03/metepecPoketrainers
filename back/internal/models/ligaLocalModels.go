@@ -27,7 +27,7 @@ type EquipoCompetidor struct {
 }
 
 type Liga struct {
-	ID        int    `json:"id"`
-	Nombre    string `json:"nombre"`
-	PuntosMax int    `json:"puntos_max"`
+	ID     int    `json:"id"`
+	Nombre string `json:"nombre"`
+	PcMax  int    `json:"pc_max,omitempty"`
 }
