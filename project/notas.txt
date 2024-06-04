@@ -17,3 +17,7 @@ DB_HOST->localhost
 DB_PORT_MYSQL->3306
 MYSQL_DATABASE->pokemon
 MYSQL_ROOT_PASSWORD->password root 
+
+
+Se agrega collection para la extension de thunder client de visual studio code, para probar los metodos del back
+thunder-collection_pokemon.json

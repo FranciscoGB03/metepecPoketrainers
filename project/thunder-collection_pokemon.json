@@ -1,0 +1,86 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "pokemon",
+    "collectionId": "4942a0c1-91a0-4f21-848f-2de63d0742de",
+    "dateExported": "2024-06-04T03:50:34.984Z",
+    "version": "1.2",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "950f22c2-8b2e-4ef9-bca7-649ca9f8e835",
+            "colId": "4942a0c1-91a0-4f21-848f-2de63d0742de",
+            "containerId": "",
+            "name": "Registrar competidor",
+            "url": "localhost:8080/registrarCompetidor",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-06-04T03:47:16.558Z",
+            "modified": "2024-06-04T03:47:16.558Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"nombre\":\"bombona\",\n  \"equipo_id\":1,\n  \"puntos\":150\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "531296e1-54c6-4bc9-adad-4853efc444be",
+            "colId": "4942a0c1-91a0-4f21-848f-2de63d0742de",
+            "containerId": "",
+            "name": "Registrar Equipo",
+            "url": "localhost:8080/registrarEquipo",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-06-04T03:47:28.378Z",
+            "modified": "2024-06-04T03:47:28.378Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "[\n  {\n    \"pokemon\":\"pikachu\",\n    \"competidor_id\":4,\n    \"ataque_basico\":\"impactrueno\",\n    \"primer_ataque_cargado\":\"voltio cruel\",\n    \"segundo_ataque_cargado\":\"rayo\",\n    \"liga_id\":1,\n    \"url_pokemon\":\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png\"\n  },\n  {\n    \"pokemon\":\"pikachu\",\n    \"competidor_id\":4,\n    \"ataque_basico\":\"impactrueno\",\n    \"primer_ataque_cargado\":\"voltio cruel\",\n    \"segundo_ataque_cargado\":\"rayo\",\n    \"liga_id\":1,\n    \"url_pokemon\":\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png\"\n  },\n  {\n    \"pokemon\":\"pikachu\",\n    \"competidor_id\":4,\n    \"ataque_basico\":\"impactrueno\",\n    \"primer_ataque_cargado\":\"voltio cruel\",\n    \"segundo_ataque_cargado\":\"rayo\",\n    \"liga_id\":1,\n    \"url_pokemon\":\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png\"\n  },\n  {\n    \"pokemon\":\"pikachu\",\n    \"competidor_id\":4,\n    \"ataque_basico\":\"impactrueno\",\n    \"primer_ataque_cargado\":\"voltio cruel\",\n    \"segundo_ataque_cargado\":\"rayo\",\n    \"liga_id\":1,\n    \"url_pokemon\":\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png\"\n  },{\n    \"pokemon\":\"pikachu\",\n    \"competidor_id\":4,\n    \"ataque_basico\":\"impactrueno\",\n    \"primer_ataque_cargado\":\"voltio cruel\",\n    \"segundo_ataque_cargado\":\"rayo\",\n    \"liga_id\":1,\n    \"url_pokemon\":\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png\"\n  },{\n    \"pokemon\":\"pikachu\",\n    \"competidor_id\":4,\n    \"ataque_basico\":\"impactrueno\",\n    \"primer_ataque_cargado\":\"voltio cruel\",\n    \"segundo_ataque_cargado\":\"rayo\",\n    \"liga_id\":1,\n    \"url_pokemon\":\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png\"\n  }\n]",
+                "form": []
+            }
+        },
+        {
+            "_id": "4677daea-36e6-4384-9ade-f1e79619c823",
+            "colId": "4942a0c1-91a0-4f21-848f-2de63d0742de",
+            "containerId": "",
+            "name": "getCatalogosLigaEquipoInsignia",
+            "url": "localhost:8080/getCatalogosLigaEquipos",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2024-06-04T03:47:38.670Z",
+            "modified": "2024-06-04T03:47:38.670Z",
+            "headers": []
+        },
+        {
+            "_id": "e9b7d926-a1c0-43b9-b580-5b399072a32e",
+            "colId": "4942a0c1-91a0-4f21-848f-2de63d0742de",
+            "containerId": "",
+            "name": "getLigaLocal competidores",
+            "url": "localhost:8080/getLigaLocal",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2024-06-04T03:47:48.001Z",
+            "modified": "2024-06-04T03:47:48.001Z",
+            "headers": []
+        },
+        {
+            "_id": "4003ae7b-cd99-4071-99e5-c72536b5c4ab",
+            "colId": "4942a0c1-91a0-4f21-848f-2de63d0742de",
+            "containerId": "",
+            "name": "Guardar Jugador Top",
+            "url": "http://localhost:8080/jugador/save",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2024-06-04T03:47:57.021Z",
+            "modified": "2024-06-04T03:47:57.022Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"equipo_insignia\":\"instinto\",\n  \"nombre_jugador\":\"masha\",\n  \"puntos_totales\":100\n}",
+                "form": []
+            }
+        }
+    ],
+    "ref": "QZde4LBChP5X4j753akD4aWxk9TLzHz9ThAZQacV4mpkq23ZtKnAxpdG8QS607A6VjYIPah-NuJHLEcf4dp0uQ"
+}
