@@ -7,8 +7,9 @@ import (
 	"net/http"
 
 	"github.com/rs/cors"
-	"github.com/spf13/viper"
 )
+
+const webPort = "8080"
 
 type Config struct {
 }
@@ -22,13 +23,6 @@ func main() {
 	}
 	defer db.Close()
 
-	viper.SetConfigFile("configs/config.yaml")
-	err = viper.ReadInConfig()
-	if err != nil {
-		log.Fatalf("Error reading config file, %s", err)
-	}
-
-	port := viper.GetString("server.port")
 	// Configuración del middleware CORS
 	corsHandler := cors.New(cors.Options{
 		AllowedOrigins:   []string{"https://*", "http://*"},
@@ -41,6 +35,6 @@ func main() {
 	//asignacion de rutas
 	router := routes.SetupRouter(db)
 
-	log.Printf("Server is running on port %s", port)
-	log.Fatal(http.ListenAndServe(":"+port, corsHandler.Handler(router)))
+	log.Printf("Server is running on port %s", webPort)
+	log.Fatal(http.ListenAndServe(":"+webPort, corsHandler.Handler(router)))
 }

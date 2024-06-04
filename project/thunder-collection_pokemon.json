@@ -69,7 +69,7 @@
             "colId": "4942a0c1-91a0-4f21-848f-2de63d0742de",
             "containerId": "",
             "name": "Guardar Jugador Top",
-            "url": "http://localhost:8080/jugador/save",
+            "url": "http://localhost:8080/guardarJugador",
             "method": "POST",
             "sortNum": 50000,
             "created": "2024-06-04T03:47:57.021Z",
