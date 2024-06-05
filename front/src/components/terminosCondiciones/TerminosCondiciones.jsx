@@ -1,10 +1,9 @@
-import Template from "../template/Template";
 import "./TerminosCondiciones.css";
 
 const TerminosCondiciones = () => {
 	return (
-		<Template>
-			<h1>Condiciones de servicio</h1>
+		<div>
+			<center><h1>Condiciones de servicio</h1></center>
 			<div className="terminos-body">
 				<section>
 					<h2>1. Introducción</h2>
@@ -110,7 +109,7 @@ const TerminosCondiciones = () => {
 					</p>
 				</section>
 			</div>
-		</Template>
+		</div>
 	);
 };
 

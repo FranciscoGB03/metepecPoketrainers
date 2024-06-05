@@ -1,17 +1,29 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import ROUTES from "./routes/Routes";
+import Template from "./components/template/Template";
+import Homepage from "./components/Homepage/Homepage";
+import RankingMundial from "./components/rankingMundial/RankingMundial";
+import RankingRegional from "./components/rankingRegional/RankingRegional";
+import TerminosCondiciones from "./components/terminosCondiciones/TerminosCondiciones";
+import Admin from "./components/admin/Admin";
+import { RankingMundialAdmin } from "./components/admin/RankingMundial/RankingMundialAdmin";
+import AdminTemplate from "./components/admin/Template/AdminTemplate";
+import LigaLocalAdmin from "./components/admin/LigaLocal/LigaLocalAdmin";
+
 function App() {
   return (
     <Routes>
-      {ROUTES.map(route => (
-        <Route
-          key={route.id}
-          exact={route.exact}
-          path={route.path}
-          element={<route.element />}
-        />
-      ))}
+      <Route path="/" element={<Template />}>
+        <Route index element={<Homepage />} />
+        <Route path="/rankingMundial" element={<RankingMundial />} />
+        <Route path="/rankingRegional" element={<RankingRegional />} />
+        <Route path="/terminosCondiciones" element={<TerminosCondiciones />} />
+      </Route>
+      <Route path="/admin" element={<AdminTemplate />}>
+        <Route index element={<Admin/>}/>
+        <Route path="/admin/rankingMundial" element={<RankingMundialAdmin/>}/>
+        <Route path="/admin/ligaLocal" element={<LigaLocalAdmin/>}/>
+      </Route>
     </Routes>
   );
 }

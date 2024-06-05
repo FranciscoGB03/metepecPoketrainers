@@ -1,5 +1,4 @@
 import { Fragment, useEffect } from "react";
-import Template from "../template/Template";
 import "./RankingRegional.css";
 import {
   Table,
@@ -19,7 +18,7 @@ function RankingRegional() {
     fetchData('/getLigaLocal');
   },[])
   return (
-    <Template>
+    <div>
       <div className="container mx-auto px-4 sm:px-8">
         <div className="container mx-auto px-4 sm:px-8">
           <div className="py-8">
@@ -151,7 +150,7 @@ function RankingRegional() {
         </div>
       </div>
 
-    </Template>
+    </div>
   );
 }
 

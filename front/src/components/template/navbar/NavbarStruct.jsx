@@ -13,13 +13,13 @@ const NavbarStruct = () => {
   /**variables */
    const content = <div className="lg:hidden flex-grow block absolute top-14 w-full left-0 right-0 transition nav-color z-50 ">
        <ul className="text-center text-xl flex flex-col">
-         <NavLink to="/rankingMundial"><li className="py-2.5" spy={1} smooth={1}>Ranking Mundial</li></NavLink>
-         <NavLink to="/rankingRegional"><li className="py-2.5"  spy={1} smooth={1}>Ranking Local</li></NavLink>
-         <NavLink href="#deets"><li className="py-2.5" spy={1} smooth={1}>Equipos Top</li></NavLink>    
-         <NavLink href="#deets"><li className="py-2.5" spy={1} smooth={1}>Torneo</li></NavLink>     
-         <NavLink href="#deets"><li className="py-2.5" spy={1} smooth={1}>Nosotros</li></NavLink>     
-         <NavLink href="#deets"><li className="py-2.5" spy={1} smooth={1}>Contactanos</li></NavLink>   
-         <NavLink href="#deets"><li className="py-2.5" spy={1} smooth={1}>Login</li></NavLink> 
+         <NavLink to="/rankingMundial"><li className="py-2.5">Ranking Mundial</li></NavLink>
+         <NavLink to="/rankingRegional"><li className="py-2.5">Ranking Local</li></NavLink>
+         <NavLink href="#deets"><li className="py-2.5">Equipos Top</li></NavLink>    
+         <NavLink href="#deets"><li className="py-2.5">Torneo</li></NavLink>     
+         <NavLink href="#deets"><li className="py-2.5">Nosotros</li></NavLink>     
+         <NavLink href="#deets"><li className="py-2.5">Contactanos</li></NavLink>   
+         <NavLink href="#deets"><li className="py-2.5">Login</li></NavLink> 
        </ul>
      </div>
   /**render */
@@ -35,13 +35,13 @@ const NavbarStruct = () => {
           <div className="lg:flex md:flex lg: flex-1 items center justify-end font-normal hidden">
             <div className="flex-10">
               <ul className="flex  gap-8 mr-16 text-[18px]">
-                <NavLink to="/rankingMundial"><li className="py-7" spy={1} smooth={1}>Ranking Mundial</li></NavLink>
-                <NavLink to="/rankingRegional"><li className="py-7" spy={1} smooth={1}>Ranking Local</li></NavLink>
-                <NavLink href="#deets"><li  className="py-7" spy={1} smooth={1}>Equipos Top</li></NavLink>
-                <NavLink href="#deets"><li className="py-7" spy={1} smooth={1}>Torneo</li></NavLink>     
-                <NavLink href="#deets"><li className="py-7" spy={1} smooth={1}>Nosotros</li></NavLink>     
-                <NavLink href="#deets"><li className="py-7" spy={1} smooth={1}>Contactanos</li></NavLink>   
-                <NavLink href="#deets"><li className="py-7" spy={1} smooth={1}>Login</li></NavLink> 
+                <NavLink to="/rankingMundial"><li className="py-7">Ranking Mundial</li></NavLink>
+                <NavLink to="/rankingRegional"><li className="py-7">Ranking Local</li></NavLink>
+                <NavLink href="#deets"><li className="py-7">Equipos Top</li></NavLink>
+                <NavLink href="#deets"><li className="py-7">Torneo</li></NavLink>     
+                <NavLink href="#deets"><li className="py-7">Nosotros</li></NavLink>     
+                <NavLink href="#deets"><li className="py-7">Contactanos</li></NavLink>   
+                <NavLink href="#deets"><li className="py-7">Login</li></NavLink> 
               </ul>
             </div>
           </div>

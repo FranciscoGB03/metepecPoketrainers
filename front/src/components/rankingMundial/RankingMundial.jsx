@@ -1,4 +1,3 @@
-import Template from "../template/Template";
 import "./RankingMundial.css";
 import {
   Table,
@@ -17,10 +16,9 @@ const RankingMundial=()=> {
   
   /** useEffect */
   useEffect(()=>{fetchData('/getTopMundial')},[]);
-  
   /** render */
   return (
-    <Template>
+    <div>
       <div className="container mx-auto px-4 sm:px-8">
         <div className="container mx-auto px-4 sm:px-8">
           <div className="py-8">
@@ -80,8 +78,8 @@ const RankingMundial=()=> {
               </div>
             </div>
             <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-              {loading?<div>Cargando...</div>:null}
-              {error!=null?<error>Ocurrio un error:{error}</error>:
+              {loading&&<div>Cargando ...</div>}
+              {error?<div><b>Error al conectar con servidor:</b> {error.message}</div>:
               <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
                 <Table className="min-w-full leading-normal">
                   <TableHead className="bg-light border border-1">
@@ -131,7 +129,7 @@ const RankingMundial=()=> {
           </div>
         </div>
       </div>
-    </Template>
+    </div>
   );
 }
 
