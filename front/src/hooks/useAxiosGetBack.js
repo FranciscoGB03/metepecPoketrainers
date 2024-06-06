@@ -18,7 +18,7 @@ const useAxiosGet = () => {
         }
     };
 
-    return { data, error, loading, fetchData };
+    return { data,setData, error, loading, fetchData };
 };
 
 export default useAxiosGet;

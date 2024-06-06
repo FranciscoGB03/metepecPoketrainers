@@ -1,7 +1,7 @@
 const Admin =()=>{
     return(
     <div>
-        pruebasdasdhjlaksdhasl dasd 
+        Bienvenido a la página de administrador!! 
     </div>
 
     );
