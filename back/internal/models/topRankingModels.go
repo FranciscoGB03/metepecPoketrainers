@@ -6,3 +6,8 @@ type JugadorTop struct {
 	EquipoInsignia string `json:"equipo_insignia"`
 	PuntosTotales  int    `json:"puntos_totales"`
 }
+
+// DeleteJugadoresTopRequest es la estructura de la solicitud para eliminar múltiples jugadores
+type DeleteJugadoresTopRequest struct {
+	IDs []int `json:"ids"`
+}

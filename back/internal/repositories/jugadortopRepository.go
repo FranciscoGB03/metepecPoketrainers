@@ -3,6 +3,8 @@ package repositories
 import (
 	"back/internal/models"
 	"database/sql"
+	"log"
+	"strings"
 )
 
 type JugadorTopRepository struct {
@@ -52,4 +54,40 @@ func (r *JugadorTopRepository) SaveJugadorTop(jugador models.JugadorTop) (models
 	jugador.ID = int(lastInsertID)
 
 	return jugador, nil
+}
+
+func (r *JugadorTopRepository) UpdateJugadorTop(jugador models.JugadorTop) (sql.Result, error) {
+	log.Println(jugador.ID, jugador.NombreJugador)
+	query := `UPDATE top_mundial SET nombre_jugador=?, equipo_insignia=?, puntos_totales=? WHERE id=?`
+	result, err := r.db.Exec(query, jugador.NombreJugador, jugador.EquipoInsignia, jugador.PuntosTotales, jugador.ID)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+func (r *JugadorTopRepository) DeleteJugadorTop(id int) (sql.Result, error) {
+	query := `DELETE FROM top_mundial WHERE id = ?`
+	result, err := r.db.Exec(query, id)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+func (r *JugadorTopRepository) DeleteAllJugadoresTop(ids []int) (sql.Result, error) {
+	// Construir la consulta SQL dinámica
+	idPlaceholders := make([]string, len(ids))
+	idArgs := make([]interface{}, len(ids))
+	for i, id := range ids {
+		idPlaceholders[i] = "?"
+		idArgs[i] = id
+	}
+	query := "DELETE FROM top_mundial WHERE id IN (" + strings.Join(idPlaceholders, ",") + ")"
+	// Ejecutar la consulta
+	result, err := r.db.Exec(query, idArgs...)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
 }

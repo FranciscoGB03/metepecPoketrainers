@@ -8,24 +8,31 @@ import {
   TableRow,
 } from "@tremor/react";
 import useAxiosBack from "../../../hooks/useAxiosBack";
+import { MdDelete } from "react-icons/md";
+import { FaSave } from "react-icons/fa";
+import { JugadorTop } from "../models/models";
 
+/**
+ * @returns Componte para la edición de jugadores top
+ */
 export const RankingMundialAdmin = () => {
   /** hooks */
-  const [jugador, setJugador] = useState({
-    nombre_jugador: "",
-    equipo_insignia: "",
-    puntos_totales: 0,
-  });
+  const [jugador, setJugador] = useState(JugadorTop);
   const { data, setData, error, loading, sendRequest } = useAxiosBack();
   /** useEffect */
-  useEffect(() => {
-    sendRequest("GET","/getTopMundial");
-  }, []);
+  useEffect(() => {sendRequest("GET","/getTopMundial");}, []);
 
   /** functions */
+  /**
+   * funcion que permite registrar jugadores top
+   */
   const onSave = async () => {
+    /**guardado de la info */
     await sendRequest("POST","/guardarJugador", jugador);
+    /**recarga de la info */
     await sendRequest("GET","/getTopMundial");
+    /**limpiar jugadorTop */
+    setJugador(JugadorTop);
   };
   /** función para actualizar campos */
   const actualizaCampo = (campo, valor) => {
@@ -44,12 +51,19 @@ const handleEditChange = (id, campo, valor) => {
   };
 
   /** función para guardar cambios de registros */
-  const saveEdit = async (id) => {
+  const actualizarJugador = async (id) => {
     const updatedRecord = data?.find((reg) => reg.id === id);
-    await sendRequest("PUT","/guardarJugador", updatedRecord);
+    await sendRequest("PUT","/updateJugadorTop", updatedRecord);
     sendRequest("GET","/getTopMundial");
-    console.log(updatedRecord);
   };
+  /**
+   * Método para eliminar un registro
+   * @param {int} id id del registro a eliminar
+   */
+  const eliminarJugadorTop= async (id)=>{
+    await sendRequest("DELETE","/eliminarJugadorTop/"+id);
+    sendRequest("GET","/getTopMundial");
+  }
 
   /** render */
   return (
@@ -158,7 +172,8 @@ const handleEditChange = (id, campo, valor) => {
                   />
                 </TableCell>
                 <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                  <button onClick={() => saveEdit(reg.id)}>Guardar</button>
+                  <button onClick={() => actualizarJugador(reg.id)}><FaSave /></button>
+                  <button onClick={() => eliminarJugadorTop(reg.id)}><MdDelete /></button>
                 </TableCell>
               </TableRow>
             )):null}
