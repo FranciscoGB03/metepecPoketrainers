@@ -6,8 +6,7 @@ import "./styles.css";
 const AdminTemplate = () => {
   return (
     <div className="admin-contenedor">
-      AdminTemplate
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="admin-body">
         <Sidebar />
         <div className="admin-outlet">
