@@ -24,7 +24,7 @@ const Sidebar = () => {
       <section className="flex grap-6 ">
         <div
           className={`bg-[#0e0e0e] min-h-screen ${
-            open ? "w-72" : "w-20"
+            open ? "w-73" : "w-20"
           } duration-500 text-gray-100 px-4 `}
         >
           <div className="py-3 flex justify-end">
@@ -46,7 +46,7 @@ const Sidebar = () => {
                       className={`${menu?.margin && "mt-5"}
                       group flex items-center text-2xl grap-3.5 front-medium p-3 m-3 hover:bg-gray-800 rounded-2xl`}
                     >
-                      <div className="mr-2">
+                      <div className="pr-2 ">
                         {React.createElement(menu?.icon, { size: "20" })}
                       </div>
                       <h2
