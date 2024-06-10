@@ -22,3 +22,12 @@ MYSQL_ROOT_PASSWORD->password root
 Se agrega collection para la extension de thunder client de visual studio code, para probar los metodos del back
 thunder-collection_pokemon.json
 para el caso de windows se debe instalar chocolaty para poder instalar make y asi poder ejecutar el archivo Makefile
+
+Se agrego una nueva  version  de base de  datos donde se incluye: autenticacion, login, registro, tabla de roles, permisos y de  usuarios
+nuevas tablas para catalogos como:
+    - pokemon
+    - ataque rapido
+    - ataque cargado
+
+se anexa imagen de  la base de datos
+se genera login

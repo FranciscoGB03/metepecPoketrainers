@@ -8,9 +8,17 @@ import (
 )
 
 // SetupRouter configures the routes and returns a router
-func SetupRouter(db *sql.DB) *mux.Router {
+func SetupRouter(db *sql.DB, jwtKey []byte) *mux.Router {
 	// Crear el enrutador
 	router := mux.NewRouter()
+
+	// Authentication routes
+	router.HandleFunc("/register", handlers.Register(db, jwtKey)).Methods("POST")
+	router.HandleFunc("/login", handlers.Login(db, jwtKey)).Methods("POST")
+
+	// Create a subrouter for protected routes
+	protected := router.PathPrefix("/").Subrouter()
+	protected.Use(handlers.Authenticate(jwtKey, db))
 
 	//obtencion de catalogos liga y equipos insignia
 	router.HandleFunc("/getCatalogosLigaEquipos", handlers.GetCatalogosLigaEquipos(db)).Methods("GET")

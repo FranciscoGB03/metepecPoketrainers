@@ -1,0 +1,26 @@
+// Assuming you have a function to retrieve the JWT token from localStorage
+const getToken = () => localStorage.getItem('token');
+
+// Function to extract email from JWT token
+export const getEmailFromToken = () => {
+    const token = getToken();
+    if (token) {
+        // Split the token into header, payload, and signature
+        const [, payloadBase64] = token.split('.');
+        // Decode the base64 encoded payload
+        const payload = JSON.parse(atob(payloadBase64));
+        // Access the email field from the payload
+        return payload.rol;
+    }
+    return null; // Token is not available
+};
+
+//funcion para verificar si el token aún es valido
+export const isTokenExpired = (token) => {
+    if (!token) return true; // Token is not present
+    const [, payloadBase64] = token.split('.');
+    const payload = JSON.parse(atob(payloadBase64));
+    const expiryTime = payload.exp * 1000; // Convert expiry time to milliseconds
+    return expiryTime < Date.now();
+};
+

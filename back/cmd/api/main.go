@@ -5,6 +5,7 @@ import (
 	"back/internal/routes"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/rs/cors"
 )
@@ -22,7 +23,11 @@ func main() {
 		panic(err)
 	}
 	defer db.Close()
-
+	// Get the JWT secret key from environment variables
+	jwtKey := os.Getenv("JWT_SECRET")
+	if jwtKey == "" {
+		log.Fatal("JWT_SECRET not set in environment")
+	}
 	// Configuración del middleware CORS
 	corsHandler := cors.New(cors.Options{
 		AllowedOrigins:   []string{"https://*", "http://*"},
@@ -33,7 +38,7 @@ func main() {
 		MaxAge:           300,
 	})
 	//asignacion de rutas
-	router := routes.SetupRouter(db)
+	router := routes.SetupRouter(db, []byte(jwtKey))
 
 	log.Printf("Server is running on port %s", webPort)
 	log.Fatal(http.ListenAndServe(":"+webPort, corsHandler.Handler(router)))

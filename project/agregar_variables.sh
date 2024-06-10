@@ -23,6 +23,7 @@ read -p "Ingrese el valor de DB_HOST: " DB_HOST
 read -p "Ingrese el valor de DB_PORT_MYSQL: " DB_PORT_MYSQL
 read -p "Ingrese el valor de MYSQL_DATABASE: " MYSQL_DATABASE
 read -p "Ingrese el valor de MYSQL_ROOT_PASSWORD: " MYSQL_ROOT_PASSWORD
+read -p "Ingrese el valor de JWT_SECRET: " JWT_SECRET
 
 # Agregar o actualizar las variables en .bashrc
 add_or_update_var "MYSQL_USER" $MYSQL_USER
@@ -31,6 +32,7 @@ add_or_update_var "DB_HOST" $DB_HOST
 add_or_update_var "DB_PORT_MYSQL" $DB_PORT_MYSQL
 add_or_update_var "MYSQL_DATABASE" $MYSQL_DATABASE
 add_or_update_var "MYSQL_ROOT_PASSWORD" $MYSQL_ROOT_PASSWORD
+add_or_update_var "JWT_SECRET" $JWT_SECRET
 
 # Recargar .bashrc
 source /home/$USER/.bashrc
