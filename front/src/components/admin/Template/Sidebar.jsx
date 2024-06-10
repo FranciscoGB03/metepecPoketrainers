@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink,useLocation } from "react-router-dom";
 import { TfiWorld } from "react-icons/tfi";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { RiDashboard2Line } from "react-icons/ri";
@@ -14,6 +14,7 @@ const Sidebar = () => {
     { name: "Liga Local", link: "/admin/ligaLocal", icon: BsGeoAltFill },
     { name: "Inicio", link: "/", icon: VscHome },
   ];
+  const { pathname }=useLocation();
   const [open, setOpen] = useState(true);
   return (
     <div>
@@ -35,14 +36,17 @@ const Sidebar = () => {
           </div>
           <div className="mt-4 flex flex-col grap-4 relative">
             <div className="mt-4 flex flex-col grap-4 relative">
+            <ul className="list-none">
                 {menus?.map((menu, i) => (
+                  <li className={`${pathname.includes(menu?.name) && "bg-gray-800 rounded-2xl"
+                  } `} key={i} >
                     <NavLink
                       to={menu?.link}
-                      key={i}
+                      
                       className={`${menu?.margin && "mt-5"}
                       group flex items-center text-2xl grap-3.5 front-medium p-3 m-3 hover:bg-gray-800 rounded-2xl`}
                     >
-                      <div className="pr-2 mr-2 min-w-max">
+                      <div className="mr-2">
                         {React.createElement(menu?.icon, { size: "20" })}
                       </div>
                       <h2
@@ -66,7 +70,9 @@ const Sidebar = () => {
                         {menu?.name}
                       </h2>
                     </NavLink>
+                  </li>
                 ))}
+            </ul>
             </div>
           </div>
         </div>
