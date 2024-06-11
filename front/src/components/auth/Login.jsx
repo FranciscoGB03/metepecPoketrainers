@@ -10,8 +10,8 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         await sendRequest('POST', '/login', { email, password });
-        if (data) {
-            const { token, permissions } = data;
+        if (data.data) {
+            const { token, permissions } = data.data;
             localStorage.setItem('token', token);
             localStorage.setItem('permissions', JSON.stringify(permissions));
         }

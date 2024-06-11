@@ -36,7 +36,7 @@ func (r *CatologosRepository) GetLigasEquipos() (models.LigaEquipo, error) {
 	if err := rows.Err(); err != nil {
 		return catalogos, err
 	}
-	// Obtencion del catalogo de ligas
+	// Obtencion del catalogo de equipo insignia
 	rows, err = r.db.Query("SELECT id, nombre FROM equipo_insignia")
 	if err != nil {
 		return catalogos, err

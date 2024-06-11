@@ -1,26 +1,13 @@
 import { useState } from 'react';
 import axiosInstance from '../config/axiosConfigback';
-/**
- * hook personalizado para realizar cualquier tipo de http request> POST, GET, PUT o DELETE
- * @returns
- */
-const useAxiosBack = () => {
-    /** contiene los datos de la consulta */
-    const [data, setData] = useState(null);
-    /** captura posibles errores al realizar la operacion http */
-    const [error, setError] = useState(null);
-    /** proporciona el estatus de cargado */
-    const [loading, setLoading] = useState(false);
 
-    /**
-     * 
-     * @param {string} method tipo de metodo: POST,GET,PUT,DELETE 
-     * @param {string} url url de servicio
-     * @param {any} options datos que se requiere en la peticion http
-     * @returns {Promise} retorna una promesa 
-     */
-    const sendRequest = async (method,url,options={}) => {
-        setLoading(true);
+const useAxiosBack = () => {
+    const [data, setData] = useState({});
+    const [error, setError] = useState({});
+    const [loading, setLoading] = useState({});
+
+    const sendRequest = async (method, url, options = {}, key = 'data') => {
+        setLoading(prevLoading => ({ ...prevLoading, [key]: true }));
         try {
             let res;
             switch (method) {
@@ -34,20 +21,20 @@ const useAxiosBack = () => {
                     res = await axiosInstance.put(url, options);
                     break;
                 case 'DELETE':
-                    res = await axiosInstance.delete(url,options);
+                    res = await axiosInstance.delete(url, options);
                     break;
                 default:
                     throw new Error(`Unsupported method: ${method}`);
             }
-            setData(res.data);
-            setLoading(false);
+            setData(prevData => ({ ...prevData, [key]: res.data }));
+            setLoading(prevLoading => ({ ...prevLoading, [key]: false }));
         } catch (err) {
-            setError(err);
-            setLoading(false);
+            setError(prevError => ({ ...prevError, [key]: err }));
+            setLoading(prevLoading => ({ ...prevLoading, [key]: false }));
         }
     };
 
-    return { data, setData, error, loading, sendRequest };
+    return { data, error, loading, sendRequest, setData };
 };
 
 export default useAxiosBack;

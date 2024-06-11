@@ -41,18 +41,23 @@ export const RankingMundialAdmin = () => {
       [campo]: valor,
     }));
   };
-/** función para actualizar registros editados */
-const handleEditChange = (id, campo, valor) => {
-    setData((prevData) =>
-      prevData.map((reg) =>
-        reg.id === id ? { ...reg, [campo]: valor } : reg
-      )
-    );
+
+
+  const handleEditChange = (key, id, campo, valor) => {
+    setData((prevData) => {
+      const newData = { ...prevData };
+      if (newData[key]) {
+        newData[key] = newData[key].map((reg) =>
+          reg.id === id ? { ...reg, [campo]: valor } : reg
+        );
+      }
+      return newData;
+    });
   };
 
   /** función para guardar cambios de registros */
   const actualizarJugador = async (id) => {
-    const updatedRecord = data?.find((reg) => reg.id === id);
+    const updatedRecord = data?.data?.find((reg) => reg.id === id);
     await sendRequest("PUT","/updateJugadorTop", updatedRecord);
     sendRequest("GET","/getTopMundial");
   };
@@ -113,8 +118,8 @@ const handleEditChange = (id, campo, valor) => {
         <button onClick={onSave}>Guardar</button>
       </div>
       <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-        {loading ? <div>Cargando...</div> : null}
-        {error != null ? <div>{error?.message}</div> : null}
+        {loading.data ? <div>Cargando...</div> : null}
+        {error.data != null ? <div>{error?.message}</div> : null}
         <Table className="min-w-full leading-normal">
           <TableHead className="bg-light border border-1">
             <TableRow>
@@ -133,14 +138,14 @@ const handleEditChange = (id, campo, valor) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Array.isArray(data) ?(data||[]).map((reg) => (
+            {Array.isArray(data.data)?(data.data||[]).map((reg) => (
               <TableRow key={reg.id}>
                 <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                   <input
                     value={reg?.nombre_jugador}
                     type="text"
                     onChange={(e) =>
-                      handleEditChange(reg.id, "nombre_jugador", e.target.value)
+                      handleEditChange("data",reg.id, "nombre_jugador", e.target.value)
                     }
                   />
                 </TableCell>
@@ -148,7 +153,7 @@ const handleEditChange = (id, campo, valor) => {
                   <select
                     value={reg?.equipo_insignia}
                     onChange={(e) =>
-                      handleEditChange(reg.id, "equipo_insignia", e.target.value)
+                      handleEditChange("data",reg.id, "equipo_insignia", e.target.value)
                     }
                   >
                     <option value="instinto">Instinto</option>
@@ -161,7 +166,7 @@ const handleEditChange = (id, campo, valor) => {
                     value={reg?.puntos_totales}
                     type="number"
                     onChange={(e) =>
-                      handleEditChange(
+                      handleEditChange("data",
                         reg.id,
                         "puntos_totales",
                         parseInt(e.target.value) <= 0
