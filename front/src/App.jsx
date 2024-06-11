@@ -16,9 +16,9 @@ function App() {
   console.log(getEmailFromToken())
   return (
     <Routes>
+      <Route path="/login" element={<Login/>}/>
       <Route path="/" element={<Template />}>
         <Route index element={<Homepage />} />
-        <Route path="/login" element={<Login/>}/>
         <Route path="/rankingMundial" element={<RankingMundial />} />
         <Route path="/rankingRegional" element={<RankingRegional />} />
         <Route path="/terminosCondiciones" element={<TerminosCondiciones />} />

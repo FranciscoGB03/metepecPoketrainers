@@ -1,0 +1,13 @@
+body{
+    background-color: #f1f1f1;
+}
+.login-style{
+    max-width:1000px;
+    max-height: 1000px;
+}
+.template-body{
+    padding-bottom: none !important;
+}
+.footer{
+margin-top: none !important;
+}
