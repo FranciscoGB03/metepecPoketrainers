@@ -71,11 +71,15 @@ func (r *CompetidorRepository) GetCompetidores() ([]models.Competidor, error) {
 	query := `
 		SELECT c.id, c.nombre, c.equipo_id, c.puntos, 
 		       e.id, e.nombre,
-		       ec.id, ec.competidor_id, ec.pokemon, ec.ataque_basico, 
-		       ec.primer_ataque_cargado, ec.segundo_ataque_cargado, ec.url_pokemon, ec.liga_id
+		       ec.id, ec.competidor_id, p.nombre, ar.nombre_es, 
+		       ac.nombre_es, ac2.nombre_es, p.img_url, ec.liga_id
 		FROM competidor c
 		LEFT JOIN equipo_insignia e ON c.equipo_id = e.id
 		LEFT JOIN equipo_competidor ec ON c.id = ec.competidor_id
+		LEFT JOIN pokemon p ON p.id = ec.pokemon_id
+		LEFT JOIN ataque_rapido ar ON ar.id=ec.ataque_rapido_id
+		LEFT JOIN ataque_cargado ac ON ac.id=ec.primer_ataque_cargado
+		LEFT JOIN ataque_cargado ac2 ON ac.id=ec.segundo_ataque_cargado
 	`
 	rows, err := r.db.Query(query)
 	if err != nil {
