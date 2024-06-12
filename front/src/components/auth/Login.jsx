@@ -22,10 +22,10 @@ const Login = () => {
   return (
     <div className="min-w-screen min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500  px-5 py-5">
         <div className="p-8 mb-10"><a href="/" className="text-white text-lg font-bold" >Home</a></div>
-    <div class="flex items-center justify-center">
+    <div className="flex items-center justify-center">
         
       <div className="bg-white rounded-3xl shadow-xl w-full overflow-hidden login-style">
-        <div class="md:flex w-full">
+        <div className="md:flex w-full">
             <div className="w-full md:w-1/2 py-9 px-5 md:px-9">
             <h1 className="text-4xl font-semibold text-center">Bienvenido</h1>
                 <form onSubmit={handleSubmit}>
@@ -54,7 +54,7 @@ const Login = () => {
                             <input 
                             type="checkbox" 
                             id='terms-conditions'/>
-                            <label className="ml-2 font-medium text-base" for="terms-conditions">
+                            <label className="ml-2 font-medium text-base" htmlFor="terms-conditions">
                                 <a href="#"> Acepta terminos y condiciones </a>
                             </label>
                             </div>
