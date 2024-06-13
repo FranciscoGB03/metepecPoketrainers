@@ -10,13 +10,11 @@ import { RankingMundialAdmin } from "./components/admin/RankingMundial/RankingMu
 import AdminTemplate from "./components/admin/Template/AdminTemplate";
 import LigaLocalAdmin from "./components/admin/LigaLocal/LigaLocalAdmin";
 import Login from "./components/auth/Login";
-import { getEmailFromToken } from "./components/auth/helpers";
 
 function App() {
-  console.log(getEmailFromToken())
   return (
     <Routes>
-      <Route path="/login" element={<Login/>}/>
+      <Route path="/login" element={<Login />} />
       <Route path="/" element={<Template />}>
         <Route index element={<Homepage />} />
         <Route path="/rankingMundial" element={<RankingMundial />} />
@@ -24,9 +22,9 @@ function App() {
         <Route path="/terminosCondiciones" element={<TerminosCondiciones />} />
       </Route>
       <Route path="/admin" element={<AdminTemplate />}>
-        <Route index element={<Admin/>}/>
-        <Route path="/admin/rankingMundial" element={<RankingMundialAdmin/>}/>
-        <Route path="/admin/ligaLocal" element={<LigaLocalAdmin/>}/>
+        <Route index element={<Admin />} />
+        <Route path="/admin/rankingMundial" element={<RankingMundialAdmin />} />
+        <Route path="/admin/ligaLocal" element={<LigaLocalAdmin />} />
       </Route>
     </Routes>
   );

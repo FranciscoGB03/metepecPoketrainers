@@ -10,13 +10,28 @@ export const getEmailFromToken = () => {
         // Decode the base64 encoded payload
         const payload = JSON.parse(atob(payloadBase64));
         // Access the email field from the payload
+        return payload.email;
+    }
+    return null; // Token is not available
+};
+
+// Function to extract email from JWT token
+export const getRolFromToken = () => {
+    const token = getToken();
+    if (token) {
+        // Split the token into header, payload, and signature
+        const [, payloadBase64] = token.split('.');
+        // Decode the base64 encoded payload
+        const payload = JSON.parse(atob(payloadBase64));
+        // Access the email field from the payload
         return payload.rol;
     }
     return null; // Token is not available
 };
 
 //funcion para verificar si el token aún es valido
-export const isTokenExpired = (token) => {
+export const isTokenExpired = () => {
+    const token=getToken()
     if (!token) return true; // Token is not present
     const [, payloadBase64] = token.split('.');
     const payload = JSON.parse(atob(payloadBase64));

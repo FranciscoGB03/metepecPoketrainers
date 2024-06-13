@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import { getEmailFromToken, isTokenExpired } from "../auth/helpers";
+import { getEmailFromToken, getRolFromToken, isTokenExpired } from "../auth/helpers";
 import { useEffect, useState } from "react";
 
 const Admin =()=>{
     const[permisos,setPermisos]=useState(null);
+    const[rol,setRol]=useState('');
     const navigate = useNavigate();
     useEffect(()=>{
-        const token = localStorage.getItem('token');
-        if (isTokenExpired(token)) {
+        if (isTokenExpired()) {
             localStorage.removeItem('token');
             localStorage.removeItem('permissions');
             navigate('/login');
@@ -16,7 +16,8 @@ const Admin =()=>{
             const permissionsString = localStorage.getItem('permissions');
             const userPermissions = JSON.parse(permissionsString);
             setPermisos(userPermissions);
-            console.log(userPermissions.includes('ver_admin'));
+            setRol(getRolFromToken());
+            // console.log(userPermissions.includes('ver_admin'));
             setPermisos(localStorage.getItem('permissions'))
         }
     },[])
@@ -24,7 +25,7 @@ const Admin =()=>{
     <div>
         Bienvenido a la página de administrador!! 
         {getEmailFromToken()}
-        {permisos?.includes('guardar_jugador_top')&&<div>si tengo permisos</div>}
+        {permisos?.includes('guardar_jugador_top')&&<div>si tengo permisos, rol: {rol}</div>}
     </div>
     );
 }

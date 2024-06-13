@@ -25,3 +25,4 @@ dist-ssr
 .project/data/*
 .project/Makefile
 Makefile
+.env

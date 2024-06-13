@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import {FaTimes} from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
 import logo from "../../../img/logo.png";
-import { getEmailFromToken } from "../../auth/helpers";
+import { getEmailFromToken, isTokenExpired } from "../../auth/helpers";
 import { FaRegUserCircle } from "react-icons/fa";
 const NavbarStruct = () => {
   /**hooks */
@@ -20,8 +20,8 @@ const NavbarStruct = () => {
          <NavLink href="#deets"><li className="py-2.5">Torneo</li></NavLink>     
          <NavLink href="#deets"><li className="py-2.5">Nosotros</li></NavLink>     
          <NavLink href="#deets"><li className="py-2.5">Contactanos</li></NavLink>   
-          <NavLink to="/login"><li className="py-7">Login</li></NavLink>:<NavLink to="/admin">
-          <li className="py-2.5">Admin</li></NavLink>
+          {isTokenExpired()?<NavLink to="/login"><li className="py-2.5">Login</li></NavLink>:<NavLink to="/admin">
+          <li className="py-2.5">Admin</li></NavLink>}
          <li className="lg:flex md:flex lg: flex-1 items center justify-end py-7"><FaRegUserCircle />{getEmailFromToken()}</li>
         
        </ul>
@@ -45,9 +45,9 @@ const NavbarStruct = () => {
                 <NavLink href="#deets"><li className="py-7">Torneo</li></NavLink>     
                 <NavLink href="#deets"><li className="py-7">Nosotros</li></NavLink>     
                 <NavLink href="#deets"><li className="py-7">Contactanos</li></NavLink>   
-                <NavLink to="/login"><li className="py-7">Login</li></NavLink>
-                <NavLink to="/admin"><li className="py-7">Admin</li></NavLink>
-                <li className="lg:flex md:flex lg: flex-1 items center justify-end py-7"><FaRegUserCircle />{getEmailFromToken()}</li>
+                {isTokenExpired()?<NavLink to="/login"><li className="py-7">Login</li></NavLink>:<NavLink className="py-7" to="/admin">
+                <li className="py-7">Admin</li></NavLink>}
+          {!isTokenExpired()&&<li className="lg:flex md:flex lg: flex-1 items center justify-end py-7"><FaRegUserCircle />{getEmailFromToken()}</li>}
               </ul>
             </div>
           </div>
