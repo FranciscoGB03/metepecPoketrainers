@@ -15,6 +15,18 @@ export const getEmailFromToken = () => {
     return null; // Token is not available
 };
 
+export const getPermiso=(permiso)=>{
+    const token = getToken();
+    if (token) {
+        // Split the token into header, payload, and signature
+        const [, payloadBase64] = token.split('.');
+        // Decode the base64 encoded payload
+        const payload = JSON.parse(atob(payloadBase64));
+        // Access the permissions field from the payload
+        return payload.permissions.includes(permiso);
+        
+    }
+}
 // Function to extract email from JWT token
 export const getRolFromToken = () => {
     const token = getToken();

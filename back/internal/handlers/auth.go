@@ -13,7 +13,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Register(db *sql.DB, jwtKey []byte) http.HandlerFunc {
+func Register(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var creds models.Credentials
 		err := json.NewDecoder(r.Body).Decode(&creds)
@@ -88,8 +88,9 @@ func Login(db *sql.DB, jwtKey []byte) http.HandlerFunc {
 
 		expirationTime := time.Now().Add(5 * time.Minute)
 		claims := &models.Claims{
-			Email: creds.Email,
-			Rol:   rol,
+			Email:       creds.Email,
+			Rol:         rol,
+			Permissions: permissions,
 			StandardClaims: jwt.StandardClaims{
 				ExpiresAt: expirationTime.Unix(),
 			},
@@ -110,11 +111,9 @@ func Login(db *sql.DB, jwtKey []byte) http.HandlerFunc {
 
 		// Return token and permissions in response
 		response := struct {
-			Token       string   `json:"token"`
-			Permissions []string `json:"permissions"`
+			Token string `json:"token"`
 		}{
-			Token:       tokenString,
-			Permissions: permissions,
+			Token: tokenString,
 		}
 
 		w.Header().Set("Content-Type", "application/json")
@@ -122,7 +121,7 @@ func Login(db *sql.DB, jwtKey []byte) http.HandlerFunc {
 	}
 }
 
-func Authenticate(jwtKey []byte, db *sql.DB) mux.MiddlewareFunc {
+func Authenticate(jwtKey []byte) mux.MiddlewareFunc {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			c, err := r.Cookie("token")
@@ -154,39 +153,8 @@ func Authenticate(jwtKey []byte, db *sql.DB) mux.MiddlewareFunc {
 				return
 			}
 
-			var userID int
-			err = db.QueryRow("SELECT id FROM users WHERE email = ?", claims.Email).Scan(&userID)
-			if err != nil {
-				http.Error(w, "User not found", http.StatusInternalServerError)
-				return
-			}
-
-			// Fetch user permissions
-			rows, err := db.Query(`
-                SELECT p.nombre FROM permisos p
-                JOIN rel_rol_permisos rrp ON p.id = rrp.permiso_id
-                JOIN rol r ON rrp.rol_id = r.id
-                JOIN users u ON r.id = u.rol_id
-                WHERE u.id = ?
-            `, userID)
-			if err != nil {
-				http.Error(w, "Error fetching permissions", http.StatusInternalServerError)
-				return
-			}
-			defer rows.Close()
-
-			var permissions []string
-			for rows.Next() {
-				var permiso string
-				if err := rows.Scan(&permiso); err != nil {
-					http.Error(w, "Error scanning permissions", http.StatusInternalServerError)
-					return
-				}
-				permissions = append(permissions, permiso)
-			}
-
-			// Store permissions in context (or use headers for simplicity)
-			r.Header.Set("Permissions", strings.Join(permissions, ","))
+			// Store permissions in context
+			r.Header.Set("Permissions", strings.Join(claims.Permissions, ","))
 
 			next.ServeHTTP(w, r)
 		})

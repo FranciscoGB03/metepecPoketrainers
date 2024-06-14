@@ -8,7 +8,8 @@ type Credentials struct {
 }
 
 type Claims struct {
-	Email string `json:"email"`
-	Rol   string `json:"rol"`
+	Email       string   `json:"email"`
+	Rol         string   `json:"rol"`
+	Permissions []string `json:"permissions"`
 	jwt.StandardClaims
 }

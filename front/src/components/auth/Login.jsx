@@ -22,9 +22,8 @@ const Login = () => {
     e.preventDefault();
     await sendRequest("POST", "/login", { email, password });
     if (data.data) {
-      const { token, permissions } = data.data;
+      const { token } = data.data;
       localStorage.setItem("token", token);
-      localStorage.setItem("permissions", JSON.stringify(permissions));
       window.location.reload();
     }
   };
