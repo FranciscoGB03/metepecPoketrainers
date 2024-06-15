@@ -16,7 +16,7 @@ func NewCompetidorRepository(db *sql.DB) *CompetidorRepository {
 // Registro del competidor
 func (r *CompetidorRepository) RegistroCompetidor(competidor models.Competidor) (models.Competidor, error) {
 	query := `INSERT INTO competidor (nombre, equipo_id, puntos) VALUES (?, ?, ?)`
-	result, err := r.db.Exec(query, competidor.Nombre, competidor.EquipoInsignia, competidor.Puntos)
+	result, err := r.db.Exec(query, competidor.Nombre, competidor.EquipoInsignia.ID, competidor.Puntos)
 	if err != nil {
 		return models.Competidor{}, err
 	}
