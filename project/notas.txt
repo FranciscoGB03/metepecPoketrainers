@@ -36,3 +36,4 @@ se genera login
 14/06/2024: 
 - Se agregan los archivos para ataques rapidos y ataques cargados
 - Se agregan dos queries que se usaron para modificar las tablas de ataques cargados y rapidos en la carpeta de proyecto/baseDatos/queries.sql
+- Se instalo la siguiente libreria en el front: npm install prop-types, es para quitar alerta de sonar cuando un componente recibe parametros
