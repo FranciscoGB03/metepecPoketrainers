@@ -45,7 +45,7 @@ func (r *CompetidorRepository) RegistroEquipo(equipo []models.EquipoCompetidor) 
 						segundo_ataque_cargado, 
 						liga_id) 
 						VALUES(?, ?, ?, ?, ?, ?)`
-		result, err := tx.Exec(query, poke.CompetidorID, poke.Pokemon.ID, poke.AtaqueRapido, poke.PrimerAtaqueCargado, poke.SegundoAtaqueCargado, poke.Liga.ID)
+		result, err := tx.Exec(query, poke.CompetidorID, poke.Pokemon.ID, poke.AtaqueRapido.ID, poke.PrimerAtaqueCargado.ID, poke.SegundoAtaqueCargado.ID, poke.Liga.ID)
 		if err != nil {
 			tx.Rollback()
 			return equipo, err
