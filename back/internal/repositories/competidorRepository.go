@@ -16,7 +16,7 @@ func NewCompetidorRepository(db *sql.DB) *CompetidorRepository {
 // Registro del competidor
 func (r *CompetidorRepository) RegistroCompetidor(competidor models.Competidor) (models.Competidor, error) {
 	query := `INSERT INTO competidor (nombre, equipo_id, puntos) VALUES (?, ?, ?)`
-	result, err := r.db.Exec(query, competidor.Nombre, competidor.EquipoID, competidor.Puntos)
+	result, err := r.db.Exec(query, competidor.Nombre, competidor.EquipoInsignia, competidor.Puntos)
 	if err != nil {
 		return models.Competidor{}, err
 	}
@@ -39,14 +39,13 @@ func (r *CompetidorRepository) RegistroEquipo(equipo []models.EquipoCompetidor) 
 	for i, poke := range equipo {
 		query := `INSERT INTO equipo_competidor
 						(competidor_id, 
-						pokemon, 
-						ataque_basico, 
+						pokemon_id, 
+						ataque_rapido_id, 
 						primer_ataque_cargado, 
 						segundo_ataque_cargado, 
-						url_pokemon, 
 						liga_id) 
-						VALUES(?, ?, ?, ?, ?, ?, ?)`
-		result, err := tx.Exec(query, poke.CompetidorID, poke.Pokemon, poke.AtaqueBasico, poke.PrimerAtaqueCargado, poke.SegundoAtaqueCargado, poke.URLPokemon, poke.LigaID)
+						VALUES(?, ?, ?, ?, ?, ?)`
+		result, err := tx.Exec(query, poke.CompetidorID, poke.Pokemon.ID, poke.AtaqueRapido, poke.PrimerAtaqueCargado, poke.SegundoAtaqueCargado, poke.Liga.ID)
 		if err != nil {
 			tx.Rollback()
 			return equipo, err
@@ -69,17 +68,23 @@ func (r *CompetidorRepository) RegistroEquipo(equipo []models.EquipoCompetidor) 
 
 func (r *CompetidorRepository) GetCompetidores() ([]models.Competidor, error) {
 	query := `
-		SELECT c.id, c.nombre, c.equipo_id, c.puntos, 
-		       e.id, e.nombre,
-		       ec.id, ec.competidor_id, p.nombre, ar.nombre_es, 
-		       ac.nombre_es, ac2.nombre_es, p.img_url, ec.liga_id
+		SELECT 
+			c.id, c.nombre, c.equipo_id, c.puntos,
+			e.id, e.nombre,
+			ec.id, ec.competidor_id, ec.pokemon_id, 
+			p.id, p.numero_pokedex, p.nombre, p.img_url,
+			ar.id, ar.nombre_es, ar.nombre_la, ar.nombre_en,
+			ac1.id, ac1.nombre_es, ac1.nombre_la, ac1.nombre_en,
+			ac2.id, ac2.nombre_es, ac2.nombre_la, ac2.nombre_en,
+			ec.liga_id, l.nombre
 		FROM competidor c
 		LEFT JOIN equipo_insignia e ON c.equipo_id = e.id
 		LEFT JOIN equipo_competidor ec ON c.id = ec.competidor_id
 		LEFT JOIN pokemon p ON p.id = ec.pokemon_id
-		LEFT JOIN ataque_rapido ar ON ar.id=ec.ataque_rapido_id
-		LEFT JOIN ataque_cargado ac ON ac.id=ec.primer_ataque_cargado
-		LEFT JOIN ataque_cargado ac2 ON ac.id=ec.segundo_ataque_cargado
+		LEFT JOIN ataque_rapido ar ON ar.id = ec.ataque_rapido_id
+		LEFT JOIN ataque_cargado ac1 ON ac1.id = ec.primer_ataque_cargado
+		LEFT JOIN ataque_cargado ac2 ON ac2.id = ec.segundo_ataque_cargado
+		LEFT JOIN liga l ON l.id=ec.liga_id
 	`
 	rows, err := r.db.Query(query)
 	if err != nil {
@@ -106,19 +111,23 @@ func scanCompetidores(rows *sql.Rows) ([]models.Competidor, error) {
 		}
 
 		if existingCompetidor, ok := competidorMap[competidor.ID]; ok {
-			if equipoCompetidor != nil { // Verificar si equipoCompetidor no es nil
+			if equipoCompetidor != nil {
 				existingCompetidor.EquipoCompetidores = append(existingCompetidor.EquipoCompetidores, *equipoCompetidor)
 			}
 		} else {
-			competidor.Equipo = equipo
-			if equipoCompetidor != nil { // Verificar si equipoCompetidor no es nil
-				competidor.EquipoCompetidores = []models.EquipoCompetidor{*equipoCompetidor}
+			competidor.EquipoInsignia = equipo
+			competidor.EquipoCompetidores = []models.EquipoCompetidor{}
+			if equipoCompetidor != nil {
+				competidor.EquipoCompetidores = append(competidor.EquipoCompetidores, *equipoCompetidor)
 			}
 			competidorMap[competidor.ID] = competidor
 		}
 	}
 
 	for _, competidor := range competidorMap {
+		if competidor.EquipoCompetidores == nil {
+			competidor.EquipoCompetidores = []models.EquipoCompetidor{}
+		}
 		competidores = append(competidores, *competidor)
 	}
 
@@ -128,29 +137,41 @@ func scanCompetidores(rows *sql.Rows) ([]models.Competidor, error) {
 func scanCompetidor(rows *sql.Rows) (*models.Competidor, models.EquipoInsignia, *models.EquipoCompetidor, error) {
 	var competidor models.Competidor
 	var equipo models.EquipoInsignia
-	var equipoCompetidor *models.EquipoCompetidor // Usamos un puntero
-
-	var eqID, ecID, compID, ligaID sql.NullInt64
-	var eqNombre, pokemon, ataqueBasico, primerAtaqueCargado, segundoAtaqueCargado, urlPokemon sql.NullString
+	var equipoCompetidor *models.EquipoCompetidor
+	var eqID, ecID, compID, pokemonID, pokeID, numPokedex, ataqueRapidoID, primerAtaqueID, segundoAtaqueID, ligaID sql.NullInt64
+	var eqNombre, pokemonNombre, imgUrl, ataqueRapidoNombreEs, ataqueRapidoNombreLa, ataqueRapidoNombreEn, primerAtaqueNombreEs, primerAtaqueNombreLa, primerAtaqueNombreEn, segundoAtaqueNombreEs, segundoAtaqueNombreLa, segundoAtaqueNombreEn, ligaNombre sql.NullString
 
 	err := rows.Scan(
 		&competidor.ID,
 		&competidor.Nombre,
-		&competidor.EquipoID,
+		&competidor.EquipoInsigniaID,
 		&competidor.Puntos,
 		&eqID,
 		&eqNombre,
 		&ecID,
 		&compID,
-		&pokemon,
-		&ataqueBasico,
-		&primerAtaqueCargado,
-		&segundoAtaqueCargado,
-		&urlPokemon,
+		&pokemonID,
+		&pokeID,
+		&numPokedex,
+		&pokemonNombre,
+		&imgUrl,
+		&ataqueRapidoID,
+		&ataqueRapidoNombreEs,
+		&ataqueRapidoNombreLa,
+		&ataqueRapidoNombreEn,
+		&primerAtaqueID,
+		&primerAtaqueNombreEs,
+		&primerAtaqueNombreLa,
+		&primerAtaqueNombreEn,
+		&segundoAtaqueID,
+		&segundoAtaqueNombreEs,
+		&segundoAtaqueNombreLa,
+		&segundoAtaqueNombreEn,
 		&ligaID,
+		&ligaNombre,
 	)
 	if err != nil {
-		return nil, equipo, equipoCompetidor, err
+		return nil, equipo, nil, err
 	}
 
 	if eqID.Valid {
@@ -159,16 +180,15 @@ func scanCompetidor(rows *sql.Rows) (*models.Competidor, models.EquipoInsignia, 
 	if eqNombre.Valid {
 		equipo.Nombre = eqNombre.String
 	}
-	if ecID.Valid && compID.Valid && pokemon.Valid && ataqueBasico.Valid && primerAtaqueCargado.Valid && segundoAtaqueCargado.Valid && urlPokemon.Valid && ligaID.Valid {
+	if ecID.Valid && compID.Valid && pokemonID.Valid && ligaID.Valid {
 		equipoCompetidor = &models.EquipoCompetidor{
 			ID:                   int(ecID.Int64),
 			CompetidorID:         int(compID.Int64),
-			Pokemon:              pokemon.String,
-			AtaqueBasico:         ataqueBasico.String,
-			PrimerAtaqueCargado:  primerAtaqueCargado.String,
-			SegundoAtaqueCargado: segundoAtaqueCargado.String,
-			URLPokemon:           urlPokemon.String,
-			LigaID:               int(ligaID.Int64),
+			Pokemon:              &models.Pokemon{ID: int(pokemonID.Int64), NumeroPokedex: int(numPokedex.Int64), Nombre: pokemonNombre.String, ImgUrl: imgUrl.String},
+			AtaqueRapido:         models.AtaqueRapido{ID: int(ataqueRapidoID.Int64), NombreEs: ataqueRapidoNombreEs.String, NombreLa: ataqueRapidoNombreLa.String, NombreEn: ataqueRapidoNombreEn.String},
+			PrimerAtaqueCargado:  models.AtaqueCargado{ID: int(primerAtaqueID.Int64), NombreEs: primerAtaqueNombreEs.String, NombreLa: primerAtaqueNombreLa.String, NombreEn: primerAtaqueNombreEn.String},
+			SegundoAtaqueCargado: models.AtaqueCargado{ID: int(segundoAtaqueID.Int64), NombreEs: segundoAtaqueNombreEs.String, NombreLa: segundoAtaqueNombreLa.String, NombreEn: segundoAtaqueNombreEn.String},
+			Liga:                 models.Liga{ID: int(ligaID.Int64), Nombre: ligaNombre.String},
 		}
 	}
 

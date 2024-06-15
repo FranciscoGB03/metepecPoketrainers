@@ -20,9 +20,13 @@ func SetupRouter(db *sql.DB, jwtKey []byte) *mux.Router {
 	protected := router.PathPrefix("/").Subrouter()
 	protected.Use(handlers.Authenticate(jwtKey))
 
-	//Catalogos
+	// Catalogos
+	// obtención de ataques rápidos
+	router.HandleFunc("/getAtaquesRapidos", handlers.GetAtaquesRapidos(db)).Methods("GET")
+	// obtención de ataques cargados
+	router.HandleFunc("/getAtaquesCargados", handlers.GetAtaquesCargados(db)).Methods("GET")
+	// obtención de los pokemon
 	router.HandleFunc("/getPokemons", handlers.GetPokemons(db)).Methods("GET")
-
 	//obtencion de catalogos liga y equipos insignia
 	router.HandleFunc("/getCatalogosLigaEquipos", handlers.GetCatalogosLigaEquipos(db)).Methods("GET")
 	//obtener todos los jugadores top

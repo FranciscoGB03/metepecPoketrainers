@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import useAxiosBack from "../../../hooks/useAxiosBack";
 import {
   Table,
@@ -21,6 +21,8 @@ const LigaLocalAdmin = () => {
       await sendRequest("GET", "/getCatalogosLigaEquipos", {}, "liga");
       await sendRequest("GET", "/getPokemons", {}, "pokes");
       await sendRequest("GET", "/getLigaLocal", {}, "competidores");
+      await sendRequest("GET", "/getAtaquesRapidos", {}, "rapidos");
+      await sendRequest("GET", "/getAtaquesCargados", {}, "cargados");
     };
     fetchData();
   }, []);
@@ -112,6 +114,48 @@ const LigaLocalAdmin = () => {
             ))}
           </select>
         </label>
+        <label>
+          Ataque rápido:{" "}
+          <select
+            name="ataque_rapido_id"
+            //value={newCompetidor.liga_id}
+            //onChange={handleInputChange}
+          >
+            {data?.rapidos?.map((rapido) => (
+              <option key={rapido.id} value={rapido.id}>
+                {rapido.nombre_es}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Primer ataque cargado:{" "}
+          <select
+            name="primer_ataque_cargado"
+            //value={newCompetidor.liga_id}
+            //onChange={handleInputChange}
+          >
+            {data?.cargados?.map((cargado) => (
+              <option key={cargado.id} value={cargado.id}>
+                {cargado.nombre_es}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Segundo ataque cargado:{" "}
+          <select
+            name="segundo_ataque_cargado"
+            //value={newCompetidor.liga_id}
+            //onChange={handleInputChange}
+          >
+            {data?.cargados?.map((cargado) => (
+              <option key={cargado.id} value={cargado.id}>
+                {cargado.nombre_es}
+              </option>
+            ))}
+          </select>
+        </label>
       </div>
       <div>
         <Table className="min-w-full leading-normal">
@@ -148,7 +192,24 @@ const LigaLocalAdmin = () => {
                       {reg.puntos}
                     </TableCell>
                     <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      {reg.equipo_pokemon}
+                    {Array.isArray(reg?.equipo_competidores)?
+                          (reg.equipo_competidores || []).map(pokemon=>
+                          <Fragment key={pokemon?.id}>
+                          <div className="justify-content-between">
+                            <div className="relative inline-block tooltip  my-1 ">
+                             <a to="" className="hover:text-gray-400 font-medium">
+                             
+                              <img src={pokemon?.pokemon?.img_url} alt={`imagen de:`+pokemon?.pokemon?.nombre}/>
+                            </a>
+                              <div className="flex flex-col bg-orange-500 w-60 h-auto rounded-md z-20 absolute right-0 invisible tooltip-item pl-4">
+                              <strong>{pokemon?.pokemon?.nombre}</strong>
+                                <span className="mt-4">ataque basico: {pokemon?.ataque_rapido.nombre_la}</span><br/>
+                                <span className="mb-4">ataques cargados: {pokemon?.primer_ataque_cargado.nombre_la}, {pokemon?.segundo_ataque_cargado.nombre_la}</span>                                
+                              </div>
+                            </div>
+                          </div>
+                          </Fragment>
+                          ):null}    
                     </TableCell>
                     <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       {/* Aquí puedes añadir opciones como editar/eliminar */}

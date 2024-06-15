@@ -103,28 +103,29 @@ function RankingRegional() {
                           {reg?.nombre}
                         </TableCell>
                         <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          {reg?.equipo?.nombre}
+                          {reg?.equipo_insignia?.nombre}
                         </TableCell>
                         <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           {reg?.puntos}
                         </TableCell>
-                        <TableCell className="border-b border-gray-200 bg-white text-sm">{reg?.equipo_competidores?.map(pokemon=>
+                        <TableCell className="border-b border-gray-200 bg-white text-sm">
+                        {Array.isArray(reg?.equipo_competidores)?
+                          (reg.equipo_competidores || []).map(pokemon=>
                           <Fragment key={pokemon?.id}>
                           <div className="justify-content-between">
                             <div className="relative inline-block tooltip  my-1 ">
                              <a to="" className="hover:text-gray-400 font-medium">
-                              <strong>{pokemon?.pokemon}</strong>
-                              <img src={pokemon.url_pokemon} alt={`imagen de:`+pokemon.pokemon}/>
+                              <img src={pokemon?.pokemon?.img_url} alt={`imagen de:`+pokemon?.pokemon?.nombre}/>
                             </a>
                               <div className="flex flex-col bg-orange-500 w-60 h-auto rounded-md z-20 absolute right-0 invisible tooltip-item pl-4">
-                                <span className="mt-4">ataque basico: {pokemon?.ataque_basico}</span><br/>
-                                <span className="mb-4">ataques cargados: {pokemon?.primer_ataque_cargado}, {pokemon?.segundo_ataque_cargado}</span>
-                                
+                              <strong>Nombre: {pokemon?.pokemon?.nombre}</strong>
+                                <span className="mt-4">ataque basico: {pokemon?.ataque_rapido.nombre_la}</span><br/>
+                                <span className="mb-4">ataques cargados: {pokemon?.primer_ataque_cargado.nombre_la}, {pokemon?.segundo_ataque_cargado.nombre_la}</span>              
                               </div>
                             </div>
                           </div>
                           </Fragment>
-                          )}    
+                          ):null}    
                         </TableCell>
                       </TableRow>
                     ))}

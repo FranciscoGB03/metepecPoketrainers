@@ -58,3 +58,49 @@ func (r *CatologosRepository) GetLigasEquipos() (models.LigaEquipo, error) {
 	catalogos.EquipoInsignia = equipos
 	return catalogos, nil
 }
+
+func (r *CatologosRepository) GetAtaquesRapidos() ([]models.AtaqueRapido, error) {
+	var ataquesRapidos []models.AtaqueRapido
+
+	// Obtencion del catalogo de ligas
+	rows, err := r.db.Query("SELECT id, nombre_es,nombre_la, nombre_en FROM ataque_rapido")
+	if err != nil {
+		return ataquesRapidos, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var ataque models.AtaqueRapido
+		if err := rows.Scan(&ataque.ID, &ataque.NombreEs, &ataque.NombreLa, &ataque.NombreEn); err != nil {
+			return ataquesRapidos, err
+		}
+		ataquesRapidos = append(ataquesRapidos, ataque)
+	}
+	if err := rows.Err(); err != nil {
+		return ataquesRapidos, err
+	}
+	return ataquesRapidos, nil
+}
+
+func (r *CatologosRepository) GetAtaquesCargados() ([]models.AtaqueCargado, error) {
+	var ataquesCargados []models.AtaqueCargado
+
+	// Obtencion del catalogo de ligas
+	rows, err := r.db.Query("SELECT id, nombre_es,nombre_la, nombre_en FROM ataque_cargado")
+	if err != nil {
+		return ataquesCargados, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var ataque models.AtaqueCargado
+		if err := rows.Scan(&ataque.ID, &ataque.NombreEs, &ataque.NombreLa, &ataque.NombreEn); err != nil {
+			return ataquesCargados, err
+		}
+		ataquesCargados = append(ataquesCargados, ataque)
+	}
+	if err := rows.Err(); err != nil {
+		return ataquesCargados, err
+	}
+	return ataquesCargados, nil
+}

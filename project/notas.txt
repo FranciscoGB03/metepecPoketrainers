@@ -17,7 +17,8 @@ DB_HOST->localhost
 DB_PORT_MYSQL->3306
 MYSQL_DATABASE->pokemon
 MYSQL_ROOT_PASSWORD->password root 
-
+JWT_SECRET
+export JWT_SECRET=
 
 Se agrega collection para la extension de thunder client de visual studio code, para probar los metodos del back
 thunder-collection_pokemon.json
@@ -31,3 +32,7 @@ nuevas tablas para catalogos como:
 
 se anexa imagen de  la base de datos
 se genera login
+
+14/06/2024: 
+- Se agregan los archivos para ataques rapidos y ataques cargados
+- Se agregan dos queries que se usaron para modificar las tablas de ataques cargados y rapidos en la carpeta de proyecto/baseDatos/queries.sql
