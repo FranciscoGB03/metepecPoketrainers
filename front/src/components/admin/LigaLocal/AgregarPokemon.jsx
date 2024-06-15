@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { PokemonCompetidor } from "../models/models";
+import PropTypes from 'prop-types';
 
 const AgregarPokemon = ({ competidorId, pokemons, ligas, rapidos, cargados,sendRequest}) => {
   /**hooks */
@@ -118,4 +119,14 @@ const AgregarPokemon = ({ competidorId, pokemons, ligas, rapidos, cargados,sendR
     </div>
   );
 };
+
+AgregarPokemon.propTypes = {
+  competidorId: PropTypes.number.isRequired,
+  pokemons: PropTypes.array.isRequired,
+  ligas: PropTypes.array,
+  rapidos: PropTypes.array,
+  cargados: PropTypes.array,
+  sendRequest: PropTypes.func.isRequired
+};
+
 export default AgregarPokemon;
