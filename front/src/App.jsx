@@ -10,11 +10,13 @@ import { RankingMundialAdmin } from "./components/admin/RankingMundial/RankingMu
 import AdminTemplate from "./components/admin/Template/AdminTemplate";
 import LigaLocalAdmin from "./components/admin/LigaLocal/LigaLocalAdmin";
 import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
 
 function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/" element={<Template />}>
         <Route index element={<Homepage />} />
         <Route path="/rankingMundial" element={<RankingMundial />} />

@@ -1,36 +1,38 @@
 // src/components/Login.js
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useAxiosBack from "../../hooks/useAxiosBack";
 import "./login.css";
 import figureHeader from "../../../public/img/chico_saludando.jpeg";
-import { isTokenExpired } from "./helpers";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { data, sendRequest } = useAxiosBack();
-  const navigate = useNavigate();
+  const [acceptTerms,setAcceptTerms] = useState(false);
   const [errors, setErrors] = useState({});
-
-  useEffect(() => {
-    if (!isTokenExpired()) {
-      navigate("/");
-    }
-  }, []);
+  const [verifypassword, setPasswordVerify] = useState("");
+  const { data, sendRequest } = useAxiosBack();
 
   const handleSubmit = async (e) => {
-    let newErrors = {};
-console.log('Errr');
+
     e.preventDefault();
+    let newErrors = {};
+
+    // Validaciones
     if (!email) newErrors.email = 'El correo es obligatorio.';
+    if (!email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) newErrors.email = 'Introduce un correo valido.';
     if (!password) newErrors.password = 'La contraseña es obligatoria.';
+    if (verifypassword != password) newErrors.verifypassword = 'Las contraseñas no coinciden.';
+    if (!acceptTerms ) newErrors.acceptTerms = 'Debes aceptar los terminos y condiciones.';
+
+
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      await sendRequest("POST", "/login", { email, password });
+      await sendRequest("POST", "/register", { email, password });
+      console.log('entrando');
+
       if (data.data) {
+        console.log('data',data);
         const { token } = data.data;
         localStorage.setItem("token", token);
         window.location.reload();
@@ -46,10 +48,10 @@ console.log('Errr');
         </a>
       </div>
       <div className="flex items-center justify-center">
-        <div className="bg-white rounded-3xl bg-opacity-30 shadow-xl w-full overflow-hidden login-style">
+        <div className="bg-white rounded-3xl bg-opacity-10 shadow-xl w-full overflow-hidden login-style">
           <div className="md:flex w-full">
             <div className="w-full md:w-1/2 py-9 px-5 md:px-9">
-              <h1 className="text-4xl font-semibold text-center">Bienvenido</h1>
+              <h1 className="text-4xl font-semibold text-center">Bienvenido a nuestra comunidad</h1>
               <form onSubmit={handleSubmit}>
                 <div className="mt-5 ">
                   <div>
@@ -59,9 +61,8 @@ console.log('Errr');
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Escribe tu correo"
-                    /> 
-                    {errors.email && <div className="text-red-500 italic">{errors.email}</div>}
-
+                    />
+                      {errors.email && <div className="text-red-500 italic">{errors.email}</div>}
                   </div>
                   <div>
                     <label className="text-lg font-medium">Contraseña</label>
@@ -73,27 +74,43 @@ console.log('Errr');
                       type="password"
                     />
                     {errors.password && <div className="text-red-500 italic">{errors.password}</div>}
-
                   </div>
-                  <button className="font-medium text-base text-blue-900">
-                    Olvidaste tu contraseña
-                  </button>
+                  <div>
+                    <label className="text-lg font-medium">Repite Contraseña</label>
+                    <input
+                      className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
+                      placeholder="Escribe tu correo"
+                      value={verifypassword}
+                      onChange={(e) => setPasswordVerify(e.target.value)}
+                      type="password"
+                    />
+                    {errors.verifypassword && <div className="text-red-500 italic">{errors.verifypassword}</div>}
+                  </div>
+                  <div className="mt-5 flex justify-between items-center">
+                    <div>
+                      <input type="checkbox"
+                      value={acceptTerms}
+                      onChange={(e) => setAcceptTerms(e.target.value)} id="terms-conditions" />
+                      <label
+                        className="ml-2 font-medium text-base"
+                        htmlFor="terms-conditions"
+                      >
+                        <a href="#"> Acepta terminos y condiciones </a>
+                      </label>
+                    </div>
+                  </div>
+                    {errors.acceptTerms && <div className="text-red-500 italic">{errors.acceptTerms}</div>}
                 </div>
                 <div className="mt-5 flex flex-col grap-y-4">
                   <button
                     className="active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl bg-blue-900 text-white text-lg font-bold"
                     type="submit"
                   >
-                    Iniciar sesión
+                    Registrarse
                   </button>
                   {/* <button className=' active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl text-blue-900 text-white text-lg font-bold'>Iniciar sesión</button> */}
                 </div>
               </form>
-
-              <div className="mt-5 flex justify-center items-center">
-                <p className="font-medium text-base">¿No tienes cuenta aun?</p>
-                <Link className="text-blue-900 text-base font-medium" to="/register">Registrate</Link>
-              </div>
             </div>
             <div className="hidden md:block ">
               <div className=" w-full ">
@@ -107,4 +124,4 @@ console.log('Errr');
   );
 };
 
-export default Login;
+export default Register;
