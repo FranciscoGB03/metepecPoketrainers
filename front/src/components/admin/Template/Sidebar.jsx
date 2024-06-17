@@ -1,82 +1,70 @@
-import React, { useState } from "react";
-import { NavLink,useLocation } from "react-router-dom";
-import { TfiWorld } from "react-icons/tfi";
-import { HiMenuAlt3 } from "react-icons/hi";
-import { RiDashboard2Line } from "react-icons/ri";
-import { MdOutlineDashboard } from "react-icons/md";
+import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { LuLayoutDashboard } from "react-icons/lu";
 import { BiWorld } from "react-icons/bi";
-import { VscHome } from "react-icons/vsc";
 import { BsGeoAltFill } from "react-icons/bs";
+import { IoMdHome,IoMdMenu } from "react-icons/io";
+import { IoLogOutSharp } from "react-icons/io5";
+import React,{useState} from "react";
+import { IoCloseSharp } from "react-icons/io5";
+
 const Sidebar = () => {
   const menus = [
-    { name: "Dashboard", link: "/admin", icon: MdOutlineDashboard },
+    { name: "Dashboard", link: "/admin", icon: LuLayoutDashboard },
     { name: "Ranking Mundial", link: "/admin/rankingMundial", icon: BiWorld },
     { name: "Liga Local", link: "/admin/ligaLocal", icon: BsGeoAltFill },
-    { name: "Inicio", link: "/", icon: VscHome },
+    { name: "Inicio", link: "/", icon: IoMdHome },
   ];
-  const { pathname }=useLocation();
-  const [open, setOpen] = useState(true);
+  const[sidebar,setSidebar]= useState(false);
+  const handleSidebar = () =>{
+    setSidebar(!sidebar);
+  };
   return (
-    <div>
-      {/* menu */}
-      {/* <div x-data="{ sidebarOpen: false }" className="flex h-screen bg-gray-200">
-        </div> */}
-      <section className="flex grap-6 ">
-        <div
-          className={`bg-[#0e0e0e] min-h-screen ${
-            open ? "w-73" : "w-20"
-          } duration-500 text-gray-100 px-4 `}
-        >
-          <div className="py-3 flex justify-end">
-            <HiMenuAlt3
-              size={24}
-              className="cursor-pointer"
-              onClick={() => setOpen(!open)}
-            />
-          </div>
-          <div className="mt-4 flex flex-col grap-4 relative">
-            <div className="mt-4 flex flex-col grap-4 relative">
-            <ul className="list-none">
-                {menus?.map((menu, i) => (
-                  <li className={`${pathname.includes(menu?.name) && "bg-gray-800 rounded-2xl"
-                  } `} key={i} >
-                    <NavLink
-                      to={menu?.link}
-                      
-                      className={`${menu?.margin && "mt-5"}
-                      group flex items-center text-2xl grap-3.5 front-medium p-3 m-3 hover:bg-gray-800 rounded-2xl`}
-                    >
-                      <div className="pr-2 ">
-                        {React.createElement(menu?.icon, { size: "20" })}
-                      </div>
-                      <h2
-                        style={{
-                          transitionDelay: `${i + 3}00ms`,
-                        }}
-                        className={`whitespace-pre duration-500 ${
-                          !open && "opacity-0 translate-x-28 overflow-hidden "
-                        }`}
-                      >
-                        {menu?.name}
-                      </h2>
-                      <h2
-                        className={`${
-                          open && "hidden"
-                        } absolute left-48 bg-white front-semibold 
-                  whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-0 py-0 w-0 
-                  overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 
-                  group-hover:duration-300 group-hover:w-fit`}
-                      >
-                        {menu?.name}
-                      </h2>
-                    </NavLink>
-                  </li>
-                ))}
+    // <div className="md:w-2/5 lg:w-1/5 xl:w-1/5 text-center items-center ">
+    <div className="md:w-2/5 lg:w-[25%] md:h-full xl:w-[25%]text-center items-center ">
+      <div className={`fixed lg:static w-[80%] md:w-[40%] lg:w-full top-0 z-50 bg-cyan-950 text-white transition-all ${sidebar? "-left-0" : "-left-full"} w-full h-full col-span-1 p-8 border-r`}>
+        <div className="text-center pb-8">
+          <h1 className="text-center uppercase font-bold tracking-[4px]">
+            Dashboard
+          </h1>
+        </div>
+        <div className="flex flex-col justify-between sm:h-0 lg:h-[850px] 2xl:h-[850px] ">
+          <nav>
+            <ul>
+            {menus?.map((menu, i) => (
+              <li className="text-xl p-2 font-semibold hover:bg-gradient-to-r from-cyan-500 to-blue-500 hover:text-white transition-colors rounded-lg" key={i}>
+                <NavLink
+                  to={menu?.link}    
+                  className="group flex items-center gap-2"
+                >
+                {React.createElement(menu?.icon)}
+                {menu?.name}
+                </NavLink>
+                {/* <a href="#" className="flex items-center gap-2 ">
+                  <LuLayoutDashboard />
+                  SideBar
+                </a> */}
+              </li>
+            ))}
             </ul>
-            </div>
+          </nav>
+          <div className="flex flex-col gap-4">
+            <ul>
+            <li className="text-xl p-2  font-semibold hover:bg-gradient-to-r from-cyan-500 to-blue-500 hover:text-white transition-colors rounded-lg">
+            <a href="#" className="flex items-center gap-2 ">
+                  <IoLogOutSharp />
+                  Logout
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
-      </section>
+      </div>
+        <button onClick={handleSidebar} 
+          className="block lg:hidden absolute bottom-4 right-4 m-4 p-1 items-center text-center text-2xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl "
+        >
+          {sidebar? <IoCloseSharp/> : <IoMdMenu />}
+        </button>
     </div>
   );
 };
