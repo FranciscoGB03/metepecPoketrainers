@@ -23,7 +23,7 @@ export const getPermiso=(permiso)=>{
         // Decode the base64 encoded payload
         const payload = JSON.parse(atob(payloadBase64));
         // Access the permissions field from the payload
-        return payload.permissions.includes(permiso);
+        return payload.permissions!=null?payload.permissions.includes(permiso):false;
         
     }
 }
@@ -51,3 +51,5 @@ export const isTokenExpired = () => {
     return expiryTime < Date.now();
 };
 
+//funcion para borrar el token del local storage
+export const logOut=()=>localStorage.removeItem('token');

@@ -13,7 +13,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Register(db *sql.DB) http.HandlerFunc {
+func Register(db *sql.DB, jwtKey []byte) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var creds models.Credentials
 		err := json.NewDecoder(r.Body).Decode(&creds)
@@ -28,13 +28,46 @@ func Register(db *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		_, err = db.Exec("INSERT INTO users (email, password) VALUES (?, ?)", creds.Email, hashedPassword)
+		_, err = db.Exec("INSERT INTO users (email, password,rol_id) VALUES (?, ?, 2)", creds.Email, hashedPassword)
 		if err != nil {
 			http.Error(w, "Error saving user to database", http.StatusInternalServerError)
 			return
 		}
 
-		w.WriteHeader(http.StatusCreated)
+		var permissions []string
+		rol := "user"
+		expirationTime := time.Now().Add(5 * time.Minute)
+		claims := &models.Claims{
+			Email:       creds.Email,
+			Rol:         rol,
+			Permissions: permissions,
+			StandardClaims: jwt.StandardClaims{
+				ExpiresAt: expirationTime.Unix(),
+			},
+		}
+
+		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+		tokenString, err := token.SignedString(jwtKey)
+		if err != nil {
+			http.Error(w, "Error creating token", http.StatusInternalServerError)
+			return
+		}
+
+		http.SetCookie(w, &http.Cookie{
+			Name:    "token",
+			Value:   tokenString,
+			Expires: expirationTime,
+		})
+
+		// Return token and permissions in response
+		response := struct {
+			Token string `json:"token"`
+		}{
+			Token: tokenString,
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(response)
 	}
 }
 

@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { BiWorld } from "react-icons/bi";
@@ -7,6 +6,7 @@ import { IoMdHome,IoMdMenu } from "react-icons/io";
 import { IoLogOutSharp } from "react-icons/io5";
 import React,{useState} from "react";
 import { IoCloseSharp } from "react-icons/io5";
+import { logOut } from "../../auth/helpers";
 
 const Sidebar = () => {
   const menus = [
@@ -51,7 +51,7 @@ const Sidebar = () => {
           <div className="flex flex-col gap-4">
             <ul>
             <li className="text-xl p-2  font-semibold hover:bg-gradient-to-r from-cyan-500 to-blue-500 hover:text-white transition-colors rounded-lg">
-            <a href="#" className="flex items-center gap-2 ">
+            <a onClick={logOut} href="/" className="flex items-center gap-2 ">
                   <IoLogOutSharp />
                   Logout
                 </a>

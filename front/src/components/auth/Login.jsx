@@ -4,8 +4,7 @@ import useAxiosBack from "../../hooks/useAxiosBack";
 import "./login.css";
 import figureHeader from "../../../public/img/chico_saludando.jpeg";
 import { isTokenExpired } from "./helpers";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,21 +19,21 @@ const Login = () => {
     }
   }, []);
 
-  const handleSubmit = async (e) => {
+  useEffect(() => {
+    if (data && data.data) {
+      const { token } = data.data;
+      localStorage.setItem("token", token);
+      navigate("/");
+    }
+  }, [data]);
+
+  const handleSubmit = async () => {
     let newErrors = {};
-console.log('Errr');
-    e.preventDefault();
     if (!email) newErrors.email = 'El correo es obligatorio.';
     if (!password) newErrors.password = 'La contraseña es obligatoria.';
     setErrors(newErrors);
-
     if (Object.keys(newErrors).length === 0) {
-      await sendRequest("POST", "/login", { email, password });
-      if (data.data) {
-        const { token } = data.data;
-        localStorage.setItem("token", token);
-        window.location.reload();
-      }
+      await sendRequest("POST", "/login", { email, password })
     }
   };
 
@@ -50,7 +49,7 @@ console.log('Errr');
           <div className="md:flex w-full">
             <div className="w-full md:w-1/2 py-9 px-5 md:px-9">
               <h1 className="text-4xl font-semibold text-center">Bienvenido</h1>
-              <form onSubmit={handleSubmit}>
+              <div>
                 <div className="mt-5 ">
                   <div>
                     <label className="text-lg font-medium">Email</label>
@@ -82,13 +81,14 @@ console.log('Errr');
                 <div className="mt-5 flex flex-col grap-y-4">
                   <button
                     className="active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl bg-blue-900 text-white text-lg font-bold"
-                    type="submit"
+                    onClick={handleSubmit}
+                    //type="submit"
                   >
                     Iniciar sesión
                   </button>
                   {/* <button className=' active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl text-blue-900 text-white text-lg font-bold'>Iniciar sesión</button> */}
                 </div>
-              </form>
+              </div>
 
               <div className="mt-5 flex justify-center items-center">
                 <p className="font-medium text-base">¿No tienes cuenta aun?</p>

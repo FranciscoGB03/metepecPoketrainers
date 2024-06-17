@@ -13,7 +13,7 @@ func SetupRouter(db *sql.DB, jwtKey []byte) *mux.Router {
 	router := mux.NewRouter()
 
 	// Authentication routes
-	router.HandleFunc("/register", handlers.Register(db)).Methods("POST")
+	router.HandleFunc("/register", handlers.Register(db, jwtKey)).Methods("POST")
 	router.HandleFunc("/login", handlers.Login(db, jwtKey)).Methods("POST")
 
 	// Create a subrouter for protected routes

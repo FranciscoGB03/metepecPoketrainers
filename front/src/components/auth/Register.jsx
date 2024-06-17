@@ -1,8 +1,9 @@
 // src/components/Login.js
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAxiosBack from "../../hooks/useAxiosBack";
 import "./login.css";
 import figureHeader from "../../../public/img/chico_saludando.jpeg";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -11,10 +12,18 @@ const Register = () => {
   const [errors, setErrors] = useState({});
   const [verifypassword, setPasswordVerify] = useState("");
   const { data, sendRequest } = useAxiosBack();
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  useEffect(() => {
+    if (data && data.data) {
+      const { token } = data.data;
+      localStorage.setItem("token", token);
+      navigate("/");
+    }
+  }, [data]);
 
-    e.preventDefault();
+  const handleSubmit =  async () => {
+
     let newErrors = {};
 
     // Validaciones
@@ -24,19 +33,10 @@ const Register = () => {
     if (verifypassword != password) newErrors.verifypassword = 'Las contraseñas no coinciden.';
     if (!acceptTerms ) newErrors.acceptTerms = 'Debes aceptar los terminos y condiciones.';
 
-
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      await sendRequest("POST", "/register", { email, password });
-      console.log('entrando');
-
-      if (data.data) {
-        console.log('data',data);
-        const { token } = data.data;
-        localStorage.setItem("token", token);
-        window.location.reload();
-      }
+       await sendRequest("POST", "/register", { email, password })
     }
   };
 
@@ -52,7 +52,7 @@ const Register = () => {
           <div className="md:flex w-full">
             <div className="w-full md:w-1/2 py-9 px-5 md:px-9">
               <h1 className="text-4xl font-semibold text-center">Bienvenido a nuestra comunidad</h1>
-              <form onSubmit={handleSubmit}>
+              <div>
                 <div className="mt-5 ">
                   <div>
                     <label className="text-lg font-medium">Email</label>
@@ -103,14 +103,15 @@ const Register = () => {
                 </div>
                 <div className="mt-5 flex flex-col grap-y-4">
                   <button
+                    onClick={handleSubmit}
                     className="active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl bg-blue-900 text-white text-lg font-bold"
-                    type="submit"
+                    //type="submit"
                   >
                     Registrarse
                   </button>
                   {/* <button className=' active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl text-blue-900 text-white text-lg font-bold'>Iniciar sesión</button> */}
                 </div>
-              </form>
+              </div>
             </div>
             <div className="hidden md:block ">
               <div className=" w-full ">
