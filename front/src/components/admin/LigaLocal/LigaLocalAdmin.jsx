@@ -8,13 +8,24 @@ import {
   TableHeaderCell,
   TableRow,
 } from "@tremor/react";
-import { IoIosAddCircleOutline } from "react-icons/io";
+import { MdDelete } from "react-icons/md";
+import { FaSave } from "react-icons/fa";
 import { CompetidorModel } from "../models/models";
-import  AgregarPokemon  from "./AgregarPokemon";
+import AgregarPokemonModal from "./AgregarPokemonModal";
 
 const LigaLocalAdmin = () => {
   const { data, sendRequest } = useAxiosBack();
   const [newCompetidor, setNewCompetidor] = useState(CompetidorModel);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [regId,setRegId]=useState(null);
+
+  const openModal = (id) => {
+    console.log('el registro es:',id);
+    setRegId(id);
+    setIsModalOpen(true);
+  };
+  const closeModal = () => setIsModalOpen(false);
 
   //catalogos
   useEffect(() => {
@@ -63,9 +74,6 @@ const LigaLocalAdmin = () => {
       LigaLocalAdmin
       <div className="d-flex center">
         <h1>Competidores de liga local</h1>
-        <button onClick={agregarJugador}>
-          <IoIosAddCircleOutline /> Agregar jugador
-        </button>
       </div>
       <div>
         <label>
@@ -138,15 +146,7 @@ const LigaLocalAdmin = () => {
                     <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       {reg.puntos}
                     </TableCell>
-                    <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <AgregarPokemon
-                        competidorId={reg.id}
-                        pokemons={data.pokes}
-                        ligas={data.liga.Liga}
-                        rapidos={data.rapidos}
-                        cargados={data.cargados}
-                        sendRequest={sendRequest}
-                      />
+                    <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">                               
                       {Array.isArray(reg?.equipo_competidores)
                         ? (reg.equipo_competidores || []).map((pokemon) => (
                             <Fragment key={pokemon?.id}>
@@ -188,6 +188,12 @@ const LigaLocalAdmin = () => {
                     </TableCell>
                     <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       {/* Aquí puedes añadir opciones como editar/eliminar */}
+                      <button onClick={() => openModal(reg.id)}>
+                        <FaSave /> Agregar Pokemon
+                      </button>
+                      <button onClick={() => console.log('eliminar')}>
+                        <MdDelete /> Eliminar Competidor
+                      </button>
                     </TableCell>
                   </TableRow>
                 ))
@@ -195,6 +201,14 @@ const LigaLocalAdmin = () => {
           </TableBody>
         </Table>
       </div>
+      <AgregarPokemonModal isOpen={isModalOpen} 
+                          onClose={closeModal} 
+                          competidorId={regId} 
+                          pokemons={data.pokes}
+                          ligas={data?.liga?.Liga}
+                          rapidos={data.rapidos}
+                          cargados={data.cargados}
+                          sendRequest={sendRequest}/>
     </div>
   );
 };

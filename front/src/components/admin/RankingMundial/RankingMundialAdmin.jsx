@@ -11,6 +11,7 @@ import useAxiosBack from "../../../hooks/useAxiosBack";
 import { MdDelete } from "react-icons/md";
 import { FaSave } from "react-icons/fa";
 import { JugadorTop } from "../models/models";
+import { closeLoadingAlert, showConfirmationAlert, showLoadingAlert } from "../../../utils/alertUtils";
 
 /**
  * @returns Componte para la edición de jugadores top
@@ -23,6 +24,14 @@ export const RankingMundialAdmin = () => {
   useEffect(() => {
     sendRequest("GET", "/getTopMundial");
   }, []);
+
+  useEffect(()=>{
+    if(loading.data){
+      showLoadingAlert();
+    }else{
+      closeLoadingAlert();
+    }
+  },[loading.data])
 
   /** functions */
   /**
@@ -67,8 +76,11 @@ export const RankingMundialAdmin = () => {
    * @param {int} id id del registro a eliminar
    */
   const eliminarJugadorTop = async (id) => {
-    await sendRequest("DELETE", "/eliminarJugadorTop/" + id);
-    sendRequest("GET", "/getTopMundial");
+    const eliminar=showConfirmationAlert('¿Realmente desea eliminar el registro?');
+    if((await eliminar).isConfirmed){
+      await sendRequest("DELETE", "/eliminarJugadorTop/" + id);
+      sendRequest("GET", "/getTopMundial");
+    }
   };
 
   /** render */
@@ -129,7 +141,6 @@ export const RankingMundialAdmin = () => {
         </div>
       </div>
       <div className="inline-block min-w-full overflow-hidden bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        {loading.data ? <div>Cargando...</div> : null}
         {error.data != null ? <div>{error?.message}</div> : null}
         <Table className="min-w-full leading-normal">
           <TableHead className="bg-light border border-1">
