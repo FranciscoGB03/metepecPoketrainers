@@ -21,19 +21,20 @@ const Login = () => {
   }, []);
 
   useEffect(()=>{
-    if (error && error.data){
-      showErrorAlert(`Hubo un problema al iniciar sesión: ${error.data.response.data}`);
+    const message=error?.data?.response?.data;
+    if (message){
+      showErrorAlert(`Hubo un problema al iniciar sesión: ${message}`);
     } 
   },[error])
 
   useEffect(() => {
-    if (data && data.data) {
-      showSuccessAlert("Acceso correcto!!")
-      const { token } = data.data;
+    const token = data?.data?.token;
+    if (token) {
+      showSuccessAlert("Acceso correcto!!");
       localStorage.setItem("token", token);
       navigate("/");
     }
-  }, [data]);
+  }, [data, navigate]);
 
   const handleSubmit = async () => {
     let newErrors = {};

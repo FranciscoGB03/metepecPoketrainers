@@ -10,17 +10,17 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [errors, setErrors] = useState({});
-  const [verifypassword, setPasswordVerify] = useState("");
+  const [verifypassword, setVerifypassword] = useState("");
   const { data, sendRequest } = useAxiosBack();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (data && data.data) {
-      const { token } = data.data;
+    const token = data?.data?.token;
+    if (token) {
       localStorage.setItem("token", token);
       navigate("/");
     }
-  }, [data]);
+  }, [data, navigate]);
 
   const handleSubmit = async () => {
     let newErrors = {};
@@ -92,7 +92,7 @@ const Register = () => {
                       className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
                       placeholder="Escribe tu correo"
                       value={verifypassword}
-                      onChange={(e) => setPasswordVerify(e.target.value)}
+                      onChange={(e) => setVerifypassword(e.target.value)}
                       type="password"
                     />
                     {errors.verifypassword && (
