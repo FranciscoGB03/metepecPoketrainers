@@ -6,16 +6,7 @@ import { useEffect, useState } from "react";
  * @param {isOpen} param0  
  * @returns modal para agregar un pokemon 
  */
-const AgregarPokemonModal = ({
-  isOpen,
-  onClose,
-  competidorId,
-  pokemons,
-  ligas,
-  rapidos,
-  cargados,
-  sendRequest,
-}) => {
+const AgregarPokemonModal = ({ isOpen, onClose, competidorId, pokemons, ligas, rapidos, cargados, sendRequest }) => {
   /**hooks */
   const [pokemon, setPokemon] = useState(PokemonCompetidor);
   // Asegurarse de que las props sean arrays antes de intentar mapear
@@ -44,8 +35,7 @@ const AgregarPokemonModal = ({
   const savePokemon = async () => {
     const pokemones = new Array();
     pokemones.push(pokemon);
-    console.log(pokemones);
-    await sendRequest("POST", "/registrarEquipo", pokemones);
+    await sendRequest("POST", "/registrarEquipo", pokemones,"addPokemon");
     await sendRequest("GET", "/getLigaLocal", {}, "competidores");
     setPokemon(PokemonCompetidor)
     onClose();
@@ -145,7 +135,9 @@ const AgregarPokemonModal = ({
     </div>
   );
 };
-
+/**
+ * indica los tipos de datos que recibe el componente
+ */
 AgregarPokemonModal.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,

@@ -4,12 +4,12 @@ import { useEffect } from "react";
 
 const Admin =()=>{
     const navigate = useNavigate();
-    // useEffect(()=>{
-    //     if (isTokenExpired()) {
-    //         localStorage.removeItem('token');
-    //         navigate('/login');
-    //     }
-    // },[]);
+    useEffect(()=>{
+        if (isTokenExpired()) {
+            localStorage.removeItem('token');
+            navigate('/login');
+        }
+    },[]);
     return(
         <div className="p-8 ">
       <div>

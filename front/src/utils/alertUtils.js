@@ -25,15 +25,18 @@ export const showSuccessAlert = (message) => {
   });
 };
 
-// Función para mostrar una alerta de error
-export const showErrorAlert = (message) => {
+export const showErrorAlert = (message, duration = 2000) => {
   return MySwal.fire({
     ...baseConfig,
     icon: "error",
     title: "Error",
     text: message,
     showCancelButton: false,
-    //confirmButtonText:'aceptar'
+    confirmButtonText: "Aceptar",
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    timer: duration, // Establece el tiempo en milisegundos antes de que la alerta se cierre automáticamente
+    timerProgressBar: true, // Muestra una barra de progreso durante el tiempo de la alerta
   });
 };
 

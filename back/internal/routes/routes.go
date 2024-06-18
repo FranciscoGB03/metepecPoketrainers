@@ -20,6 +20,11 @@ func SetupRouter(db *sql.DB, jwtKey []byte) *mux.Router {
 	protected := router.PathPrefix("/").Subrouter()
 	protected.Use(handlers.Authenticate(jwtKey))
 
+	// Create a subrouter for protected POST routes
+	protectedPost := protected.Methods("POST").Subrouter()
+	protectedPut := protected.Methods("PUT").Subrouter()
+	protectedDelete := protected.Methods("DELETE").Subrouter()
+
 	// Catalogos
 	// obtención de ataques rápidos
 	router.HandleFunc("/getAtaquesRapidos", handlers.GetAtaquesRapidos(db)).Methods("GET")
@@ -27,24 +32,28 @@ func SetupRouter(db *sql.DB, jwtKey []byte) *mux.Router {
 	router.HandleFunc("/getAtaquesCargados", handlers.GetAtaquesCargados(db)).Methods("GET")
 	// obtención de los pokemon
 	router.HandleFunc("/getPokemons", handlers.GetPokemons(db)).Methods("GET")
-	//obtencion de catalogos liga y equipos insignia
+	// obtencion de catalogos liga y equipos insignia
 	router.HandleFunc("/getCatalogosLigaEquipos", handlers.GetCatalogosLigaEquipos(db)).Methods("GET")
-	//obtener todos los jugadores top
+	// obtener todos los jugadores top
 	router.HandleFunc("/getTopMundial", handlers.GetTopMundial(db)).Methods("GET")
-	//guardar un jugador top
-	router.HandleFunc("/guardarJugador", handlers.PostSaveJugadorTop(db)).Methods("POST")
+	// guardar un jugador top
+	protectedPost.HandleFunc("/guardarJugador", handlers.PostSaveJugadorTop(db)).Methods("POST")
 	// actualizar informacion de un jugador
-	router.HandleFunc("/updateJugadorTop", handlers.PutJugadorTop(db)).Methods("PUT")
+	protectedPut.HandleFunc("/updateJugadorTop", handlers.PutJugadorTop(db)).Methods("PUT")
 	// Metodo para eliminar jugadores top
-	router.HandleFunc("/eliminarJugadorTop/{id}", handlers.DeteleJugadorTop(db)).Methods("DELETE")
+	protectedDelete.HandleFunc("/eliminarJugadorTop/{id}", handlers.DeteleJugadorTop(db)).Methods("DELETE")
 	// Metodo para eliminar todos los jugadores top
-	router.HandleFunc("/eliminarAlljugadoresTop", handlers.DeteleAllJugadoresTop(db)).Methods("POST")
+	protectedPost.HandleFunc("/eliminarAlljugadoresTop", handlers.DeteleAllJugadoresTop(db)).Methods("POST")
 
-	//Metodo para obtener todos los competidores de la liga local
+	// Metodo para obtener todos los competidores de la liga local
 	router.HandleFunc("/getLigaLocal", handlers.GetLigaLocal(db)).Methods("GET")
-	//Registro de equipo de competidores
-	router.HandleFunc("/registrarEquipo", handlers.RegistrarEquipo(db)).Methods("POST")
+	// Registro de equipo de competidores
+	protectedPost.HandleFunc("/registrarEquipo", handlers.RegistrarEquipo(db)).Methods("POST")
 	// Registrar competidor sin equipo
-	router.HandleFunc("/registrarCompetidor", handlers.RegistrarCompetidor(db)).Methods("POST")
+	protectedPost.HandleFunc("/registrarCompetidor", handlers.RegistrarCompetidor(db)).Methods("POST")
+	// Actualizacion de competidor de liga local
+	protectedPut.HandleFunc("/actualizarCompetidor", handlers.ActualizarCompetidor(db)).Methods("PUT")
+	// Eliminar competidor contodo y pokemon registrados
+	router.HandleFunc("/eliminarCompetidor/{id}", handlers.EliminarCompetidor(db)).Methods("DELETE")
 	return router
 }

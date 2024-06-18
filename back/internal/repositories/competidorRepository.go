@@ -15,8 +15,8 @@ func NewCompetidorRepository(db *sql.DB) *CompetidorRepository {
 
 // Registro del competidor
 func (r *CompetidorRepository) RegistroCompetidor(competidor models.Competidor) (models.Competidor, error) {
-	query := `INSERT INTO competidor (nombre, equipo_id, puntos) VALUES (?, ?, ?)`
-	result, err := r.db.Exec(query, competidor.Nombre, competidor.EquipoInsignia.ID, competidor.Puntos)
+	query := `INSERT INTO competidor (nombre, equipo_id, puntos, user_id) VALUES (?, ?, ?, ?)`
+	result, err := r.db.Exec(query, competidor.Nombre, competidor.EquipoInsignia.ID, competidor.Puntos, competidor.UserId)
 	if err != nil {
 		return models.Competidor{}, err
 	}
@@ -64,6 +64,46 @@ func (r *CompetidorRepository) RegistroEquipo(equipo []models.EquipoCompetidor) 
 		return nil, err
 	}
 	return equipo, nil
+}
+
+func (r *CompetidorRepository) ActualizarCompetidor(competidor models.Competidor) (sql.Result, error) {
+	query := `UPDATE competidor SET nombre=?, equipo_id=?, puntos=? WHERE id=?`
+	result, err := r.db.Exec(query, competidor.Nombre, competidor.EquipoInsignia.ID, competidor.Puntos, competidor.ID)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+func (r *CompetidorRepository) DeleteCompetidor(id int) error {
+	// Comienza una transacción
+	tx, err := r.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err != nil {
+			tx.Rollback()
+			return
+		}
+		err = tx.Commit()
+	}()
+
+	// Eliminar registros de equipo_competidor relacionados con el competidor
+	queryDeleteEquipoCompetidor := `DELETE FROM equipo_competidor WHERE competidor_id = ?`
+	_, err = tx.Exec(queryDeleteEquipoCompetidor, id)
+	if err != nil {
+		return err
+	}
+
+	// Eliminar el competidor de la tabla competidor
+	queryDeleteCompetidor := `DELETE FROM competidor WHERE id = ?`
+	_, err = tx.Exec(queryDeleteCompetidor, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (r *CompetidorRepository) GetCompetidores() ([]models.Competidor, error) {

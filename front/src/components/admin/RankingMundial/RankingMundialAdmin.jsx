@@ -11,7 +11,7 @@ import useAxiosBack from "../../../hooks/useAxiosBack";
 import { MdDelete } from "react-icons/md";
 import { FaSave } from "react-icons/fa";
 import { JugadorTop } from "../models/models";
-import { closeLoadingAlert, showConfirmationAlert, showLoadingAlert } from "../../../utils/alertUtils";
+import { closeLoadingAlert, showConfirmationAlert, showErrorAlert, showLoadingAlert } from "../../../utils/alertUtils";
 
 /**
  * @returns Componte para la edición de jugadores top
@@ -32,6 +32,15 @@ export const RankingMundialAdmin = () => {
       closeLoadingAlert();
     }
   },[loading.data])
+
+  useEffect(()=>{
+    const message=error?.data?.message
+    if(message){
+      setTimeout(()=>{
+        showErrorAlert(`Error:${message}`);
+      },200) 
+    }
+  },[error])
 
   /** functions */
   /**
@@ -78,7 +87,7 @@ export const RankingMundialAdmin = () => {
   const eliminarJugadorTop = async (id) => {
     const eliminar=showConfirmationAlert('¿Realmente desea eliminar el registro?');
     if((await eliminar).isConfirmed){
-      await sendRequest("DELETE", "/eliminarJugadorTop/" + id);
+      await sendRequest("DELETE", "/eliminarJugadorTop/" + id)
       sendRequest("GET", "/getTopMundial");
     }
   };

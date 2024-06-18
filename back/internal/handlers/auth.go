@@ -28,18 +28,23 @@ func Register(db *sql.DB, jwtKey []byte) http.HandlerFunc {
 			return
 		}
 
-		_, err = db.Exec("INSERT INTO users (email, password,rol_id) VALUES (?, ?, 2)", creds.Email, hashedPassword)
+		result, err := db.Exec("INSERT INTO users (email, password,rol_id) VALUES (?, ?, 2)", creds.Email, hashedPassword)
 		if err != nil {
 			http.Error(w, "Error saving user to database", http.StatusInternalServerError)
 			return
 		}
-
+		uID, err := result.LastInsertId()
+		if err != nil {
+			http.Error(w, "Error saving user to database", http.StatusInternalServerError)
+			return
+		}
 		var permissions []string
 		rol := "user"
 		expirationTime := time.Now().Add(5 * time.Minute)
 		claims := &models.Claims{
 			Email:       creds.Email,
 			Rol:         rol,
+			UserId:      uID,
 			Permissions: permissions,
 			StandardClaims: jwt.StandardClaims{
 				ExpiresAt: expirationTime.Unix(),
@@ -52,12 +57,6 @@ func Register(db *sql.DB, jwtKey []byte) http.HandlerFunc {
 			http.Error(w, "Error creating token", http.StatusInternalServerError)
 			return
 		}
-
-		http.SetCookie(w, &http.Cookie{
-			Name:    "token",
-			Value:   tokenString,
-			Expires: expirationTime,
-		})
 
 		// Return token and permissions in response
 		response := struct {
@@ -81,7 +80,7 @@ func Login(db *sql.DB, jwtKey []byte) http.HandlerFunc {
 		}
 
 		var storedCreds models.Credentials
-		var userID int
+		var userID int64
 		var rol string
 		err = db.QueryRow("SELECT u.id, u.email, u.password, r.nombre  FROM users u JOIN rol r ON r.id=u.rol_id WHERE email = ?", creds.Email).Scan(&userID, &storedCreds.Email, &storedCreds.Password, &rol)
 		if err != nil {
@@ -123,6 +122,7 @@ func Login(db *sql.DB, jwtKey []byte) http.HandlerFunc {
 		claims := &models.Claims{
 			Email:       creds.Email,
 			Rol:         rol,
+			UserId:      userID,
 			Permissions: permissions,
 			StandardClaims: jwt.StandardClaims{
 				ExpiresAt: expirationTime.Unix(),
@@ -135,13 +135,6 @@ func Login(db *sql.DB, jwtKey []byte) http.HandlerFunc {
 			http.Error(w, "Error creating token", http.StatusInternalServerError)
 			return
 		}
-
-		http.SetCookie(w, &http.Cookie{
-			Name:    "token",
-			Value:   tokenString,
-			Expires: expirationTime,
-		})
-
 		// Return token and permissions in response
 		response := struct {
 			Token string `json:"token"`
@@ -157,37 +150,24 @@ func Login(db *sql.DB, jwtKey []byte) http.HandlerFunc {
 func Authenticate(jwtKey []byte) mux.MiddlewareFunc {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			c, err := r.Cookie("token")
-			if err != nil {
-				if err == http.ErrNoCookie {
-					http.Error(w, "Unauthorized", http.StatusUnauthorized)
-					return
-				}
-				http.Error(w, "Bad Request", http.StatusBadRequest)
+			// Get the token from the header
+			authHeader := r.Header.Get("Authorization")
+			if authHeader == "" {
+				http.Error(w, "No token provided", http.StatusUnauthorized)
 				return
 			}
 
-			tknStr := c.Value
-			claims := &models.Claims{}
+			tokenString := strings.TrimPrefix(authHeader, "Bearer ")
 
-			tkn, err := jwt.ParseWithClaims(tknStr, claims, func(token *jwt.Token) (interface{}, error) {
+			// Parse the token
+			token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 				return jwtKey, nil
 			})
-			if err != nil {
-				if err == jwt.ErrSignatureInvalid {
-					http.Error(w, "Unauthorized", http.StatusUnauthorized)
-					return
-				}
-				http.Error(w, "Bad Request", http.StatusBadRequest)
-				return
-			}
-			if !tkn.Valid {
-				http.Error(w, "Unauthorized", http.StatusUnauthorized)
-				return
-			}
 
-			// Store permissions in context
-			r.Header.Set("Permissions", strings.Join(claims.Permissions, ","))
+			if err != nil || !token.Valid {
+				http.Error(w, "Invalid token", http.StatusUnauthorized)
+				return
+			}
 
 			next.ServeHTTP(w, r)
 		})

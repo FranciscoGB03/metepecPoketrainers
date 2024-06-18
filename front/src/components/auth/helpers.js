@@ -1,5 +1,5 @@
 // Assuming you have a function to retrieve the JWT token from localStorage
-const getToken = () => localStorage.getItem('token');
+export const getToken = () => localStorage.getItem('token');
 
 // Function to extract email from JWT token
 export const getEmailFromToken = () => {
@@ -15,6 +15,18 @@ export const getEmailFromToken = () => {
     return null; // Token is not available
 };
 
+export const getUID=()=>{
+    const token=getToken();
+    if (token) {
+        // Split the token into header, payload, and signature
+        const [, payloadBase64] = token.split('.');
+        // Decode the base64 encoded payload
+        const payload = JSON.parse(atob(payloadBase64));
+        // Access the email field from the payload
+        return payload.user_id;
+    }
+    return null; // Token is not available
+}
 export const getPermiso=(permiso)=>{
     const token = getToken();
     if (token) {

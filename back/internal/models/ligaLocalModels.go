@@ -7,6 +7,7 @@ type Competidor struct {
 	Puntos             int                `json:"puntos"`
 	EquipoInsignia     EquipoInsignia     `json:"equipo_insignia,omitempty"`
 	EquipoCompetidores []EquipoCompetidor `json:"equipo_competidores,omitempty"`
+	UserId             int                `json:"user_id"`
 }
 
 type EquipoInsignia struct {
