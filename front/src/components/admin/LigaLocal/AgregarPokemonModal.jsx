@@ -1,7 +1,11 @@
 import PropTypes from "prop-types";
 import { PokemonCompetidor } from "../models/models";
 import { useEffect, useState } from "react";
-
+/**
+ * Modal para agregar pokemons
+ * @param {isOpen} param0  
+ * @returns modal para agregar un pokemon 
+ */
 const AgregarPokemonModal = ({
   isOpen,
   onClose,
@@ -43,16 +47,18 @@ const AgregarPokemonModal = ({
     console.log(pokemones);
     await sendRequest("POST", "/registrarEquipo", pokemones);
     await sendRequest("GET", "/getLigaLocal", {}, "competidores");
+    setPokemon(PokemonCompetidor)
     onClose();
   };
+  /**validacion de modal */
   if (!isOpen) return null;
-
+  /**render */
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
         <button
           className="mb-4 text-gray-600 hover:text-gray-900"
-          onClick={onClose}
+          onClick={()=>{onClose();}}
         >
           Cerrar
         </button>

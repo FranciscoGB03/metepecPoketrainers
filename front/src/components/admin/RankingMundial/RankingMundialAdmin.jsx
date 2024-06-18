@@ -24,7 +24,7 @@ export const RankingMundialAdmin = () => {
   useEffect(() => {
     sendRequest("GET", "/getTopMundial");
   }, []);
-
+  /**sweet alert para la carga de datos */
   useEffect(()=>{
     if(loading.data){
       showLoadingAlert();

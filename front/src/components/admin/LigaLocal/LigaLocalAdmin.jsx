@@ -138,13 +138,13 @@ const LigaLocalAdmin = () => {
               ? (data.competidores || []).map((reg) => (
                   <TableRow key={reg.id}>
                     <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      {reg.nombre}
+                      {reg?.nombre}
                     </TableCell>
                     <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      {reg.equipo?.nombre}
+                      {reg?.equipo_insignia?.nombre}
                     </TableCell>
                     <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      {reg.puntos}
+                      {reg?.puntos}
                     </TableCell>
                     <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">                               
                       {Array.isArray(reg?.equipo_competidores)
@@ -188,7 +188,7 @@ const LigaLocalAdmin = () => {
                     </TableCell>
                     <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       {/* Aquí puedes añadir opciones como editar/eliminar */}
-                      <button onClick={() => openModal(reg.id)}>
+                      <button disabled={reg.equipo_competidores.length>=6} onClick={() => openModal(reg.id)}>
                         <FaSave /> Agregar Pokemon
                       </button>
                       <button onClick={() => console.log('eliminar')}>
