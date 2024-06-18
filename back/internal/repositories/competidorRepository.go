@@ -234,3 +234,12 @@ func scanCompetidor(rows *sql.Rows) (*models.Competidor, models.EquipoInsignia, 
 
 	return &competidor, equipo, equipoCompetidor, nil
 }
+
+func (r *CompetidorRepository) DeletePokemon(id int) error {
+	query := `DELETE FROM equipo_competidor WHERE id = ?`
+	_, err := r.db.Exec(query, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}

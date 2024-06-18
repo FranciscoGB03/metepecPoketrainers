@@ -37,7 +37,6 @@ const AgregarPokemonModal = ({ isOpen, onClose, competidorId, pokemons, ligas, r
     pokemones.push(pokemon);
     await sendRequest("POST", "/registrarEquipo", pokemones,"addPokemon");
     await sendRequest("GET", "/getLigaLocal", {}, "competidores");
-    setPokemon(PokemonCompetidor)
     onClose();
   };
   /**validacion de modal */

@@ -9,59 +9,18 @@ import {
 import { MdDelete } from "react-icons/md";
 import { FaSave, FaEdit, FaTimes } from "react-icons/fa";
 import { Fragment } from "react";
-import { eliminarJugador } from "./functions";
+import {
+  eliminarJugador,
+  eliminarPokemon,
+  handleCancelEdit,
+  handleEdit,
+  handleInputUpdate,
+  handleSave,
+} from "./functions";
 import PropTypes from "prop-types";
 
 const Listado = ({ data, setData, sendRequest, openModal }) => {
-  const handleEdit = (id, key) => {
-    // Buscar el índice del competidor a editar
-    const index = data[key].findIndex((comp) => comp.id === id);
-    // Marcar el competidor como editable cambiando su estado
-    setData((prevData) => {
-      const newData = { ...prevData };
-      if (newData[key]) {
-        newData[key][index] = { ...newData[key][index], editing: true };
-        return newData;
-      }
-    });
-  };
-
-  const handleCancelEdit = (id, key) => {
-    // Buscar el índice del competidor en modo edición
-    const index = data[key].findIndex((comp) => comp.id === id);
-    // Cancelar la edición cambiando su estado a no editado
-    setData((prevData) => {
-      const newData = { ...prevData };
-      newData[key][index] = { ...newData[key][index], editing: false };
-      return newData;
-    });
-  };
-
-  const handleInputChange = (key, id, field, value, catalogo) => {
-    let valor=value
-    // Buscar el índice del competidor en modo edición
-    const index = data[key].findIndex((comp) => comp.id === id);
-    if (catalogo){
-        let index=catalogo.findIndex(cat=>parseInt(cat.id)==value);
-        valor =catalogo[index];
-    }
-    // Actualizar el valor del campo editado
-    setData((prevData) => {
-      const newData = { ...prevData };
-      newData[key][index] = { ...newData[key][index], [field]: valor };
-      return newData;
-    });
-  };
-
-  const handleSave = async (id, key) => {
-    // Buscar el índice del competidor en modo edición
-    const index = data[key].findIndex((comp) => comp.id === id);
-    const competidor = data[key][index];
-    // Enviar la solicitud al servidor para guardar los cambios
-    await sendRequest("PUT", `/actualizarCompetidor`, competidor,'actualizaCompetidor');
-    await sendRequest("GET", "/getLigaLocal", {}, "competidores");
-  };
-
+  /** render */
   return (
     <Table className="min-w-full leading-normal">
       <TableHead className="bg-light border border-1">
@@ -93,7 +52,9 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
                       type="text"
                       value={reg?.nombre}
                       onChange={(e) =>
-                        handleInputChange(
+                        handleInputUpdate(
+                          data,
+                          setData,
                           "competidores",
                           reg?.id,
                           "nombre",
@@ -106,17 +67,31 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
                   )}
                 </TableCell>
                 <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    {reg.editing?<select
-                    name="equipo_insignia"
-                    value={reg.equipo_insignia.id}
-                    onChange={(e) =>handleInputChange("competidores",reg.id,"equipo_insignia",e.target.value,data.liga.EquipoInsignia)}
-                  >
-                    {data?.liga?.EquipoInsignia?.map((equipo) => (
-                      <option key={equipo.id} value={equipo.id}>
-                        {equipo.nombre}
-                      </option>
-                    ))}
-                  </select>:reg.equipo_insignia?.nombre}
+                  {reg.editing ? (
+                    <select
+                      name="equipo_insignia"
+                      value={reg.equipo_insignia.id}
+                      onChange={(e) =>
+                        handleInputUpdate(
+                          data,
+                          setData,
+                          "competidores",
+                          reg.id,
+                          "equipo_insignia",
+                          e.target.value,
+                          data.liga.EquipoInsignia
+                        )
+                      }
+                    >
+                      {data?.liga?.EquipoInsignia?.map((equipo) => (
+                        <option key={equipo.id} value={equipo.id}>
+                          {equipo.nombre}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    reg.equipo_insignia?.nombre
+                  )}
                 </TableCell>
                 <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                   {reg.editing ? (
@@ -124,7 +99,9 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
                       type="number"
                       value={reg.puntos}
                       onChange={(e) =>
-                        handleInputChange(
+                        handleInputUpdate(
+                          data,
+                          setData,
                           "competidores",
                           reg.id,
                           "puntos",
@@ -150,6 +127,13 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
                                   src={pokemon.pokemon.img_url}
                                   alt={`imagen de: ${pokemon.pokemon.nombre}`}
                                 />
+                                <button
+                                  onClick={() =>
+                                    eliminarPokemon(sendRequest, pokemon.id)
+                                  }
+                                >
+                                  <MdDelete />
+                                </button>
                               </a>
                               <div className="flex flex-col bg-orange-500 w-60 h-auto rounded-md z-20 absolute right-0 invisible tooltip-item pl-4">
                                 <strong>{pokemon.pokemon.nombre}</strong>
@@ -174,12 +158,21 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
                   {reg.editing ? (
                     <>
                       <button
-                        onClick={() => handleSave(reg.id, "competidores")}
+                        onClick={() =>
+                          handleSave(data, sendRequest, reg.id, "competidores")
+                        }
                       >
                         <FaSave /> Guardar
                       </button>
                       <button
-                        onClick={() => handleCancelEdit(reg.id, "competidores")}
+                        onClick={() =>
+                          handleCancelEdit(
+                            data,
+                            setData,
+                            reg.id,
+                            "competidores"
+                          )
+                        }
                       >
                         <FaTimes /> Cancelar
                       </button>
@@ -187,13 +180,18 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
                   ) : (
                     <>
                       <button
-                        disabled={reg?.equipo_competidores&&reg.equipo_competidores.length >= 6}
+                        disabled={
+                          reg?.equipo_competidores &&
+                          reg.equipo_competidores.length >= 6
+                        }
                         onClick={() => openModal(reg.id)}
                       >
                         <FaSave /> Agregar Pokemon
                       </button>
                       <button
-                        onClick={() => handleEdit(reg.id, "competidores")}
+                        onClick={() =>
+                          handleEdit(data, setData, reg.id, "competidores")
+                        }
                       >
                         <FaEdit /> Editar
                       </button>
@@ -214,7 +212,7 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
 };
 
 Listado.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.object,
   setData: PropTypes.func,
   sendRequest: PropTypes.func,
   openModal: PropTypes.func,

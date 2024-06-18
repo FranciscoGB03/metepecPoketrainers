@@ -27,7 +27,7 @@ const LigaLocalAdmin = () => {
   }, []);
 
   useEffect(()=>{
-    const message=error?.addPokemon?.message||error?.addCompetidor?.message||error?.competidor?.message||error?.actualizaCompetidor?.message
+    const message=error?.addPokemon?.message||error?.addCompetidor?.message||error?.competidor?.message||error?.actualizaCompetidor?.message||error?.eliminaPoke?.message
     if(message){
       setTimeout(()=>{
         showErrorAlert(`Error:${message}`);

@@ -47,13 +47,16 @@ func SetupRouter(db *sql.DB, jwtKey []byte) *mux.Router {
 
 	// Metodo para obtener todos los competidores de la liga local
 	router.HandleFunc("/getLigaLocal", handlers.GetLigaLocal(db)).Methods("GET")
-	// Registro de equipo de competidores
-	protectedPost.HandleFunc("/registrarEquipo", handlers.RegistrarEquipo(db)).Methods("POST")
 	// Registrar competidor sin equipo
 	protectedPost.HandleFunc("/registrarCompetidor", handlers.RegistrarCompetidor(db)).Methods("POST")
 	// Actualizacion de competidor de liga local
 	protectedPut.HandleFunc("/actualizarCompetidor", handlers.ActualizarCompetidor(db)).Methods("PUT")
 	// Eliminar competidor contodo y pokemon registrados
-	router.HandleFunc("/eliminarCompetidor/{id}", handlers.EliminarCompetidor(db)).Methods("DELETE")
+	protectedDelete.HandleFunc("/eliminarCompetidor/{id}", handlers.EliminarCompetidor(db)).Methods("DELETE")
+	// Registro de equipo de competidores
+	protectedPost.HandleFunc("/registrarEquipo", handlers.RegistrarEquipo(db)).Methods("POST")
+	// Eliminar pokemon de equipo competidores
+	protectedDelete.HandleFunc("/eliminarPokemon/{id}", handlers.EliminarPokemon(db)).Methods("DELETE")
+
 	return router
 }

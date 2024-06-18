@@ -130,3 +130,29 @@ func EliminarCompetidor(db *sql.DB) http.HandlerFunc {
 		json.NewEncoder(w).Encode(response)
 	}
 }
+
+func EliminarPokemon(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		vars := mux.Vars(r)
+		//obteniendo el id a eliminar
+		idStr := vars["id"]
+		// Convertir el id a entero
+		id, err := strconv.Atoi(idStr)
+		if err != nil {
+			http.Error(w, "ID inválido", http.StatusBadRequest)
+			return
+		}
+		competidorRepo := repositories.NewCompetidorRepository(db)
+		err = competidorRepo.DeletePokemon(id)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		w.WriteHeader(http.StatusOK) // Cambiar el estado a 200 OK
+		response := map[string]interface{}{
+			"message": "Registro eliminado correctamente",
+		}
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(response)
+	}
+}
