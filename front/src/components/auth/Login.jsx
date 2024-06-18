@@ -5,11 +5,12 @@ import "./login.css";
 import figureHeader from "../../../public/img/chico_saludando.jpeg";
 import { isTokenExpired } from "./helpers";
 import { Link, useNavigate } from "react-router-dom";
+import { showErrorAlert, showSuccessAlert } from "../../utils/alertUtils";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { data, sendRequest } = useAxiosBack();
+  const { data,error, sendRequest } = useAxiosBack();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
@@ -19,8 +20,15 @@ const Login = () => {
     }
   }, []);
 
+  useEffect(()=>{
+    if (error && error.data){
+      showErrorAlert(`Hubo un problema al iniciar sesión: ${error.data.response.data}`);
+    } 
+  },[error])
+
   useEffect(() => {
     if (data && data.data) {
+      showSuccessAlert("Acceso correcto!!")
       const { token } = data.data;
       localStorage.setItem("token", token);
       navigate("/");
@@ -33,7 +41,7 @@ const Login = () => {
     if (!password) newErrors.password = 'La contraseña es obligatoria.';
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
-      await sendRequest("POST", "/login", { email, password })
+        await sendRequest("POST", "/login", { email, password });
     }
   };
 

@@ -37,3 +37,7 @@ se genera login
 - Se agregan los archivos para ataques rapidos y ataques cargados
 - Se agregan dos queries que se usaron para modificar las tablas de ataques cargados y rapidos en la carpeta de proyecto/baseDatos/queries.sql
 - Se instalo la siguiente libreria en el front: npm install prop-types, es para quitar alerta de sonar cuando un componente recibe parametros
+
+17/06/2024
+- se instalo sweet alert por lo que requiere un npm i para que funcione la aplicacion de react
+- Se reviso el login y register para que funcione al primer clic

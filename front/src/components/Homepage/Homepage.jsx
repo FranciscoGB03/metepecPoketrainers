@@ -1,6 +1,12 @@
 import "./Homepage.css";
 import figureHeader from "../../img/imgchicos.png";
+import { useNavigate } from "react-router-dom";
+import { isTokenExpired } from "../auth/helpers";
 const Homepage = () => {
+  const navigate=useNavigate();  
+  const onRegister=()=>{
+    navigate('/register');
+  }
   return (
     <div>
       <div className="hpbackground">
@@ -14,7 +20,7 @@ const Homepage = () => {
               entrenadores de pokémon en Metepec.
             </p>
             <div className="btn-cta-content">
-              <button className="btn-cta px-5 transition-colors duration-150 border border-blue-300 rounded-lg focus:shadow-outline hover:bg-indigo-500 hover:text-indigo-100">
+              <button disabled={!isTokenExpired()} onClick={onRegister} className="btn-cta px-5 transition-colors duration-150 border border-blue-300 rounded-lg focus:shadow-outline hover:bg-indigo-500 hover:text-indigo-100">
                 <span className="py-5 m-5">Unete</span>
               </button>
             </div>
