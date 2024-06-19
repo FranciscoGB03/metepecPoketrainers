@@ -15,7 +15,7 @@ export const CompetidorModel = {
   nombre: "",
   equipo_insignia: { id: 1, nombre: "Instinto" },
   puntos: 0,
-  user_id: parseInt(getUID()),
+  user_id:0,
 };
 /**
  * modelo para registro de pokemon en liga local

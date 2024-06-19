@@ -1,10 +1,11 @@
 import { showConfirmationAlert } from "../../../utils/alertUtils";
+import { CompetidorModel } from "../models/models";
 /**
  * funcion para agregar un competidor a la liga local 
  * @param {} sendRequest  funcion para mandar request al backend
  * @param {*} newCompetidor  objeto que contiene la informacion del competidor
  */
-export const agregarJugador = async (sendRequest, newCompetidor) => {
+export const agregarJugador = async (sendRequest, newCompetidor,setNewCompetidor) => {
   await sendRequest(
     "POST",
     "/registrarCompetidor",
@@ -12,6 +13,7 @@ export const agregarJugador = async (sendRequest, newCompetidor) => {
     "addCompetidor"
   );
   await sendRequest("GET", "/getLigaLocal", {}, "competidores");
+  setNewCompetidor(CompetidorModel);
 };
 /**
  * funcion para eliminar un competidor de la liga con todos los pokemon registrados
