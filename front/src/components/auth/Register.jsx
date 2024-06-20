@@ -4,6 +4,10 @@ import useAxiosBack from "../../hooks/useAxiosBack";
 import "./login.css";
 import figureHeader from "../../../public/img/chico_saludando.jpeg";
 import { useNavigate } from "react-router-dom";
+import { showErrorAlert, showSuccessAlert } from "../../utils/alertUtils";
+import { IoEyeOffSharp } from "react-icons/io5";
+import { IoMdEye } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -11,8 +15,20 @@ const Register = () => {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [errors, setErrors] = useState({});
   const [verifypassword, setVerifypassword] = useState("");
-  const { data, sendRequest } = useAxiosBack();
+  const { data, error, sendRequest } = useAxiosBack();
+  const [showPass, setShownPass] = useState(false);
+  const [showVerifyPass, setshowVerifyPass] = useState(false);
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const message = error?.data?.response?.data;
+    if (message) {
+      let newErrors = {};
+      newErrors.acceptTerms = `Hubo un problema al iniciar sesión: ${message}`;
+      setErrors(newErrors);
+    }
+  }, [error]);
 
   useEffect(() => {
     const token = data?.data?.token;
@@ -21,6 +37,9 @@ const Register = () => {
       navigate("/");
     }
   }, [data, navigate]);
+
+  const switchShowPass = () => setShownPass(!showPass);
+  const switchshowVerifyPass = () => setshowVerifyPass(!showVerifyPass);
 
   const handleSubmit = async () => {
     let newErrors = {};
@@ -71,13 +90,28 @@ const Register = () => {
                   </div>
                   <div>
                     <label className="text-lg font-medium">Contraseña</label>
-                    <input
-                      className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
-                      placeholder="Escribe tu correo"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      type="password"
-                    />
+                    <div className="relative flex w-full">
+                      <div className="relative w-full">
+                        <input
+                          className=" w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
+                          placeholder="Escribe tu correo"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          type={showPass ? "text" : "password"}
+                        />
+                      </div>
+                      <button
+                        className="!absolute right-1 top-1 py-5 px-5 text-center align-middle"
+                        type="button"
+                        onClick={switchShowPass}
+                      >
+                        {showPass ? (
+                          <IoEyeOffSharp className="text-white text-lg" />
+                        ) : (
+                          <IoMdEye className="text-white text-lg" />
+                        )}
+                      </button>
+                    </div>
                     {errors.password && (
                       <div className="text-red-500 italic">
                         {errors.password}
@@ -88,13 +122,28 @@ const Register = () => {
                     <label className="text-lg font-medium">
                       Repite Contraseña
                     </label>
-                    <input
-                      className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
-                      placeholder="Escribe tu correo"
-                      value={verifypassword}
-                      onChange={(e) => setVerifypassword(e.target.value)}
-                      type="password"
-                    />
+                    <div className="relative flex w-full">
+                      <div className="relative w-full">
+                        <input
+                          className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
+                          placeholder="Escribe tu correo"
+                          value={verifypassword}
+                          onChange={(e) => setVerifypassword(e.target.value)}
+                          type={showVerifyPass ? "text" : "password"}
+                        />
+                      </div>
+                      <button
+                        className="!absolute right-1 top-1 py-5 px-5 text-center align-middle"
+                        type="button"
+                        onClick={switchshowVerifyPass}
+                      >
+                        {showVerifyPass ? (
+                          <IoEyeOffSharp className="text-white text-lg" />
+                        ) : (
+                          <IoMdEye className="text-white text-lg" />
+                        )}
+                      </button>
+                    </div>
                     {errors.verifypassword && (
                       <div className="text-red-500 italic">
                         {errors.verifypassword}
@@ -113,7 +162,7 @@ const Register = () => {
                         className="ml-2 font-medium text-base"
                         htmlFor="terms-conditions"
                       >
-                        <a href="#"> Acepta terminos y condiciones </a>
+                        <Link to="/terminosCondiciones"> Acepta terminos y condiciones </Link>
                       </label>
                     </div>
                   </div>
