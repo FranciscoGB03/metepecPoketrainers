@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import "./RankingRegional.css";
 import {
   Table,
@@ -12,11 +12,68 @@ import useAxiosGet from "../../hooks/useAxiosGetBack";
 
 function RankingRegional() {
   /**hooks */
-  const{data,fetchData }=useAxiosGet();
+  const { data, fetchData } = useAxiosGet();
+  const [searchText, setSearchText] = useState("");
+  const [numEntries, setNumEntries] = useState(5);
+  const [teamFilter, setTeamFilter] = useState("All");
+  const [filteredData, setFilteredData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [startIndex, setStartIndex] = useState(1);
+  const [paginatedData, setPaginatedData] = useState([]);
   /**useEffect */
-  useEffect(()=>{
-    fetchData('/getLigaLocal');
-  },[])
+  useEffect(() => {
+    fetchData("/getLigaLocal");
+  }, []);
+  /**useEffect que se encarga de setear la info de data a filteredData para mostrar en pantalla */
+  useEffect(() => {
+    if (data) {
+      const filtered = data
+        .filter((item) => {
+          const matchesSearch = item.nombre
+            .toLowerCase()
+            .includes(searchText.toLowerCase());
+          const matchesTeam =
+            teamFilter === "All" ||
+            item.equipo_insignia.nombre.toLowerCase() ===
+              teamFilter.toLowerCase();
+          return matchesSearch && matchesTeam;
+        })
+        .sort((a, b) => b.puntos - a.puntos);
+      setFilteredData(filtered);
+      setCurrentPage(1); // Reset to first page when filters change
+    }
+  }, [data, searchText, teamFilter]);
+  /**useEffect para calcular el data por pagina*/
+  useEffect(() => {
+    setStartIndex((currentPage - 1) * numEntries);
+    setPaginatedData(filteredData.slice(startIndex, startIndex + numEntries));
+  }, [numEntries, filteredData, currentPage, startIndex]);
+  /**funcion para el buscador por nombre */
+  const handleSearchChange = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  /** funcion para el indicador de cuantos registros debe haber por pagina */
+  const handleNumEntriesChange = (e) => {
+    setNumEntries(Number(e.target.value));
+    setCurrentPage(1);
+  };
+  /**funcion para el filtro por equipo */
+  const handleTeamFilterChange = (e) => {
+    setTeamFilter(e.target.value);
+  };
+  /** buscadorr por pagina anterior */
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  /**buscador por pagina siguiente */
+  const handleNextPage = () => {
+    setCurrentPage((prev) =>
+      prev * numEntries < filteredData.length ? prev + 1 : prev
+    );
+  };
+  /**render */
   return (
     <div>
       <div className="container mx-auto px-4 sm:px-8">
@@ -30,10 +87,14 @@ function RankingRegional() {
             <div className="my-2 flex sm:flex-row flex-col">
               <div className="flex flex-row mb-1 sm:mb-0">
                 <div className="relative">
-                  <select className="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                    <option>5</option>
-                    <option>10</option>
-                    <option>20</option>
+                  <select
+                    className="appearance-none h-full rounded-l border block w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    value={numEntries}
+                    onChange={handleNumEntriesChange}
+                  >
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                    <option value={20}>20</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg
@@ -46,10 +107,15 @@ function RankingRegional() {
                   </div>
                 </div>
                 <div className="relative">
-                  <select className="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
-                    <option>All</option>
-                    <option>Active</option>
-                    <option>Inactive</option>
+                  <select
+                    className="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
+                    value={teamFilter}
+                    onChange={handleTeamFilterChange}
+                  >
+                    <option value="All">All</option>
+                    <option value="Instinto">Instinto</option>
+                    <option value="Valor">Valor</option>
+                    <option value="Sabiduría">Sabiduría</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg
@@ -73,6 +139,8 @@ function RankingRegional() {
                 </span>
                 <input
                   placeholder="Search"
+                  value={searchText}
+                  onChange={handleSearchChange}
                   className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
                 />
               </div>
@@ -97,7 +165,7 @@ function RankingRegional() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {(data||[]).map((reg) => (
+                    {paginatedData.map((reg) => (
                       <TableRow key={reg?.id}>
                         <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           {reg?.nombre}
@@ -109,23 +177,50 @@ function RankingRegional() {
                           {reg?.puntos}
                         </TableCell>
                         <TableCell className="border-b border-gray-200 bg-white text-sm">
-                        {Array.isArray(reg?.equipo_competidores)?
-                          (reg.equipo_competidores || []).map(pokemon=>
-                          <Fragment key={pokemon?.id}>
-                          <div className="justify-content-between">
-                            <div className="relative inline-block tooltip  my-1 ">
-                             <a to="" className="hover:text-gray-400 font-medium">
-                              <img src={pokemon?.pokemon?.img_url} alt={`imagen de:`+pokemon?.pokemon?.nombre}/>
-                            </a>
-                              <div className="flex flex-col bg-orange-500 w-60 h-auto rounded-md z-20 absolute right-0 invisible tooltip-item pl-4">
-                              <strong>Nombre: {pokemon?.pokemon?.nombre}</strong>
-                                <span className="mt-4">ataque basico: {pokemon?.ataque_rapido.nombre_la}</span><br/>
-                                <span className="mb-4">ataques cargados: {pokemon?.primer_ataque_cargado.nombre_la}, {pokemon?.segundo_ataque_cargado.nombre_la}</span>              
-                              </div>
-                            </div>
-                          </div>
-                          </Fragment>
-                          ):null}    
+                          {Array.isArray(reg?.equipo_competidores)
+                            ? (reg.equipo_competidores || []).map((pokemon) => (
+                                <Fragment key={pokemon?.id}>
+                                  <div className="justify-content-between">
+                                    <div className="relative inline-block tooltip  my-1 ">
+                                      <a
+                                        to=""
+                                        className="hover:text-gray-400 font-medium"
+                                      >
+                                        <img
+                                          src={pokemon?.pokemon?.img_url}
+                                          alt={
+                                            `imagen de:` +
+                                            pokemon?.pokemon?.nombre
+                                          }
+                                        />
+                                      </a>
+                                      <div className="flex flex-col bg-orange-500 w-60 h-auto rounded-md z-20 absolute right-0 invisible tooltip-item pl-4">
+                                        <strong>
+                                          Nombre: {pokemon?.pokemon?.nombre}
+                                        </strong>
+                                        <span className="mt-4">
+                                          ataque basico:{" "}
+                                          {pokemon?.ataque_rapido.nombre_la}
+                                        </span>
+                                        <br />
+                                        <span className="mb-4">
+                                          ataques cargados:{" "}
+                                          {
+                                            pokemon?.primer_ataque_cargado
+                                              .nombre_la
+                                          }
+                                          ,{" "}
+                                          {
+                                            pokemon?.segundo_ataque_cargado
+                                              .nombre_la
+                                          }
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </Fragment>
+                              ))
+                            : null}
                         </TableCell>
                       </TableRow>
                     ))}
@@ -134,13 +229,23 @@ function RankingRegional() {
 
                 <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
                   <span className="text-xs xs:text-sm text-gray-900">
-                    Showing 1 to 4 of 50 Entries
+                    Showing {startIndex + 1} to{" "}
+                    {Math.min(startIndex + numEntries, filteredData.length)} of{" "}
+                    {filteredData.length} Entries
                   </span>
                   <div className="inline-flex mt-2 xs:mt-0">
-                    <button className="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-l">
+                    <button
+                      className="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-l"
+                      onClick={handlePrevPage}
+                      disabled={currentPage === 1}
+                    >
                       Prev
                     </button>
-                    <button className="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-r">
+                    <button
+                      className="text-sm bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-r"
+                      onClick={handleNextPage}
+                      disabled={currentPage * numEntries >= filteredData.length}
+                    >
                       Next
                     </button>
                   </div>
@@ -150,7 +255,6 @@ function RankingRegional() {
           </div>
         </div>
       </div>
-
     </div>
   );
 }

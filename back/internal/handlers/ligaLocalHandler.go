@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"net/http"
+	"sort"
 	"strconv"
 
 	"github.com/gorilla/mux"
@@ -20,6 +21,9 @@ func GetLigaLocal(db *sql.DB) http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		sort.Slice(competidores, func(i, j int) bool {
+			return competidores[i].ID < competidores[j].ID
+		})
 		json.NewEncoder(w).Encode(competidores)
 	}
 

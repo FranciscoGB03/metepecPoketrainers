@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"net/http"
+	"sort"
 	"strconv"
 
 	"github.com/gorilla/mux"
@@ -21,6 +22,9 @@ func GetTopMundial(db *sql.DB) http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		sort.Slice(jugadores, func(i, j int) bool {
+			return jugadores[i].ID < jugadores[j].ID
+		})
 		json.NewEncoder(w).Encode(jugadores)
 	}
 

@@ -1,11 +1,15 @@
 import { showConfirmationAlert } from "../../../utils/alertUtils";
 import { CompetidorModel } from "../models/models";
 /**
- * funcion para agregar un competidor a la liga local 
+ * funcion para agregar un competidor a la liga local
  * @param {} sendRequest  funcion para mandar request al backend
  * @param {*} newCompetidor  objeto que contiene la informacion del competidor
  */
-export const agregarJugador = async (sendRequest, newCompetidor,setNewCompetidor) => {
+export const agregarJugador = async (
+  sendRequest,
+  newCompetidor,
+  setNewCompetidor
+) => {
   await sendRequest(
     "POST",
     "/registrarCompetidor",
@@ -32,10 +36,10 @@ export const eliminarJugador = async (sendRequest, id) => {
 /**
  * funcion para actualizar los campos para agregar un nuevo competidor de liga local
  * @param {*} e evento target
- * @param {*} setNewCompetidor funcion setter para actualizar los datos del nuevo competidor 
+ * @param {*} setNewCompetidor funcion setter para actualizar los datos del nuevo competidor
  * @param {*} catalogo catalogo del que se obtendra la info
  */
-export const handleInputChange = (e,setNewCompetidor,catalogo ) => {
+export const handleInputChange = (e, setNewCompetidor, catalogo) => {
   const { name, value } = e.target;
   if (name == "equipo_insignia") {
     const po = catalogo.find((p) => {
@@ -55,7 +59,6 @@ export const handleInputChange = (e,setNewCompetidor,catalogo ) => {
   }
 };
 
-
 /**funciones para el listado */
 /**
  * Meetodo para habilitar la edicion del competidor
@@ -64,7 +67,7 @@ export const handleInputChange = (e,setNewCompetidor,catalogo ) => {
  * @param {*} id id del competidor a actualizar
  * @param {*} key clave del objeto a modificar dentro de data
  */
-export const handleEdit = (data,setData,id, key) => {
+export const handleEdit = (data, setData, id, key) => {
   // Buscar el índice del competidor a editar
   const index = data[key].findIndex((comp) => comp.id === id);
   // Marcar el competidor como editable cambiando su estado
@@ -83,7 +86,7 @@ export const handleEdit = (data,setData,id, key) => {
  * @param {*} id id del competidor a actualizar
  * @param {*} key clave del objeto dentro de data
  */
-export const handleCancelEdit = (data,setData,id, key) => {
+export const handleCancelEdit = (data, setData, id, key) => {
   // Buscar el índice del competidor en modo edición
   const index = data[key].findIndex((comp) => comp.id === id);
   // Cancelar la edición cambiando su estado a no editado
@@ -103,13 +106,21 @@ export const handleCancelEdit = (data,setData,id, key) => {
  * @param {*} value nuevo valor del campo
  * @param {*} catalogo {catalogo} solo si se trata de un select
  */
-export const handleInputUpdate = (data,setData,key, id, field, value, catalogo) => {
-  let valor=value
+export const handleInputUpdate = (
+  data,
+  setData,
+  key,
+  id,
+  field,
+  value,
+  catalogo
+) => {
+  let valor = value;
   // Buscar el índice del competidor en modo edición
   const index = data[key].findIndex((comp) => comp.id === id);
-  if (catalogo){
-      let index=catalogo.findIndex(cat=>parseInt(cat.id)==value);
-      valor =catalogo[index];
+  if (catalogo) {
+    let index = catalogo.findIndex((cat) => parseInt(cat.id) == value);
+    valor = catalogo[index];
   }
   // Actualizar el valor del campo editado
   setData((prevData) => {
@@ -126,12 +137,17 @@ export const handleInputUpdate = (data,setData,key, id, field, value, catalogo) 
  * @param {*} id id del competidor a actualizar
  * @param {*} key clave del data
  */
-export const handleSave = async (data,sendRequest,id, key) => {
+export const handleSave = async (data, sendRequest, id, key) => {
   // Buscar el índice del competidor en modo edición
   const index = data[key].findIndex((comp) => comp.id === id);
   const competidor = data[key][index];
   // Enviar la solicitud al servidor para guardar los cambios
-  await sendRequest("PUT", `/actualizarCompetidor`, competidor,'actualizaCompetidor');
+  await sendRequest(
+    "PUT",
+    `/actualizarCompetidor`,
+    competidor,
+    "actualizaCompetidor"
+  );
   await sendRequest("GET", "/getLigaLocal", {}, "competidores");
 };
 
@@ -140,7 +156,12 @@ export const handleSave = async (data,sendRequest,id, key) => {
  * @param {*} sendRequest funcion para conectarse con el back
  * @param {*} id id del pokemon a borrar
  */
-export const eliminarPokemon= async(sendRequest, id)=>{
-  await sendRequest("DELETE", `/eliminarPokemon/${id}`, {},'eliminaPoke');
-  await sendRequest("GET", "/getLigaLocal", {}, "competidores");
-}
+export const eliminarPokemon = async (sendRequest, id) => {
+  const eliminar = showConfirmationAlert(
+    "¿Realmente desea eliminar el registro?"
+  );
+  if ((await eliminar).isConfirmed) {
+    await sendRequest("DELETE", `/eliminarPokemon/${id}`, {}, "eliminaPoke");
+    await sendRequest("GET", "/getLigaLocal", {}, "competidores");
+  }
+};

@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"net/http"
+	"sort"
 )
 
 func GetPokemons(db *sql.DB) http.HandlerFunc {
@@ -16,6 +17,9 @@ func GetPokemons(db *sql.DB) http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		sort.Slice(pokemones, func(i, j int) bool {
+			return pokemones[i].Nombre < pokemones[j].Nombre
+		})
 		json.NewEncoder(w).Encode(pokemones)
 	}
 }
