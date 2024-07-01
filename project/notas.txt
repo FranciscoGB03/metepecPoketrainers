@@ -41,3 +41,6 @@ se genera login
 17/06/2024
 - se instalo sweet alert por lo que requiere un npm i para que funcione la aplicacion de react
 - Se reviso el login y register para que funcione al primer clic
+
+
+"homepage": "https://franciscogb03.github.io/metepecPoketrainers/"

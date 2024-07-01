@@ -1,7 +1,6 @@
-version: '3.8'
+version: "3.8"
 
 services:
-
   db:
     container_name: db
     image: mysql:latest
@@ -20,6 +19,17 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/data/db
+
+  front-service:
+    container_name: front-service
+    build:
+      context: ./../front/
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "80:80"
+    environment:
+      REACT_APP_API_URL: http://192.168.18.199:8080
 
   back-service:
     container_name: back-service
@@ -41,6 +51,6 @@ services:
     deploy:
       mode: replicated
       replicas: 1
-      
+
 volumes:
   db_data:

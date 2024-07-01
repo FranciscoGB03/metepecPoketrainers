@@ -2,12 +2,12 @@ SHELL=cmd.exe
 BACK_BINARY=backApp
 
 # instancia ambos ambientes mysql y backend
-deploy: build_mysql build_back
+deploy: build_mysql build_back build_front
 
 # inicia tanto front como backend
-up: mysql_start back_start
+up: mysql_start back_start front_start
 # detiene ambos servicios tanto mysql como backend
-stop: back_stop mysql_stop
+stop: back_stop mysql_stop front_stop
 ## Esta opcion borra la imagen que se tenia y genera una nueva, hayq ue tener cuidado porque se pierden todos los datos
 build_mysql: mysql_down
 	@echo "Building (when required) and starting docker images..."
@@ -54,4 +54,29 @@ back_start:
 back_stop:
 	@echo "Stopping Docker images..."
 	docker stop back-service
+	@echo "Docker images stopped!"
+
+##Front
+## borra, compila y levanta la imagen del frontend
+build_front: front_down
+	@echo "Building (when required) and starting docker images..."
+	docker compose up -d front-service
+	@echo "Docker images built and started!"
+
+## down: stop front docker compose
+front_down:
+	@echo "Stopping docker compose..."
+	docker compose rm -s -f front-service
+	@echo "Done!"
+
+# start: starts the frontend
+front_start:
+	@echo "Starting Docker images..."
+	docker compose up -d front-service
+	@echo "Docker images started!"
+
+## detiene la imagen sin borrarla del frontend
+front_stop:
+	@echo "Stopping Docker images..."
+	docker stop front-service
 	@echo "Docker images stopped!"
