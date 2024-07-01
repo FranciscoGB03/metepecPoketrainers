@@ -30,6 +30,10 @@ services:
       - "80:80"
     environment:
       REACT_APP_API_URL: http://192.168.18.199:8080
+    deploy:
+      resources:
+        limits:
+          memory: 1g
 
   back-service:
     container_name: back-service
