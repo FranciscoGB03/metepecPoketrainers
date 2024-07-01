@@ -11,6 +11,7 @@ import AdminTemplate from "./components/admin/Template/AdminTemplate";
 import LigaLocalAdmin from "./components/admin/LigaLocal/LigaLocalAdmin";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
+import NotFound from "./components/template/notFound/NotFound";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/admin/rankingMundial" element={<RankingMundialAdmin />} />
         <Route path="/admin/ligaLocal" element={<LigaLocalAdmin />} />
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

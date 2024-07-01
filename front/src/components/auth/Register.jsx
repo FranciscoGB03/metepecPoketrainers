@@ -3,11 +3,9 @@ import { useEffect, useState } from "react";
 import useAxiosBack from "../../hooks/useAxiosBack";
 import "./login.css";
 import figureHeader from "../../../public/img/chico_saludando.jpeg";
-import { useNavigate } from "react-router-dom";
-import { showErrorAlert, showSuccessAlert } from "../../utils/alertUtils";
+import { Link, useNavigate } from "react-router-dom";
 import { IoEyeOffSharp } from "react-icons/io5";
 import { IoMdEye } from "react-icons/io";
-import { Link } from "react-router-dom";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -63,9 +61,9 @@ const Register = () => {
   return (
     <div className="min-w-screen min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500  px-5 py-5">
       <div className="p-8 mb-10">
-        <a href="/" className="text-white text-lg font-bold">
+        <Link to="/" className="text-white text-lg font-bold">
           Home
-        </a>
+        </Link>
       </div>
       <div className="flex items-center justify-center">
         <div className="bg-white rounded-3xl bg-opacity-10 shadow-xl w-full overflow-hidden login-style">
@@ -162,7 +160,10 @@ const Register = () => {
                         className="ml-2 font-medium text-base"
                         htmlFor="terms-conditions"
                       >
-                        <Link to="/terminosCondiciones"> Acepta terminos y condiciones </Link>
+                        <Link to="/terminosCondiciones">
+                          {" "}
+                          Acepta terminos y condiciones{" "}
+                        </Link>
                       </label>
                     </div>
                   </div>

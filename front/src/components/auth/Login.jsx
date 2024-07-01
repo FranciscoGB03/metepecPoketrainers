@@ -10,7 +10,7 @@ import { showErrorAlert, showSuccessAlert } from "../../utils/alertUtils";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { data,error, sendRequest } = useAxiosBack();
+  const { data, error, sendRequest } = useAxiosBack();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
@@ -20,12 +20,12 @@ const Login = () => {
     }
   }, []);
 
-  useEffect(()=>{
-    const message=error?.data?.response?.data;
-    if (message){
+  useEffect(() => {
+    const message = error?.data?.response?.data;
+    if (message) {
       showErrorAlert(`Hubo un problema al iniciar sesión: ${message}`);
-    } 
-  },[error])
+    }
+  }, [error]);
 
   useEffect(() => {
     const token = data?.data?.token;
@@ -38,20 +38,20 @@ const Login = () => {
 
   const handleSubmit = async () => {
     let newErrors = {};
-    if (!email) newErrors.email = 'El correo es obligatorio.';
-    if (!password) newErrors.password = 'La contraseña es obligatoria.';
+    if (!email) newErrors.email = "El correo es obligatorio.";
+    if (!password) newErrors.password = "La contraseña es obligatoria.";
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
-        await sendRequest("POST", "/login", { email, password });
+      await sendRequest("POST", "/login", { email, password });
     }
   };
 
   return (
     <div className="min-w-screen min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500  px-5 py-5">
       <div className="p-8 mb-10">
-        <a href="/" className="text-white text-lg font-bold">
+        <Link to="/" className="text-white text-lg font-bold">
           Home
-        </a>
+        </Link>
       </div>
       <div className="flex items-center justify-center">
         <div className="bg-white rounded-3xl bg-opacity-30 shadow-xl w-full overflow-hidden login-style">
@@ -67,9 +67,10 @@ const Login = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Escribe tu correo"
-                    /> 
-                    {errors.email && <div className="text-red-500 italic">{errors.email}</div>}
-
+                    />
+                    {errors.email && (
+                      <div className="text-red-500 italic">{errors.email}</div>
+                    )}
                   </div>
                   <div>
                     <label className="text-lg font-medium">Contraseña</label>
@@ -80,8 +81,11 @@ const Login = () => {
                       onChange={(e) => setPassword(e.target.value)}
                       type="password"
                     />
-                    {errors.password && <div className="text-red-500 italic">{errors.password}</div>}
-
+                    {errors.password && (
+                      <div className="text-red-500 italic">
+                        {errors.password}
+                      </div>
+                    )}
                   </div>
                   <button className="font-medium text-base text-blue-900">
                     Olvidaste tu contraseña
@@ -101,7 +105,12 @@ const Login = () => {
 
               <div className="mt-5 flex justify-center items-center">
                 <p className="font-medium text-base">¿No tienes cuenta aun?</p>
-                <Link className="text-blue-900 text-base font-medium" to="/register">Registrate</Link>
+                <Link
+                  className="text-blue-900 text-base font-medium"
+                  to="/register"
+                >
+                  Registrate
+                </Link>
               </div>
             </div>
             <div className="hidden md:block ">
