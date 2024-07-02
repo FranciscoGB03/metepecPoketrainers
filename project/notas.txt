@@ -44,3 +44,6 @@ se genera login
 
 
 "homepage": "https://franciscogb03.github.io/metepecPoketrainers/"
+para generar la imagen:
+docker build -f Dockerfile -t pgonbo/front-service:1.0.5 .
+docker push pgonbo/front-service:1.0.5

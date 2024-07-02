@@ -22,7 +22,7 @@ services:
 
   front-service:
     container_name: front-service
-    image: pgonbo/front-service:1.0.4
+    image: pgonbo/front-service:1.0.5
     deploy:
       mode: replicated
       replicas: 1
