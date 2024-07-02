@@ -22,14 +22,18 @@ services:
 
   front-service:
     container_name: front-service
-    image: pgonbo/front-service:1.0.4
-    deploy:
-      mode: replicated
-      replicas: 1
-    environment:
-      VITE_BACKEND_URL: ${VITE_BACKEND_URL}
+    build:
+      context: ./../front/
+      dockerfile: Dockerfile
+    restart: always
     ports:
       - "80:80"
+    environment:
+      REACT_APP_API_URL: http://192.168.18.199:8080
+    deploy:
+      resources:
+        limits:
+          memory: 1g
 
   back-service:
     container_name: back-service
