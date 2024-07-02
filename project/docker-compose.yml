@@ -29,7 +29,7 @@ services:
     environment:
       VITE_BACKEND_URL: ${VITE_BACKEND_URL}
     ports:
-      - "8081:80"
+      - "80:80"
 
   back-service:
     container_name: back-service

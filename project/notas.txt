@@ -47,3 +47,6 @@ se genera login
 para generar la imagen:
 docker build -f Dockerfile -t pgonbo/front-service:1.0.5 .
 docker push pgonbo/front-service:1.0.5
+docker stop front-service
+docker compose rm -s -f front-service
+docker rmi pgonbo/front-service:1.0.5
