@@ -2,6 +2,7 @@
 import "./styles.css";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { FaChevronDown, FaSearch } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const AdminHeader = () => {
   return (
@@ -20,14 +21,14 @@ const AdminHeader = () => {
         <nav className="w-full flex justify-center md:justify-end md:[70%] lg:w-[70%]">
           <ul className="flex items-center gap-4">
             <li>
-              <a clahref="#" className="relative">
+              <Link href="#" className="relative">
                 <IoMdNotificationsOutline />
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="flex items-center gap-2">
+              <Link href="#" className="flex items-center gap-2">
                 Administrador <FaChevronDown />
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>
