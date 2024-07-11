@@ -27,7 +27,7 @@ const Sidebar = () => {
     // <div className="md:w-2/5 lg:w-1/5 xl:w-1/5 text-center items-center ">
     <div className="md:w-2/5 lg:w-[25%] md:h-full xl:w-[25%]text-center items-center ">
       <div
-        className={`fixed lg:static w-[80%] md:w-[40%] lg:w-full top-0 z-50 bg-cyan-950 text-white transition-all ${
+        className={`fixed lg:static w-[79%] md:w-[40%] lg:w-full top-0 z-50 bg-cyan-950 text-white transition-all ${
           sidebar ? "-left-0" : "-left-full"
         } w-full h-full col-span-1 p-8 border-r`}
       >
@@ -51,10 +51,6 @@ const Sidebar = () => {
                     {React.createElement(menu?.icon)}
                     {menu?.name}
                   </NavLink>
-                  {/* <a href="#" className="flex items-center gap-2 ">
-                  <LuLayoutDashboard />
-                  SideBar
-                </a> */}
                 </li>
               ))}
             </ul>

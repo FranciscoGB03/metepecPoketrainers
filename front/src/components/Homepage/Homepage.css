@@ -13,22 +13,8 @@
 .template-body{
     padding-top: none !important;
 }
-/* .btn-cta-content{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
-@media only screen and (min-width: 768px) {
-    .trainer-img{
-    /* background-color: aqua; */
-    }
-   
-  }
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-    .trainer-img{
-        background-color: rgb(255, 14, 107);
-        }
      .texto-descripcion{
          font-size: 1rem;
          line-height: 1rem;
@@ -41,14 +27,6 @@
     .btn-cta{
         margin-top: 12px;
     }
-}
-
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
-    /* .trainer-img{
-    background-color: pink;
-    } */
-    
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
