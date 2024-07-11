@@ -144,15 +144,14 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
                                   <MdDelete />
                                 </button>
                               </Link>
-                              <div className="flex flex-col bg-orange-500 w-60 h-auto rounded-md z-20 absolute right-0 invisible tooltip-item pl-4">
-                                <strong>{pokemon.pokemon.nombre}</strong>
-                                <span className="mt-4">
-                                  ataque basico:{" "}
+                              <div className="flex flex-col bg-gradient-to-b from-sky-600 to-teal-400 w-60 h-auto rounded-md z-20 absolute right-0 invisible tooltip-item p-4 text-white">
+                                <strong className="uppercase pb-1">{pokemon.pokemon.nombre}</strong>
+                                <span>
+                                  Ataque basico:{" "}
                                   {pokemon.ataque_rapido.nombre_la}
                                 </span>
-                                <br />
-                                <span className="mb-4">
-                                  ataques cargados:{" "}
+                                <span>
+                                  Ataques cargados:{" "}
                                   {pokemon.primer_ataque_cargado.nombre_la},{" "}
                                   {pokemon.segundo_ataque_cargado.nombre_la}
                                 </span>
