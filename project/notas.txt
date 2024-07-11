@@ -45,8 +45,12 @@ se genera login
 
 "homepage": "https://franciscogb03.github.io/metepecPoketrainers/"
 para generar la imagen:
-docker build -f Dockerfile -t pgonbo/front-service:1.0.5 .
-docker push pgonbo/front-service:1.0.5
+comandos:
+docker login
+docker build -f Dockerfile -t pgonbo/front-service:version(ejemplo:1.0.2) .
+docker push pgonbo/front-service:version(ejemplo:1.0.2)
+
+/** comandos para el servidor de digital ocean*/
 docker stop front-service
 docker compose rm -s -f front-service
 docker rmi pgonbo/front-service:1.0.5

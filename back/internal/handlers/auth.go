@@ -27,7 +27,17 @@ func Register(db *sql.DB, jwtKey []byte) http.HandlerFunc {
 			http.Error(w, "Error hashing password", http.StatusInternalServerError)
 			return
 		}
-
+		//  verificar que el correo electronico no se  encuentre  registrado
+		email, err := db.Query(`SELECT*FROM users where email=?`, creds.Email)
+		if err != nil {
+			http.Error(w, "Error al intentar conectar con la base de datos", http.StatusInternalServerError)
+			return
+		}
+		defer email.Close()
+		if email.Next() {
+			http.Error(w, "El correo utilizado ya encuentra registrado, favor de revisar sus datos o cambiar de correo.", http.StatusBadRequest)
+			return
+		}
 		result, err := db.Exec("INSERT INTO users (email, password,rol_id) VALUES (?, ?, 2)", creds.Email, hashedPassword)
 		if err != nil {
 			http.Error(w, "Error saving user to database", http.StatusInternalServerError)
