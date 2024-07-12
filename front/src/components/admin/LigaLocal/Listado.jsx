@@ -8,7 +8,9 @@ import {
 } from "@tremor/react";
 import { MdDelete } from "react-icons/md";
 import { FaSave, FaEdit, FaTimes } from "react-icons/fa";
-import { Fragment } from "react";
+import React, { useState , useRef,  Fragment } from "react";
+import { Link } from "react-router-dom";
+
 import {
   eliminarJugador,
   eliminarPokemon,
@@ -17,10 +19,17 @@ import {
   handleInputUpdate,
   handleSave,
 } from "./functions";
+import { IoEllipsisHorizontal } from "react-icons/io5";
 import PropTypes from "prop-types";
 
 const Listado = ({ data, setData, sendRequest, openModal }) => {
   /** render */
+  const [openMenu, setOpenMenu] = useState(false);
+  const handleMenuOption = () => {
+    setOpenMenu(!openMenu);
+  };
+  const menuRef = useRef(null);
+
   return (
     <Table className="min-w-full leading-normal">
       <TableHead className="bg-light border border-1">
@@ -119,7 +128,7 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
                         <Fragment key={pokemon.id}>
                           <div className="justify-content-between">
                             <div className="relative inline-block tooltip  my-1 ">
-                              <a
+                              <Link
                                 href="#"
                                 className="hover:text-gray-400 font-medium"
                               >
@@ -134,16 +143,15 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
                                 >
                                   <MdDelete />
                                 </button>
-                              </a>
-                              <div className="flex flex-col bg-orange-500 w-60 h-auto rounded-md z-20 absolute right-0 invisible tooltip-item pl-4">
-                                <strong>{pokemon.pokemon.nombre}</strong>
-                                <span className="mt-4">
-                                  ataque basico:{" "}
+                              </Link>
+                              <div className="flex flex-col bg-gradient-to-b from-sky-600 to-teal-400 w-60 h-auto rounded-md z-20 absolute right-0 invisible tooltip-item p-4 text-white">
+                                <strong className="uppercase pb-1">{pokemon.pokemon.nombre}</strong>
+                                <span>
+                                  Ataque basico:{" "}
                                   {pokemon.ataque_rapido.nombre_la}
                                 </span>
-                                <br />
-                                <span className="mb-4">
-                                  ataques cargados:{" "}
+                                <span>
+                                  Ataques cargados:{" "}
                                   {pokemon.primer_ataque_cargado.nombre_la},{" "}
                                   {pokemon.segundo_ataque_cargado.nombre_la}
                                 </span>
@@ -178,29 +186,100 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
                       </button>
                     </>
                   ) : (
-                    <>
-                      <button
-                        disabled={
-                          reg?.equipo_competidores &&
-                          reg.equipo_competidores.length >= 6
-                        }
-                        onClick={() => openModal(reg.id)}
-                      >
-                        <FaSave /> Agregar Pokemon
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleEdit(data, setData, reg.id, "competidores")
-                        }
-                      >
-                        <FaEdit /> Editar
-                      </button>
-                      <button
-                        onClick={() => eliminarJugador(sendRequest, reg.id)}
-                      >
-                        <MdDelete /> Eliminar Competidor
-                      </button>
-                    </>
+                    <button 
+                      id="menu-button"
+                      aria-haspopup="true" 
+                      aria-expanded={openMenu}
+                      onClick={handleMenuOption}            
+                    >
+                      <IoEllipsisHorizontal/>
+                      {
+                        openMenu?
+                        <div className="menu absolute justify-items-center rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 " role="menu" ref={menuRef} aria-orientation="vertical" aria-labelledby="menu-button">
+                          <div 
+                            className="menu-item flex items-center p-3  text-md w-full hover:bg-gray-100" 
+                            role="menuitem" 
+                            tabIndex="0" 
+                            onClick={() => openModal(reg.id)}
+                          >
+                            <FaSave  className="text-xl"/> 
+                            <p className="pl-3">Agregar Pokemon</p>
+                          </div>
+                          <div 
+                            className="menu-item flex items-center p-3  text-md w-full hover:bg-gray-100" 
+                            role="menuitem" 
+                            tabIndex="0" 
+                            onClick={() =>
+                              handleEdit(data, setData, reg.id, "competidores")
+                            }
+                          >
+                            <FaEdit  className="text-xl"/> 
+                            <p className="pl-3  text-center">Editar</p>
+                          </div>
+                          <div 
+                            className="menu-item flex items-center p-3  text-md w-full hover:bg-gray-100" 
+                            role="menuitem" 
+                            tabIndex="0" 
+                            onClick={() => eliminarJugador(sendRequest, reg.id)}
+                          >
+                          <MdDelete  className="text-xl"/> 
+                          <p className="pl-3  text-center">Eliminar Competidor</p>
+                          </div>
+                          {/* <button
+                             disabled={
+                               reg?.equipo_competidores &&
+                               reg.equipo_competidores.length >= 6
+                             }
+                             className="flex items-center p-3  text-md text-center w-full hover:bg-gray-100"
+                             onClick={() => openModal(reg.id)}
+                           >
+                             <FaSave  className="text-xl"/> 
+                             <p className="pl-3">Agregar Pokemon</p>
+                           </button> */}
+                           {/* <button
+                             className="flex items-center p-3  text-md w-full hover:bg-gray-100"
+                              onClick={() =>
+                                handleEdit(data, setData, reg.id, "competidores")
+                              }
+                           >
+                             <FaEdit  className="text-xl"/> 
+                             <p className="pl-3  text-center">Editar</p>
+                           </button>
+                           <button
+                             className="flex items-center p-3  text-md w-full hover:bg-gray-100"
+                             onClick={() => eliminarJugador(sendRequest, reg.id)}
+                           >
+                             <MdDelete  className="text-xl"/> 
+                             <p className="pl-3  text-center">Eliminar Competidor</p>
+                           </button> */}
+                        </div>:
+                        <div></div>
+                      }
+                    </button>
+                    // <div className="grid grid-cols-1	">
+                    //   <button
+                    //   className="pl-4"
+                    //     disabled={
+                    //       reg?.equipo_competidores &&
+                    //       reg.equipo_competidores.length >= 6
+                    //     }
+                    //     onClick={() => openModal(reg.id)}
+                    //   >
+                    //     <FaSave /> Agregar Pokemon
+                    //   </button>
+                    //   <button
+                    //     onClick={() =>
+                    //       handleEdit(data, setData, reg.id, "competidores")
+                    //     }
+                    //   >
+                    //     <FaEdit /> Editar
+                    //   </button>
+                    //   <button
+                    //     onClick={() => eliminarJugador(sendRequest, reg.id)}
+                    //   >
+                    //     <MdDelete /> Eliminar Competidor
+                    //   </button>
+                    // </div>
                   )}
                 </TableCell>
               </TableRow>

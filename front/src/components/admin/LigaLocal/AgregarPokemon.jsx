@@ -11,6 +11,7 @@ const AgregarPokemon = ({ competidorId, pokemons, ligas, rapidos, cargados,sendR
   const rapidosArray = Array.isArray(rapidos) ? rapidos : [];
   const cargadosArray = Array.isArray(cargados) ? cargados : [];
 
+  console.log('ligas',ligasArray);
   /** useEffect */
   useEffect(()=>{
     setPokemon({...pokemon, competidor_id:competidorId});

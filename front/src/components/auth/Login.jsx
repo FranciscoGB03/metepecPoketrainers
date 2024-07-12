@@ -61,8 +61,10 @@ const Login = () => {
               <div>
                 <div className="mt-5 ">
                   <div>
-                    <label className="text-lg font-medium">Email</label>
+                    <label htmlFor='email' className="text-lg font-medium">Email</label>
                     <input
+                      type="emai"
+                      name="email"
                       className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -73,8 +75,9 @@ const Login = () => {
                     )}
                   </div>
                   <div>
-                    <label className="text-lg font-medium">Contraseña</label>
+                    <label htmlFor="password" className="text-lg font-medium">Contraseña</label>
                     <input
+                      name="password"
                       className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
                       placeholder="Escribe tu correo"
                       value={password}
@@ -115,7 +118,7 @@ const Login = () => {
             </div>
             <div className="hidden md:block ">
               <div className=" w-full ">
-                <img className="trainer-img" src={figureHeader} />
+                <img alt="persona saludando" className="trainer-img" src={figureHeader} />
               </div>
             </div>
           </div>

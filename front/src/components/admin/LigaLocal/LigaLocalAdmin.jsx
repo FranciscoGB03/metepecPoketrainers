@@ -98,9 +98,9 @@ const LigaLocalAdmin = () => {
           </label>
         </div>
         <div className="w-full px-3 pt-3">
-          <label htmlFor="grid-points" />
-          Puntos totales:{" "}
+          <label htmlFor="puntos" >Puntos totales:{" "}</label>
           <input
+
             type="number"
             name="puntos"
             min={0}
