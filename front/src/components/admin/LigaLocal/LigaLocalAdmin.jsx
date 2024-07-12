@@ -27,7 +27,10 @@ const LigaLocalAdmin = () => {
   }, []);
   useEffect(() => {
     if (newCompetidor.user_id === 0) {
-      setNewCompetidor({ ...newCompetidor, user_id: getUID() });
+      setNewCompetidor({
+        ...newCompetidor,
+        user_id: getUID() == 1 ? 2 : getUID,
+      });
     }
   }, [newCompetidor]);
   useEffect(() => {
@@ -78,7 +81,7 @@ const LigaLocalAdmin = () => {
           <label htmlFor="grid-team">
             Equipo Insignia:{" "}
             <select
-				className="appearance-none block w-full mt-2  border border-gray-200
+              className="appearance-none block w-full mt-2  border border-gray-200
 				rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               name="equipo_insignia"
               value={newCompetidor.equipo_insignia.id}
@@ -92,7 +95,6 @@ const LigaLocalAdmin = () => {
                 </option>
               ))}
             </select>
-            
           </label>
         </div>
         <div className="w-full px-3 pt-3">
@@ -103,7 +105,7 @@ const LigaLocalAdmin = () => {
             name="puntos"
             min={0}
             value={newCompetidor.puntos}
-			className="appearance-none block w-full mt-2  border border-gray-200
+            className="appearance-none block w-full mt-2  border border-gray-200
 			rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
             onChange={(e) => handleInputChange(e, setNewCompetidor)}
           />

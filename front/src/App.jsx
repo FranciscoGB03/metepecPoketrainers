@@ -12,6 +12,8 @@ import LigaLocalAdmin from "./components/admin/LigaLocal/LigaLocalAdmin";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import NotFound from "./components/template/notFound/NotFound";
+import EquiposTopAdmin from "./components/admin/equiposTop/equiposTopAdmin";
+import EquiposTop from "./components/equiposTop/EquiposTop";
 
 function App() {
   return (
@@ -23,11 +25,13 @@ function App() {
         <Route path="/rankingMundial" element={<RankingMundial />} />
         <Route path="/rankingRegional" element={<RankingRegional />} />
         <Route path="/terminosCondiciones" element={<TerminosCondiciones />} />
+        <Route path="/equiposTop" element={<EquiposTop />} />
       </Route>
       <Route path="/admin" element={<AdminTemplate />}>
         <Route index element={<Admin />} />
         <Route path="/admin/rankingMundial" element={<RankingMundialAdmin />} />
         <Route path="/admin/ligaLocal" element={<LigaLocalAdmin />} />
+        <Route path="/admin/equiposTop" element={<EquiposTopAdmin />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

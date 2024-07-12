@@ -4,6 +4,7 @@ import { BiWorld } from "react-icons/bi";
 import { BsGeoAltFill } from "react-icons/bs";
 import { IoMdHome, IoMdMenu } from "react-icons/io";
 import { IoLogOutSharp, IoCloseSharp } from "react-icons/io5";
+import { MdCatchingPokemon } from "react-icons/md";
 import React, { useState } from "react";
 import { logOut } from "../../auth/helpers";
 
@@ -13,6 +14,7 @@ const Sidebar = () => {
     { name: "Dashboard", link: "/admin", icon: LuLayoutDashboard },
     { name: "Ranking Mundial", link: "/admin/rankingMundial", icon: BiWorld },
     { name: "Liga Local", link: "/admin/ligaLocal", icon: BsGeoAltFill },
+    { name: "Equipos Top", link: "/admin/equiposTop", icon: MdCatchingPokemon },
     { name: "Inicio", link: "/", icon: IoMdHome },
   ];
   const [sidebar, setSidebar] = useState(false);
