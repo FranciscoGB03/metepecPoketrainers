@@ -58,5 +58,9 @@ func SetupRouter(db *sql.DB, jwtKey []byte) *mux.Router {
 	// Eliminar pokemon de equipo competidores
 	protectedDelete.HandleFunc("/eliminarPokemon/{id}", handlers.EliminarPokemon(db)).Methods("DELETE")
 
+	// Rutas para equipos Top
+	// ruta para obtencion de los equipos top de tipo GET
+	router.HandleFunc("/getEquiposTop", handlers.GetEquiposTop(db)).Methods("GET")
+
 	return router
 }
