@@ -34,7 +34,10 @@ const Sidebar = () => {
         } w-full h-full col-span-1 p-8 border-r`}
       >
         <div className="text-center pb-8">
-          <h1 className="text-center uppercase font-bold tracking-[4px]">
+          <div className="text-right uppercase font-bold text-xl ">
+          {sidebar && <button onClick={handleSidebar}>X</button>}
+              </div>
+          <h1 className="uppercase font-bold tracking-[4px]">
             Dashboard
           </h1>
         </div>
