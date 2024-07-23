@@ -149,7 +149,7 @@ export const RankingMundialAdmin = () => {
          onClick={onSave}>Guardar</button>
         </div>
       </div>
-      <div className="inline-block min-w-full overflow-hidden bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <div className="table-container bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         {error.data != null ? <div>{error?.message}</div> : null}
         <Table className="min-w-full leading-normal">
           <TableHead className="bg-light border border-1">
