@@ -49,6 +49,15 @@ const Sidebar = () => {
                   className="text-xl p-2 font-semibold hover:bg-gradient-to-r from-cyan-500 to-blue-500 hover:text-white transition-colors rounded-lg"
                   key={i}
                 >
+                  {sidebar ?
+                  <NavLink
+                    to={menu?.link}
+                    className="group flex items-center gap-2"
+                    onClick={handleSidebar}
+                  >
+                    {React.createElement(menu?.icon)}
+                    {menu?.name}
+                  </NavLink>:
                   <NavLink
                     to={menu?.link}
                     className="group flex items-center gap-2"
@@ -56,6 +65,8 @@ const Sidebar = () => {
                     {React.createElement(menu?.icon)}
                     {menu?.name}
                   </NavLink>
+                  }
+
                 </li>
               ))}
             </ul>

@@ -24,17 +24,15 @@ import { IoEllipsisHorizontal } from "react-icons/io5";
 import PropTypes from "prop-types";
 
 const Listado = ({ data, setData, sendRequest, openModal }) => {
-  /** render */
-  const [openMenu, setOpenMenu] = useState(false);
-  const handleMenuOption = () => {
-    setOpenMenu(!openMenu);
+  const [menuOpen, setMenuOpen] = useState(null);
+  const handleMenuToggle = (index) => {
+    setMenuOpen(menuOpen === index ? null : index);
   };
-  const menuRef = useRef(null);
 
   return (
     <div className="table-container">
       <Card>
-        <Table className="min-w-full leading-normal">
+        <Table className="min-w-full leading-normal">          
           <TableHead className="bg-light border border-1">
             <TableRow>
               <TableHeaderCell className="px-5 py-3 border-b-2 text-black-50 bg-gray-100">
@@ -57,28 +55,27 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
           <TableBody>
             {Array.isArray(data.competidores)
               ? data.competidores.map((reg) => (
-                  <TableRow key={reg.id}>
-                    <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      {reg.editing ? (
-                        <input
-                          type="text"
-                          value={reg?.nombre}
-                          onChange={(e) =>
-                            handleInputUpdate(
-                              data,
-                              setData,
-                              "competidores",
-                              reg?.id,
-                              "nombre",
-                              e.target.value
-                            )
-                          }
-                        />
-                      ) : (
-                        reg.nombre
-                      )}
-                    </TableCell>
-                    <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                <TableRow key={reg.id}>
+                  <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                    {reg.editing ? (
+                      <input
+                        type="text"
+                        value={reg?.nombre}
+                        onChange={(e) =>
+                          handleInputUpdate(
+                            data,
+                            setData,
+                            "competidores",
+                            reg?.id,
+                            "nombre",
+                            e.target.value
+                          )
+                        }
+                      />
+                    ) : (
+                      reg.nombre
+                    )}
+                  </TableCell><TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       {reg.editing ? (
                         <select
                           name="equipo_insignia"
@@ -189,109 +186,49 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
                           </button>
                         </>
                       ) : (
-                        <button 
-                          id="menu-button"
-                          aria-haspopup="true" 
-                          aria-expanded={openMenu}
-                          onClick={handleMenuOption}            
-                        >
-                          <IoEllipsisHorizontal/>
-                          {
-                            openMenu?
-                            <div className="menu absolute justify-items-center rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 " role="menu" ref={menuRef} aria-orientation="vertical" aria-labelledby="menu-button">
-                              <div 
+                        <div>
+                          <button onClick={() => handleMenuToggle(reg.id)} className="text-gray-600 hover:text-gray-800">
+                            <IoEllipsisHorizontal size={24} />
+                          </button>
+                          {menuOpen === reg.id && (
+                            <div className="menu absolute justify-items-center rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 ">
+                              <button 
                                 className="menu-item flex items-center p-3  text-md w-full hover:bg-gray-100" 
-                                role="menuitem" 
-                                tabIndex="0" 
                                 onClick={() => openModal(reg.id)}
                               >
-                                <FaSave  className="text-xl"/> 
-                                <p className="pl-3">Agregar Pokemon</p>
-                              </div>
-                              <div 
+                                  <FaSave  className="text-xl"/> 
+                                  <p className="pl-3">Agregar Pokemon</p>
+                              </button>
+                              <button 
                                 className="menu-item flex items-center p-3  text-md w-full hover:bg-gray-100" 
-                                role="menuitem" 
-                                tabIndex="0" 
                                 onClick={() =>
                                   handleEdit(data, setData, reg.id, "competidores")
-                                }
-                              >
-                                <FaEdit  className="text-xl"/> 
-                                <p className="pl-3  text-center">Editar</p>
-                              </div>
-                              <div 
-                                className="menu-item flex items-center p-3  text-md w-full hover:bg-gray-100" 
-                                role="menuitem" 
-                                tabIndex="0" 
-                                onClick={() => eliminarJugador(sendRequest, reg.id)}
-                              >
-                              <MdDelete  className="text-xl"/> 
-                              <p className="pl-3  text-center">Eliminar Competidor</p>
-                              </div>
-                              {/* <button
-                                disabled={
-                                  reg?.equipo_competidores &&
-                                  reg.equipo_competidores.length >= 6
-                                }
-                                className="flex items-center p-3  text-md text-center w-full hover:bg-gray-100"
-                                onClick={() => openModal(reg.id)}
-                              >
-                                <FaSave  className="text-xl"/> 
-                                <p className="pl-3">Agregar Pokemon</p>
-                              </button> */}
-                              {/* <button
-                                className="flex items-center p-3  text-md w-full hover:bg-gray-100"
-                                  onClick={() =>
-                                    handleEdit(data, setData, reg.id, "competidores")
-                                  }
-                              >
+                                } 
+                                >
                                 <FaEdit  className="text-xl"/> 
                                 <p className="pl-3  text-center">Editar</p>
                               </button>
-                              <button
-                                className="flex items-center p-3  text-md w-full hover:bg-gray-100"
-                                onClick={() => eliminarJugador(sendRequest, reg.id)}
-                              >
+                              <button 
+                                className="menu-item flex items-center p-3  text-md w-full hover:bg-gray-100" 
+                                onClick={() => eliminarJugador(sendRequest, reg.id)} 
+                                >
                                 <MdDelete  className="text-xl"/> 
                                 <p className="pl-3  text-center">Eliminar Competidor</p>
-                              </button> */}
-                            </div>:
-                            <div></div>
-                          }
-                        </button>
-                        // <div className="grid grid-cols-1	">
-                        //   <button
-                        //   className="pl-4"
-                        //     disabled={
-                        //       reg?.equipo_competidores &&
-                        //       reg.equipo_competidores.length >= 6
-                        //     }
-                        //     onClick={() => openModal(reg.id)}
-                        //   >
-                        //     <FaSave /> Agregar Pokemon
-                        //   </button>
-                        //   <button
-                        //     onClick={() =>
-                        //       handleEdit(data, setData, reg.id, "competidores")
-                        //     }
-                        //   >
-                        //     <FaEdit /> Editar
-                        //   </button>
-                        //   <button
-                        //     onClick={() => eliminarJugador(sendRequest, reg.id)}
-                        //   >
-                        //     <MdDelete /> Eliminar Competidor
-                        //   </button>
-                        // </div>
+                              </button>
+                            </div>
+                          )}
+                        </div>
                       )}
                     </TableCell>
-                  </TableRow>
-                ))
-              : null}
+                </TableRow>
+              ))
+            : null
+            }
           </TableBody>
         </Table>
       </Card>
     </div>
+
   );
 };
 

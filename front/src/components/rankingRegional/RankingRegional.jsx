@@ -194,16 +194,16 @@ function RankingRegional() {
                                           }
                                         />
                                       </a>
-                                      <div className="flex flex-col bg-orange-500 w-60 h-auto rounded-md z-20 absolute right-0 invisible tooltip-item pl-4">
+                                      <div className="flex flex-col bg-gradient-to-b from-sky-600 to-teal-400 w-60 h-auto rounded-md z-20 absolute right-0 invisible tooltip-item p-4 text-white">
                                         <strong>
-                                          Nombre: {pokemon?.pokemon?.nombre}
+                                          {pokemon?.pokemon?.nombre}
                                         </strong>
-                                        <span className="mt-4">
+                                        <span >
                                           ataque basico:{" "}
                                           {pokemon?.ataque_rapido.nombre_la}
                                         </span>
                                         <br />
-                                        <span className="mb-4">
+                                        <span>
                                           ataques cargados:{" "}
                                           {
                                             pokemon?.primer_ataque_cargado
