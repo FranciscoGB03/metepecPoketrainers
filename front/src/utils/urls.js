@@ -1,0 +1,1 @@
+export const GET_EQUIPOS_TOP="/getEquiposTop";
