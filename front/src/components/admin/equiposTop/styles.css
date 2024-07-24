@@ -1,8 +1,8 @@
-#team-container{
-    display: grid;
-    grid-template-areas: 
-        "header header header"
-        "super ultra master";
-    grid-template-columns:1fr 1fr 1fr;
-    grid-template-rows: min-content max-content;
+#team-container {
+  display: grid;
+  grid-template-areas:
+    "header header header"
+    "super ultra master";
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: min-content max-content;
 }
