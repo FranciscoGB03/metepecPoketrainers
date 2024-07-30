@@ -1,5 +1,3 @@
-import { getUID } from "../../auth/helpers";
-
 /**
  * Modelo para jugador Top
  */
@@ -15,7 +13,7 @@ export const CompetidorModel = {
   nombre: "",
   equipo_insignia: { id: 1, nombre: "Instinto" },
   puntos: 0,
-  user_id:0,
+  user_id: 0,
 };
 /**
  * modelo para registro de pokemon en liga local
@@ -27,4 +25,21 @@ export const PokemonCompetidor = {
   primer_ataque_cargado: {},
   segundo_ataque_cargado: {},
   liga: {},
+};
+
+export const EquipoTop = {
+  liga: {},
+  posicion: 0,
+  pokemon1: {},
+  ataque_rapido1: {},
+  primer_cargado1: {},
+  segundo_cargado1: {},
+  pokemon2: {},
+  ataque_rapido2: {},
+  primer_cargado2: {},
+  segundo_cargado2: {},
+  pokemon3: {},
+  ataque_rapido3: {},
+  primer_cargado3: {},
+  segundo_cargado3: {},
 };
