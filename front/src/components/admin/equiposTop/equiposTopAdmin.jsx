@@ -10,7 +10,7 @@ const EquiposTopAdmin = () => {
   const [ligaUltra, setLigaUltra] = useState([]);
   const [ligaMaster, setLigaMaster] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
-  const { data, setData, error, sendRequest } = useAxiosBack();
+  const { data, sendRequest } = useAxiosBack();
   /**useEffects */
   useEffect(() => {
     const fetchData = async () => {

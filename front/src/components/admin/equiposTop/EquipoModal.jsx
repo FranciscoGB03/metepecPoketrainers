@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { EquipoTop } from "../models/models";
 import { SlArrowDown } from "react-icons/sl";
-import { BodyModal } from "./BodyModal";
+import BodyModal from "./BodyModal";
 
 const EquipoModal = ({
   isVisible,
