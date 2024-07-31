@@ -9,7 +9,7 @@ import {
 } from "@tremor/react";
 import { MdDelete } from "react-icons/md";
 import { FaSave, FaEdit, FaTimes } from "react-icons/fa";
-import React, { useState , useRef,  Fragment } from "react";
+import { useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 import "./LigaLocal.css";
 import {
@@ -32,7 +32,7 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
   return (
     <div className="table-container">
       <Card>
-        <Table className="min-w-full leading-normal">          
+        <Table className="min-w-full leading-normal">
           <TableHead className="bg-light border border-1">
             <TableRow>
               <TableHeaderCell className="px-5 py-3 border-b-2 text-black-50 bg-gray-100">
@@ -55,27 +55,28 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
           <TableBody>
             {Array.isArray(data.competidores)
               ? data.competidores.map((reg) => (
-                <TableRow key={reg.id}>
-                  <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                    {reg.editing ? (
-                      <input
-                        type="text"
-                        value={reg?.nombre}
-                        onChange={(e) =>
-                          handleInputUpdate(
-                            data,
-                            setData,
-                            "competidores",
-                            reg?.id,
-                            "nombre",
-                            e.target.value
-                          )
-                        }
-                      />
-                    ) : (
-                      reg.nombre
-                    )}
-                  </TableCell><TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                  <TableRow key={reg.id}>
+                    <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                      {reg.editing ? (
+                        <input
+                          type="text"
+                          value={reg?.nombre}
+                          onChange={(e) =>
+                            handleInputUpdate(
+                              data,
+                              setData,
+                              "competidores",
+                              reg?.id,
+                              "nombre",
+                              e.target.value
+                            )
+                          }
+                        />
+                      ) : (
+                        reg.nombre
+                      )}
+                    </TableCell>
+                    <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       {reg.editing ? (
                         <select
                           name="equipo_insignia"
@@ -145,7 +146,9 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
                                     </button>
                                   </Link>
                                   <div className="flex flex-col bg-gradient-to-b from-sky-600 to-teal-400 w-60 h-auto rounded-md z-20 absolute right-0 invisible tooltip-item p-4 text-white">
-                                    <strong className="uppercase pb-1">{pokemon.pokemon.nombre}</strong>
+                                    <strong className="uppercase pb-1">
+                                      {pokemon.pokemon.nombre}
+                                    </strong>
                                     <span>
                                       Ataque basico:{" "}
                                       {pokemon.ataque_rapido.nombre_la}
@@ -167,7 +170,12 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
                         <>
                           <button
                             onClick={() =>
-                              handleSave(data, sendRequest, reg.id, "competidores")
+                              handleSave(
+                                data,
+                                sendRequest,
+                                reg.id,
+                                "competidores"
+                              )
                             }
                           >
                             <FaSave /> Guardar
@@ -187,48 +195,58 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
                         </>
                       ) : (
                         <div>
-                          <button onClick={() => handleMenuToggle(reg.id)} className="text-gray-600 hover:text-gray-800">
+                          <button
+                            onClick={() => handleMenuToggle(reg.id)}
+                            className="text-gray-600 hover:text-gray-800"
+                          >
                             <IoEllipsisHorizontal size={24} />
                           </button>
                           {menuOpen === reg.id && (
                             <div className="menu absolute justify-items-center rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 ">
-                              <button 
-                                className="menu-item flex items-center p-3  text-md w-full hover:bg-gray-100" 
+                              <button
+                                className="menu-item flex items-center p-3  text-md w-full hover:bg-gray-100"
                                 onClick={() => openModal(reg.id)}
                               >
-                                  <FaSave  className="text-xl"/> 
-                                  <p className="pl-3">Agregar Pokemon</p>
+                                <FaSave className="text-xl" />
+                                <p className="pl-3">Agregar Pokemon</p>
                               </button>
-                              <button 
-                                className="menu-item flex items-center p-3  text-md w-full hover:bg-gray-100" 
+                              <button
+                                className="menu-item flex items-center p-3  text-md w-full hover:bg-gray-100"
                                 onClick={() =>
-                                  handleEdit(data, setData, reg.id, "competidores")
-                                } 
-                                >
-                                <FaEdit  className="text-xl"/> 
+                                  handleEdit(
+                                    data,
+                                    setData,
+                                    reg.id,
+                                    "competidores"
+                                  )
+                                }
+                              >
+                                <FaEdit className="text-xl" />
                                 <p className="pl-3  text-center">Editar</p>
                               </button>
-                              <button 
-                                className="menu-item flex items-center p-3  text-md w-full hover:bg-gray-100" 
-                                onClick={() => eliminarJugador(sendRequest, reg.id)} 
-                                >
-                                <MdDelete  className="text-xl"/> 
-                                <p className="pl-3  text-center">Eliminar Competidor</p>
+                              <button
+                                className="menu-item flex items-center p-3  text-md w-full hover:bg-gray-100"
+                                onClick={() =>
+                                  eliminarJugador(sendRequest, reg.id)
+                                }
+                              >
+                                <MdDelete className="text-xl" />
+                                <p className="pl-3  text-center">
+                                  Eliminar Competidor
+                                </p>
                               </button>
                             </div>
                           )}
                         </div>
                       )}
                     </TableCell>
-                </TableRow>
-              ))
-            : null
-            }
+                  </TableRow>
+                ))
+              : null}
           </TableBody>
         </Table>
       </Card>
     </div>
-
   );
 };
 

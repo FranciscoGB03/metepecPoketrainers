@@ -110,7 +110,7 @@ const Listado = ({ arrData, titulo, setIsVisible }) => {
   );
 };
 Listado.propTypes = {
-  arrData: PropTypes.array.isRequired,
+  arrData: PropTypes.array,
   titulo: PropTypes.string.isRequired,
   setIsVisible: PropTypes.func.isRequired,
 };

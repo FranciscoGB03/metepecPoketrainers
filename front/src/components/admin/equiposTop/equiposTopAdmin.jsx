@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import "./styles.css";
 import useAxiosBack from "../../../hooks/useAxiosBack";
 import Listado from "./Listado";
 import EquipoModal from "./EquipoModal";
+import "./styles.css";
 
 const EquiposTopAdmin = () => {
   /** hooks */
@@ -14,9 +14,9 @@ const EquiposTopAdmin = () => {
   /**useEffects */
   useEffect(() => {
     const fetchData = async () => {
+      await sendRequest("GET", "/getCatalogosLigaEquipos", {}, "liga");
       await sendRequest("GET", "/getEquiposTop", {}, "equipos");
       await sendRequest("GET", "/getPokemons", {}, "pokes");
-      await sendRequest("GET", "/getLigaLocal", {}, "competidores");
       await sendRequest("GET", "/getAtaquesRapidos", {}, "rapidos");
       await sendRequest("GET", "/getAtaquesCargados", {}, "cargados");
     };
@@ -27,7 +27,7 @@ const EquiposTopAdmin = () => {
     setLigaSuper(data?.equipos?.filter((equipo) => equipo.liga.id === 1));
     setLigaUltra(data?.equipos?.filter((equipo) => equipo.liga.id === 2));
     setLigaMaster(data?.equipos?.filter((equipo) => equipo.liga.id === 3));
-  }, [data]);
+  }, [data.equipos]);
   /**functions */
   const onClose = () => {
     setIsVisible(false);
@@ -63,7 +63,10 @@ const EquiposTopAdmin = () => {
       <EquipoModal
         isVisible={isVisible}
         onClose={onClose}
-        setIsVisible={setIsVisible}
+        ligas={data?.liga?.Liga}
+        pokemons={data?.pokes}
+        rapidos={data?.rapidos}
+        cargados={data?.cargados}
       />
     </div>
   );
