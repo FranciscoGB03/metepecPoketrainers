@@ -35,6 +35,6 @@ type EquipoTop struct {
 	AtaqueRapido3       AtaqueRapido  `json:"ataque_rapido3"`
 	PrimerCargadoPoke3  int           `json:"primer_cargado_3"`
 	PrimerCargado3      AtaqueCargado `json:"primer_cargado3"`
-	SegundoCargadoPoke3 int           `json:"primer_cargado_3"`
+	SegundoCargadoPoke3 int           `json:"segundo_cargado_3"`
 	SegundoCargado3     AtaqueCargado `json:"segundo_cargado3"`
 }

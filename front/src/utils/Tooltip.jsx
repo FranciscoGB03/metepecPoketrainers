@@ -2,9 +2,10 @@ import PropTypes from "prop-types";
 
 const Tooltip = ({ children, header, position }) => {
   const positionClasses = {
-    left: "right- left-0",
-    center: "left-100 right-0",
+    left: "right-500 left-0",
+    center: "top-0 -ml-24",
     right: "right-0",
+    top: "-top-1 ml-6",
   };
   return (
     <div className="relative inline-block tooltip">
@@ -21,7 +22,7 @@ const Tooltip = ({ children, header, position }) => {
 Tooltip.propTypes = {
   children: PropTypes.any,
   header: PropTypes.any,
-  position: PropTypes.oneOf(["left", "center", "right"]),
+  position: PropTypes.oneOf(["left", "center", "right", "top"]),
 };
 Tooltip.defaultProps = {
   position: "right",
