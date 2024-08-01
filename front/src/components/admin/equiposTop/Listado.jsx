@@ -1,7 +1,8 @@
 import Tooltip from "../../../utils/Tooltip";
 import PropTypes from "prop-types";
+import { MdDelete } from "react-icons/md";
 
-const Listado = ({ arrData, titulo, setIsVisible }) => {
+const Listado = ({ arrData, titulo, setIsVisible, onDeleteTeam }) => {
   /** render */
   return (
     <div className="border rounded-md border-blue-400 flex flex-col overflow-y-auto max-h-screen hover:bg-gray-600/10">
@@ -100,7 +101,11 @@ const Listado = ({ arrData, titulo, setIsVisible }) => {
                     <img src={reg.pokemon3.img_url} alt={reg.pokemon3.nombre} />
                   </Tooltip>
                 </td>
-                <td></td>
+                <td>
+                  <button onClick={() => onDeleteTeam(reg.id)}>
+                    <MdDelete />
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -113,6 +118,7 @@ Listado.propTypes = {
   arrData: PropTypes.array,
   titulo: PropTypes.string.isRequired,
   setIsVisible: PropTypes.func.isRequired,
+  onDeleteTeam: PropTypes.func,
 };
 
 export default Listado;

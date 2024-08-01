@@ -62,6 +62,7 @@ func SetupRouter(db *sql.DB, jwtKey []byte) *mux.Router {
 	// ruta para obtencion de los equipos top de tipo GET
 	router.HandleFunc("/getEquiposTop", handlers.GetEquiposTop(db)).Methods("GET")
 	protectedPost.HandleFunc("/registrarEquipoTop", handlers.AddTopTeam(db)).Methods("POST")
+	protectedDelete.HandleFunc("/eliminarEquipoTop/{id}", handlers.DeleteTopTeam(db)).Methods("DELETE")
 
 	return router
 }

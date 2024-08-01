@@ -3,7 +3,7 @@ import { useState } from "react";
 import { EquipoTop } from "../models/models";
 import { SlArrowDown } from "react-icons/sl";
 import BodyModal from "./BodyModal";
-import { ADD_TOP_TEAM } from "../../../utils/urls";
+import { ADD_TOP_TEAM, GET_EQUIPOS_TOP } from "../../../utils/urls";
 
 const EquipoModal = ({
   isVisible,
@@ -33,10 +33,11 @@ const EquipoModal = ({
       setEquipo({ ...equipo, [name]: po });
     }
   };
+
   /** guarda el equipo generado */
   const onSaveTeam = async () => {
     await sendRequest("POST", ADD_TOP_TEAM, equipo, "save");
-    await sendRequest("GET", "/getEquiposTop", {}, "equipos");
+    await sendRequest("GET", GET_EQUIPOS_TOP, {}, "equipos");
     setEquipo(EquipoTop);
     onClose();
   };

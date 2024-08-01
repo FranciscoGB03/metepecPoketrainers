@@ -3,7 +3,11 @@ import useAxiosBack from "../../../hooks/useAxiosBack";
 import Listado from "./Listado";
 import EquipoModal from "./EquipoModal";
 import "./styles.css";
-import { showErrorAlert } from "../../../utils/alertUtils";
+import {
+  showConfirmationAlert,
+  showErrorAlert,
+} from "../../../utils/alertUtils";
+import { DELETE_TOP_TEAM, GET_EQUIPOS_TOP } from "../../../utils/urls";
 
 const EquiposTopAdmin = () => {
   /** hooks */
@@ -25,13 +29,13 @@ const EquiposTopAdmin = () => {
   }, []);
 
   useEffect(() => {
-    const message = error?.save?.message;
+    const message = error?.save?.message || error?.delete?.message;
     if (message) {
       setTimeout(() => {
         showErrorAlert(`Error:${message}`);
       }, 200);
     }
-  }, [error.save]);
+  }, [error.save, error.delete]);
 
   useEffect(() => {
     setLigaSuper(data?.equipos?.filter((equipo) => equipo.liga.id === 1));
@@ -41,6 +45,16 @@ const EquiposTopAdmin = () => {
   /**functions */
   const onClose = () => {
     setIsVisible(false);
+  };
+  /** elimina un equipo de pokemon */
+  const onDeleteTeam = async (id) => {
+    const eliminar = showConfirmationAlert(
+      "¿Realmente desea eliminar el registro?"
+    );
+    if ((await eliminar).isConfirmed) {
+      await sendRequest("DELETE", DELETE_TOP_TEAM + id, {}, "delete");
+      await sendRequest("GET", GET_EQUIPOS_TOP, {}, "equipos");
+    }
   };
   /**render */
   return (
@@ -53,6 +67,7 @@ const EquiposTopAdmin = () => {
           arrData={ligaSuper}
           titulo="Liga super"
           setIsVisible={setIsVisible}
+          onDeleteTeam={onDeleteTeam}
         />
       </div>
 
@@ -61,6 +76,7 @@ const EquiposTopAdmin = () => {
           arrData={ligaUltra}
           titulo="Liga Ultra"
           setIsVisible={setIsVisible}
+          onDeleteTeam={onDeleteTeam}
         />
       </div>
       <div className="[grid-area:master] flex-col min-w-full">
@@ -68,6 +84,7 @@ const EquiposTopAdmin = () => {
           arrData={ligaMaster}
           titulo="Liga Master"
           setIsVisible={setIsVisible}
+          onDeleteTeam={onDeleteTeam}
         />
       </div>
       <EquipoModal
