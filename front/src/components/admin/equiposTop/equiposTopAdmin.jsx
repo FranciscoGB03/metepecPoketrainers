@@ -3,6 +3,7 @@ import useAxiosBack from "../../../hooks/useAxiosBack";
 import Listado from "./Listado";
 import EquipoModal from "./EquipoModal";
 import "./styles.css";
+import { showErrorAlert } from "../../../utils/alertUtils";
 
 const EquiposTopAdmin = () => {
   /** hooks */
@@ -10,7 +11,7 @@ const EquiposTopAdmin = () => {
   const [ligaUltra, setLigaUltra] = useState([]);
   const [ligaMaster, setLigaMaster] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
-  const { data, sendRequest } = useAxiosBack();
+  const { data, error, sendRequest } = useAxiosBack();
   /**useEffects */
   useEffect(() => {
     const fetchData = async () => {
@@ -22,6 +23,15 @@ const EquiposTopAdmin = () => {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const message = error?.save?.message;
+    if (message) {
+      setTimeout(() => {
+        showErrorAlert(`Error:${message}`);
+      }, 200);
+    }
+  }, [error.save]);
 
   useEffect(() => {
     setLigaSuper(data?.equipos?.filter((equipo) => equipo.liga.id === 1));
@@ -67,6 +77,7 @@ const EquiposTopAdmin = () => {
         pokemons={data?.pokes}
         rapidos={data?.rapidos}
         cargados={data?.cargados}
+        sendRequest={sendRequest}
       />
     </div>
   );

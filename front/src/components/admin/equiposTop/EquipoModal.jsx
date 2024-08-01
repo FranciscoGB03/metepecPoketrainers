@@ -3,6 +3,7 @@ import { useState } from "react";
 import { EquipoTop } from "../models/models";
 import { SlArrowDown } from "react-icons/sl";
 import BodyModal from "./BodyModal";
+import { ADD_TOP_TEAM } from "../../../utils/urls";
 
 const EquipoModal = ({
   isVisible,
@@ -11,12 +12,14 @@ const EquipoModal = ({
   ligas,
   rapidos,
   cargados,
+  sendRequest,
 }) => {
   /** hooks */
   const [equipo, setEquipo] = useState(EquipoTop);
   /**funciones */
   /** validacion */
   if (!isVisible) return null;
+  /** actualiza los cambios en los  campos del formulario */
   const handleChange = (e, catalogo) => {
     const { name, value } = e.target;
     if (value === "") {
@@ -29,6 +32,13 @@ const EquipoModal = ({
       });
       setEquipo({ ...equipo, [name]: po });
     }
+  };
+  /** guarda el equipo generado */
+  const onSaveTeam = async () => {
+    await sendRequest("POST", ADD_TOP_TEAM, equipo, "save");
+    await sendRequest("GET", "/getEquiposTop", {}, "equipos");
+    setEquipo(EquipoTop);
+    onClose();
   };
   /** render */
   return (
@@ -104,7 +114,7 @@ const EquipoModal = ({
         <div>
           <button
             className="border-1 rounded-md bg-blue-950 p-2  hover:bg-blue-600 text-white"
-            onClick={() => console.log(equipo)}
+            onClick={onSaveTeam}
           >
             Guardar
           </button>
@@ -120,5 +130,6 @@ EquipoModal.propTypes = {
   ligas: PropTypes.array,
   rapidos: PropTypes.array,
   cargados: PropTypes.array,
+  sendRequest: PropTypes.func,
 };
 export default EquipoModal;

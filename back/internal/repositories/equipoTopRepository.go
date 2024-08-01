@@ -13,6 +13,22 @@ func NewEquiposTopRepository(db *sql.DB) *EquipoTopRepository {
 	return &EquipoTopRepository{db}
 }
 
+func (r *EquipoTopRepository) CreateTopTeam(equipoTop models.EquipoTop) (models.EquipoTop, error) {
+	query := "INSERT INTO equipo_top (liga_id, posicion, pokemon1, ataque_rapido1, primer_cargado1, segundo_cargado1, pokemon2, ataque_rapido2, primer_cargado2, segundo_cargado2, pokemon3, ataque_rapido3, primer_cargado3, segundo_cargado3) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+	result, err := r.db.Exec(query, equipoTop.Liga.ID, equipoTop.Posicion, equipoTop.Pokemon1.ID, equipoTop.AtaqueRapido1.ID, equipoTop.PrimerCargado1.ID, equipoTop.SegundoCargado1.ID, equipoTop.Pokemon2.ID, equipoTop.AtaqueRapido2.ID, equipoTop.PrimerCargado2.ID, equipoTop.SegundoCargado2.ID, equipoTop.Pokemon3.ID, equipoTop.AtaqueRapido3.ID, equipoTop.PrimerCargado3.ID, equipoTop.SegundoCargado3.ID)
+	if err != nil {
+		return models.EquipoTop{}, err
+	}
+	// Obtener el ID del último insertado si es necesario
+	lastInsertID, err := result.LastInsertId()
+	if err != nil {
+		return models.EquipoTop{}, err
+	}
+	equipoTop.ID = int(lastInsertID)
+
+	return equipoTop, nil
+}
+
 func (r *EquipoTopRepository) GetAllEquiposTop() ([]models.EquipoTop, error) {
 	// variables
 	var equiposTop []models.EquipoTop
