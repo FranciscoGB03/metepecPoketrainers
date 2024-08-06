@@ -24,7 +24,15 @@ func SetupRouter(db *sql.DB, jwtKey []byte) *mux.Router {
 	protectedPost := protected.Methods("POST").Subrouter()
 	protectedPut := protected.Methods("PUT").Subrouter()
 	protectedDelete := protected.Methods("DELETE").Subrouter()
-
+	// Admin
+	//Permisos
+	router.HandleFunc("/getAllPermisos", handlers.GetAllPermissions(db)).Methods("GET")
+	//Roles
+	router.HandleFunc("/getAllRoles", handlers.GetAllRoles(db)).Methods("GET")
+	//Permisos por rol
+	router.HandleFunc("/getAllPermissionsByRole/{rolId}", handlers.GetAllPermissionsByRole(db)).Methods("GET")
+	//Guadado de permisos por rol
+	protectedPost.HandleFunc("/savePermissionsByRole", handlers.SavePermissionsByRole(db)).Methods("POST")
 	// Catalogos
 	// obtención de ataques rápidos
 	router.HandleFunc("/getAtaquesRapidos", handlers.GetAtaquesRapidos(db)).Methods("GET")
@@ -61,7 +69,9 @@ func SetupRouter(db *sql.DB, jwtKey []byte) *mux.Router {
 	// Rutas para equipos Top
 	// ruta para obtencion de los equipos top de tipo GET
 	router.HandleFunc("/getEquiposTop", handlers.GetEquiposTop(db)).Methods("GET")
+	// ruta para registrar equipos top
 	protectedPost.HandleFunc("/registrarEquipoTop", handlers.AddTopTeam(db)).Methods("POST")
+	//ruta para eliminar equipos top
 	protectedDelete.HandleFunc("/eliminarEquipoTop/{id}", handlers.DeleteTopTeam(db)).Methods("DELETE")
 
 	return router

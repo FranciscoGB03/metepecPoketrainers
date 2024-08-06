@@ -14,3 +14,18 @@ type Claims struct {
 	UserId      int64    `json:"user_id"`
 	jwt.StandardClaims
 }
+
+type Permiso struct {
+	ID     int    `json:"id"`
+	Nombre string `json:"nombre"`
+}
+
+type Rol struct {
+	ID     int    `json:"id"`
+	Nombre string `json:"nombre"`
+}
+
+type RelRolPermiso struct {
+	Rol      int       `json:"rol"`
+	Permisos []Permiso `json:"permisos"`
+}

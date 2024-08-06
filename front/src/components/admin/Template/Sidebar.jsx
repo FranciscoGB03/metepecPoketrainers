@@ -5,6 +5,7 @@ import { BsGeoAltFill } from "react-icons/bs";
 import { IoMdHome, IoMdMenu } from "react-icons/io";
 import { IoLogOutSharp, IoCloseSharp } from "react-icons/io5";
 import { MdCatchingPokemon } from "react-icons/md";
+import { FaGear } from "react-icons/fa6";
 import React, { useState } from "react";
 import { logOut } from "../../auth/helpers";
 
@@ -15,6 +16,7 @@ const Sidebar = () => {
     { name: "Ranking Mundial", link: "/admin/rankingMundial", icon: BiWorld },
     { name: "Liga Local", link: "/admin/ligaLocal", icon: BsGeoAltFill },
     { name: "Equipos Top", link: "/admin/equiposTop", icon: MdCatchingPokemon },
+    { name: "Permisos App", link: "/admin/permisos", icon: FaGear },
     { name: "Inicio", link: "/", icon: IoMdHome },
   ];
   const [sidebar, setSidebar] = useState(false);
@@ -35,11 +37,9 @@ const Sidebar = () => {
       >
         <div className="text-center pb-8">
           <div className="text-right uppercase font-bold text-xl ">
-          {sidebar && <button onClick={handleSidebar}>X</button>}
-              </div>
-          <h1 className="uppercase font-bold tracking-[4px]">
-            Dashboard
-          </h1>
+            {sidebar && <button onClick={handleSidebar}>X</button>}
+          </div>
+          <h1 className="uppercase font-bold tracking-[4px]">Dashboard</h1>
         </div>
         <div className="flex flex-col justify-between sm:h-0 lg:h-[850px] 2xl:h-[850px] ">
           <nav>
@@ -49,24 +49,24 @@ const Sidebar = () => {
                   className="text-xl p-2 font-semibold hover:bg-gradient-to-r from-cyan-500 to-blue-500 hover:text-white transition-colors rounded-lg"
                   key={i}
                 >
-                  {sidebar ?
-                  <NavLink
-                    to={menu?.link}
-                    className="group flex items-center gap-2"
-                    onClick={handleSidebar}
-                  >
-                    {React.createElement(menu?.icon)}
-                    {menu?.name}
-                  </NavLink>:
-                  <NavLink
-                    to={menu?.link}
-                    className="group flex items-center gap-2"
-                  >
-                    {React.createElement(menu?.icon)}
-                    {menu?.name}
-                  </NavLink>
-                  }
-
+                  {sidebar ? (
+                    <NavLink
+                      to={menu?.link}
+                      className="group flex items-center gap-2"
+                      onClick={handleSidebar}
+                    >
+                      {React.createElement(menu?.icon)}
+                      {menu?.name}
+                    </NavLink>
+                  ) : (
+                    <NavLink
+                      to={menu?.link}
+                      className="group flex items-center gap-2"
+                    >
+                      {React.createElement(menu?.icon)}
+                      {menu?.name}
+                    </NavLink>
+                  )}
                 </li>
               ))}
             </ul>
