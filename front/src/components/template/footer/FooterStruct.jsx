@@ -9,7 +9,7 @@ import moment from "moment";
 
 const FooterStruct = () => {
   return (
-    <footer className="footer justify-end pt-8 mt-5">
+    <footer className="footer justify-end pt-8">
       <span className="mt-8	" style={{margin:'20px'}}>Ponte en contacto con nosotros:</span>
       <div className="redes mt-5">
         <ul className="redes-elementos mb-5">

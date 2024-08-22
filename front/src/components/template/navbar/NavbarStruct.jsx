@@ -5,14 +5,19 @@ import { IoMenu } from "react-icons/io5";
 import logo from "../../../img/logo.png";
 import { getEmailFromToken, isTokenExpired } from "../../auth/helpers";
 import { FaRegUserCircle, FaTimes } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
+
 const NavbarStruct = () => {
 	/**hooks */
 	const [click, setClick] = useState(false);
 	/** functions */
 	const handleClick = () => setClick(!click);
+	const location = useLocation();
+	const isHome = location.pathname === '/';
+console.log(isHome);
 	/**variables */
 	const content = (
-		<div className="lg:hidden flex-grow block absolute top-14 w-full left-0 right-0 transition nav-color z-50 ">
+		<div  className="lg:hidden flex-grow block absolute top-14 w-full left-0 right-0 transition nav-color z-50 ">
 			<ul className="text-center text-xl flex flex-col">
 				<NavLink to="/rankingMundial">
 					<li className="py-2.5">Ranking Mundial</li>
@@ -50,9 +55,11 @@ const NavbarStruct = () => {
 	);
 	/**render */
 	return (
-		<div className="nav-color ">
+		// <div className={`${isHome ? " nav-color-transparent" : "nav-color"} `}>
+
+		<div className={`${isHome ? " nav-color-transparent" : "nav-color"} `}>
 			<nav>
-				<div className="h-10vh flex justify-between text-white lg:py-4 py-3 flex-1">
+				<div className="h-10vh flex justify-between lg:py-4 py-3 flex-1">
 					<div className="flex items-center">
 						<NavLink to="/">
 							<img alt="imagen principal" className="w-6/12" src={logo} />
