@@ -13,6 +13,33 @@ func NewCatalogosRepository(db *sql.DB) *CatologosRepository {
 	return &CatologosRepository{db}
 }
 
+// Metodo para eliminar roles
+func (r *CatologosRepository) DeleteRol(id int) (sql.Result, error) {
+	query := `DELETE FROM rol WHERE id = ?`
+	result, err := r.db.Exec(query, id)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+// Metodo para guardar roles
+func (r *CatologosRepository) SaveRol(rol models.Rol) (models.Rol, error) {
+	query := "INSERT INTO rol (nombre) VALUES(?)"
+	result, err := r.db.Exec(query, rol.Nombre)
+	if err != nil {
+		return models.Rol{}, err
+	}
+	// Obtener el ID del último insertado si es necesario
+	lastInsertID, err := result.LastInsertId()
+	if err != nil {
+		return models.Rol{}, err
+	}
+	rol.ID = int(lastInsertID)
+
+	return rol, nil
+}
+
 // Metodo para consultar catalogos de liga y equipo insignia
 func (r *CatologosRepository) GetLigasEquipos() (models.LigaEquipo, error) {
 	var ligas []models.Liga

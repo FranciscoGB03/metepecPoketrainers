@@ -34,6 +34,10 @@ func SetupRouter(db *sql.DB, jwtKey []byte) *mux.Router {
 	//Guadado de permisos por rol
 	protectedPost.HandleFunc("/savePermissionsByRole", handlers.SavePermissionsByRole(db)).Methods("POST")
 	// Catalogos
+	// metodo para guardar roles
+	protectedPost.HandleFunc("/catalogos/rol", handlers.SaveRol(db)).Methods("POST")
+	//metodo para eliminar roles
+	protectedDelete.HandleFunc("/catalogos/rol/{id}", handlers.DeleteRol(db)).Methods("DELETE")
 	// obtención de ataques rápidos
 	router.HandleFunc("/getAtaquesRapidos", handlers.GetAtaquesRapidos(db)).Methods("GET")
 	// obtención de ataques cargados

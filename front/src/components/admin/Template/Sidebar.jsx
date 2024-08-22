@@ -17,6 +17,7 @@ const Sidebar = () => {
     { name: "Liga Local", link: "/admin/ligaLocal", icon: BsGeoAltFill },
     { name: "Equipos Top", link: "/admin/equiposTop", icon: MdCatchingPokemon },
     { name: "Permisos App", link: "/admin/permisos", icon: FaGear },
+    { name: "Catálogos", link: "/admin/catalogos", icon: FaGear },
     { name: "Inicio", link: "/", icon: IoMdHome },
   ];
   const [sidebar, setSidebar] = useState(false);

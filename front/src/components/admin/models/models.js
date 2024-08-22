@@ -43,3 +43,8 @@ export const EquipoTop = {
   primer_cargado3: {},
   segundo_cargado3: {},
 };
+
+/** catalogos */
+export const ROL = {
+  nombre: "",
+};

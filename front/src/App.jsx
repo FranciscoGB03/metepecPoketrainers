@@ -14,7 +14,8 @@ import Register from "./components/auth/Register";
 import NotFound from "./components/template/notFound/NotFound";
 import EquiposTopAdmin from "./components/admin/equiposTop/equiposTopAdmin";
 import EquiposTop from "./components/equiposTop/EquiposTop";
-import Permisos from "./components/admin/catalogos/Permisos/Permisos";
+import RelRolPermisos from "./components/admin/catalogos/RelRolPermisos/RelRolPermisos";
+import Catalogos from "./components/admin/catalogos/Catalogos";
 
 function App() {
   return (
@@ -33,7 +34,8 @@ function App() {
         <Route path="/admin/rankingMundial" element={<RankingMundialAdmin />} />
         <Route path="/admin/ligaLocal" element={<LigaLocalAdmin />} />
         <Route path="/admin/equiposTop" element={<EquiposTopAdmin />} />
-        <Route path="/admin/permisos" element={<Permisos />} />
+        <Route path="/admin/permisos" element={<RelRolPermisos />} />
+        <Route path="/admin/catalogos" element={<Catalogos />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
