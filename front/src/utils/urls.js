@@ -6,3 +6,9 @@ export const DELETE_TOP_TEAM = "/eliminarEquipoTop/";
 export const GET_ALL_ROLES = "/getAllRoles";
 export const ADD_ROL = "/catalogos/rol";
 export const DELETE_ROL = "/catalogos/rol/";
+export const UPDATE_ROL = "/catalogos/rol";
+
+export const GET_ALL_PERMISSIONS = "/getAllPermisos";
+export const ADD_PERMISSION = "/catalogos/permisos";
+export const DELETE_PERMISSION = "/catalogos/permisos/";
+export const UPDATE_PERMISSION = "/catalogos/permisos";

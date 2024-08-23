@@ -13,6 +13,53 @@ func NewCatalogosRepository(db *sql.DB) *CatologosRepository {
 	return &CatologosRepository{db}
 }
 
+// Metodo para actualizar permisos
+func (r *CatologosRepository) UpdatePermission(permiso models.Permiso) (sql.Result, error) {
+	query := `UPDATE permisos SET nombre=? WHERE id=?`
+	result, err := r.db.Exec(query, permiso.Nombre, permiso.ID)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+// Metodo para eliminar permisos
+func (r *CatologosRepository) DeletePermission(id int) (sql.Result, error) {
+	query := `DELETE FROM permisos WHERE id = ?`
+	result, err := r.db.Exec(query, id)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+// Metodo para guardar permisos
+func (r *CatologosRepository) SavePermission(permiso models.Permiso) (models.Permiso, error) {
+	query := "INSERT INTO permisos (nombre) VALUES(?)"
+	result, err := r.db.Exec(query, permiso.Nombre)
+	if err != nil {
+		return models.Permiso{}, err
+	}
+	// Obtener el ID del último insertado si es necesario
+	lastInsertID, err := result.LastInsertId()
+	if err != nil {
+		return models.Permiso{}, err
+	}
+	permiso.ID = int(lastInsertID)
+
+	return permiso, nil
+}
+
+// Metodo para actualizar rol por id
+func (r *CatologosRepository) UpdateRol(rol models.Rol) (sql.Result, error) {
+	query := `UPDATE rol SET nombre=? WHERE id=?`
+	result, err := r.db.Exec(query, rol.Nombre, rol.ID)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
 // Metodo para eliminar roles
 func (r *CatologosRepository) DeleteRol(id int) (sql.Result, error) {
 	query := `DELETE FROM rol WHERE id = ?`

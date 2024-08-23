@@ -48,3 +48,7 @@ export const EquipoTop = {
 export const ROL = {
   nombre: "",
 };
+
+export const PERMISO = {
+  nombre: "",
+};
