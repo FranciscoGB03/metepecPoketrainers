@@ -16,26 +16,40 @@ import EquiposTopAdmin from "./components/admin/equiposTop/equiposTopAdmin";
 import EquiposTop from "./components/equiposTop/EquiposTop";
 import RelRolPermisos from "./components/admin/catalogos/RelRolPermisos/RelRolPermisos";
 import Catalogos from "./components/admin/catalogos/Catalogos";
+import {
+  ADMIN,
+  ADMIN_CATALOGOS,
+  ADMIN_EQUIPOS_TOP,
+  ADMIN_RANKING_LOCAL,
+  ADMIN_RANKING_MUNDIAL,
+  ADMIN_REL_PERMISOS,
+  EQUIPOS_TOP,
+  LOGIN,
+  RANKING_LOCAL,
+  RANKING_MUNDIAL,
+  REGISTER,
+  TERMINOS_CONDICIONES,
+} from "./utils/urls";
 
 function App() {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route path={LOGIN} element={<Login />} />
+      <Route path={REGISTER} element={<Register />} />
       <Route path="/" element={<Template />}>
         <Route index element={<Homepage />} />
-        <Route path="/rankingMundial" element={<RankingMundial />} />
-        <Route path="/rankingRegional" element={<RankingRegional />} />
-        <Route path="/terminosCondiciones" element={<TerminosCondiciones />} />
-        <Route path="/equiposTop" element={<EquiposTop />} />
+        <Route path={RANKING_MUNDIAL} element={<RankingMundial />} />
+        <Route path={RANKING_LOCAL} element={<RankingRegional />} />
+        <Route path={TERMINOS_CONDICIONES} element={<TerminosCondiciones />} />
+        <Route path={EQUIPOS_TOP} element={<EquiposTop />} />
       </Route>
-      <Route path="/admin" element={<AdminTemplate />}>
+      <Route path={ADMIN} element={<AdminTemplate />}>
         <Route index element={<Admin />} />
-        <Route path="/admin/rankingMundial" element={<RankingMundialAdmin />} />
-        <Route path="/admin/ligaLocal" element={<LigaLocalAdmin />} />
-        <Route path="/admin/equiposTop" element={<EquiposTopAdmin />} />
-        <Route path="/admin/permisos" element={<RelRolPermisos />} />
-        <Route path="/admin/catalogos" element={<Catalogos />} />
+        <Route path={ADMIN_RANKING_MUNDIAL} element={<RankingMundialAdmin />} />
+        <Route path={ADMIN_RANKING_LOCAL} element={<LigaLocalAdmin />} />
+        <Route path={ADMIN_EQUIPOS_TOP} element={<EquiposTopAdmin />} />
+        <Route path={ADMIN_REL_PERMISOS} element={<RelRolPermisos />} />
+        <Route path={ADMIN_CATALOGOS} element={<Catalogos />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

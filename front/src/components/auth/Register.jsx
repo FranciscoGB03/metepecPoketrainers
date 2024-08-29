@@ -6,6 +6,7 @@ import figureHeader from "../../../public/img/chico_saludando.jpeg";
 import { Link, useNavigate } from "react-router-dom";
 import { IoEyeOffSharp } from "react-icons/io5";
 import { IoMdEye } from "react-icons/io";
+import { REGISTER } from "../../utils/urls";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -54,7 +55,7 @@ const Register = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      await sendRequest("POST", "/register", { email, password });
+      await sendRequest("POST", REGISTER, { email, password });
     }
   };
 

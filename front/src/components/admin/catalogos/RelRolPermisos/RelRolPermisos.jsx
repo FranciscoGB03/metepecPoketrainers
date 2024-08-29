@@ -2,6 +2,12 @@ import { useEffect, useState } from "react";
 import "./styles.css";
 import useAxiosBack from "../../../../hooks/useAxiosBack";
 import { showErrorAlert, showSuccessAlert } from "../../../../utils/alertUtils";
+import {
+  GET_ALL_PERMISSIONS,
+  GET_ALL_PERMISSIONS_BY_ROL,
+  GET_ALL_ROLES,
+  SAVE_PERMISSION_BY_ROLE,
+} from "../../../../utils/urls";
 
 function RelRolPermisos() {
   /**hooks */
@@ -13,8 +19,8 @@ function RelRolPermisos() {
   /**useEffect */
   useEffect(() => {
     const fetchData = async () => {
-      await sendRequest("GET", "/getAllPermisos", {}, "permisos");
-      await sendRequest("GET", "/getAllRoles", {}, "roles");
+      await sendRequest("GET", GET_ALL_PERMISSIONS, {}, "permisos");
+      await sendRequest("GET", GET_ALL_ROLES, {}, "roles");
     };
     fetchData();
   }, []);
@@ -50,7 +56,7 @@ function RelRolPermisos() {
     setSelectedRole(rol);
     const response = await sendRequest(
       "GET",
-      "/getAllPermissionsByRole/" + rol.id,
+      GET_ALL_PERMISSIONS_BY_ROL + rol.id,
       {},
       "permissionsByRol"
     );
@@ -73,13 +79,13 @@ function RelRolPermisos() {
   const onSave = async () => {
     await sendRequest(
       "POST",
-      "/savePermissionsByRole",
+      SAVE_PERMISSION_BY_ROLE,
       { rol: selectedRole.id, permisos: rolePermissions },
       "save"
     );
     const response = await sendRequest(
       "GET",
-      "/getAllPermissionsByRole/" + selectedRole.id,
+      GET_ALL_PERMISSIONS_BY_ROL + selectedRole.id,
       {},
       "permissionsByRol"
     );

@@ -4,6 +4,7 @@ import NavbarStruct from "./navbar/NavbarStruct";
 import "./Template.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import logoPokemonGo from "../../../public/img/pokemonGo.png";
+import { REGISTER } from "../../utils/urls";
 // import fondo from '../../../public/img/fondo.png';
 
 const Template = () => {
@@ -12,7 +13,7 @@ const Template = () => {
   const navigate = useNavigate();
 
   const onRegister = () => {
-    navigate("/register");
+    navigate(REGISTER);
   };
   return (
     <div className="page">

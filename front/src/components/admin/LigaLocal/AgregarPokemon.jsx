@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
 import { PokemonCompetidor } from "../models/models";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+import { GET_LIGA_LOCAL, REGISTRAR_EQUIPO_LOCAL } from "../../../utils/urls";
 
-const AgregarPokemon = ({ competidorId, pokemons, ligas, rapidos, cargados,sendRequest}) => {
+const AgregarPokemon = ({
+  competidorId,
+  pokemons,
+  ligas,
+  rapidos,
+  cargados,
+  sendRequest,
+}) => {
   /**hooks */
   const [pokemon, setPokemon] = useState(PokemonCompetidor);
   // Asegurarse de que las props sean arrays antes de intentar mapear
@@ -11,31 +19,30 @@ const AgregarPokemon = ({ competidorId, pokemons, ligas, rapidos, cargados,sendR
   const rapidosArray = Array.isArray(rapidos) ? rapidos : [];
   const cargadosArray = Array.isArray(cargados) ? cargados : [];
 
-  console.log('ligas',ligasArray);
+  console.log("ligas", ligasArray);
   /** useEffect */
-  useEffect(()=>{
-    setPokemon({...pokemon, competidor_id:competidorId});
-  },[competidorId])
+  useEffect(() => {
+    setPokemon({ ...pokemon, competidor_id: competidorId });
+  }, [competidorId]);
 
   /**functions */
   /** Función para manejar el cambio en los select */
   const handleChange = (e, catalogo) => {
     const { name, value } = e.target;
-    const po=catalogo.find(p=>{
-      if (p.id==value){
+    const po = catalogo.find((p) => {
+      if (p.id == value) {
         return p;
       }
-    })
+    });
     setPokemon({ ...pokemon, [name]: po });
   };
   /** function that saves a pokemon */
   const savePokemon = async () => {
-    
-    const pokemones= new Array();
-    pokemones.push(pokemon)
+    const pokemones = new Array();
+    pokemones.push(pokemon);
     console.log(pokemones);
-    await sendRequest("POST", "/registrarEquipo",pokemones);
-    await sendRequest("GET", "/getLigaLocal", {}, "competidores");
+    await sendRequest("POST", REGISTRAR_EQUIPO_LOCAL, pokemones);
+    await sendRequest("GET", GET_LIGA_LOCAL, {}, "competidores");
   };
 
   return (
@@ -44,7 +51,7 @@ const AgregarPokemon = ({ competidorId, pokemons, ligas, rapidos, cargados,sendR
         Pokemon:{" "}
         <select
           name="pokemon"
-          onChange={e=>handleChange(e, pokemonsArray)}
+          onChange={(e) => handleChange(e, pokemonsArray)}
           value={pokemon.pokemon.id}
         >
           <option value="">Selecciona un Pokémon</option>
@@ -59,7 +66,7 @@ const AgregarPokemon = ({ competidorId, pokemons, ligas, rapidos, cargados,sendR
         Ataque rápido:{" "}
         <select
           name="ataque_rapido"
-          onChange={e=>handleChange(e, rapidosArray)}
+          onChange={(e) => handleChange(e, rapidosArray)}
           value={pokemon.ataque_rapido.id}
         >
           <option value="">Selecciona un Ataque Rápido</option>
@@ -74,7 +81,7 @@ const AgregarPokemon = ({ competidorId, pokemons, ligas, rapidos, cargados,sendR
         Primer ataque cargado:{" "}
         <select
           name="primer_ataque_cargado"
-          onChange={e=>handleChange(e,cargadosArray)}
+          onChange={(e) => handleChange(e, cargadosArray)}
           value={pokemon.primer_ataque_cargado.id}
         >
           <option value="">Selecciona un Primer Ataque Cargado</option>
@@ -89,7 +96,7 @@ const AgregarPokemon = ({ competidorId, pokemons, ligas, rapidos, cargados,sendR
         Segundo ataque cargado:{" "}
         <select
           name="segundo_ataque_cargado"
-          onChange={e=>handleChange(e,cargadosArray)}
+          onChange={(e) => handleChange(e, cargadosArray)}
           value={pokemon.segundo_ataque_cargado.id}
         >
           <option value="">Selecciona un Segundo Ataque Cargado</option>
@@ -104,7 +111,7 @@ const AgregarPokemon = ({ competidorId, pokemons, ligas, rapidos, cargados,sendR
         Seleccione la liga:{" "}
         <select
           name="liga"
-          onChange={e=>handleChange(e,ligasArray)}
+          onChange={(e) => handleChange(e, ligasArray)}
           value={pokemon.liga.id}
         >
           <option value="">Selecciona liga</option>
@@ -127,7 +134,7 @@ AgregarPokemon.propTypes = {
   ligas: PropTypes.array,
   rapidos: PropTypes.array,
   cargados: PropTypes.array,
-  sendRequest: PropTypes.func.isRequired
+  sendRequest: PropTypes.func.isRequired,
 };
 
 export default AgregarPokemon;
