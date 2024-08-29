@@ -21,9 +21,17 @@ import {
   ELIMINAR_JUGADOR_TOP,
   GET_TOP_MUNDIAL,
   GUARDAR_JUGADOR_TOP,
+  LOGIN,
   UPDATE_JUGADOR_TOP,
 } from "../../../utils/urls";
-
+import { getPermiso, isTokenExpired } from "../../auth/helpers";
+import {
+  PERMISO_ACTUALIZAR_JUGADOR_TOP,
+  PERMISO_ELIMINAR_JUGADOR_TOP,
+  PERMISO_GUARDAR_JUGADOR_TOP,
+  VER_ADMIN_RANKING_MUNDIAL,
+} from "../../../utils/permisos";
+import { useNavigate } from "react-router-dom";
 /**
  * @returns Componte para la edición de jugadores top
  */
@@ -31,8 +39,16 @@ export const RankingMundialAdmin = () => {
   /** hooks */
   const [jugador, setJugador] = useState(JugadorTop);
   const { data, setData, error, loading, sendRequest } = useAxiosBack();
+  const navigate = useNavigate();
   /** useEffect */
   useEffect(() => {
+    if (isTokenExpired()) {
+      localStorage.removeItem("token");
+      navigate(LOGIN);
+    }
+    if (!getPermiso(VER_ADMIN_RANKING_MUNDIAL)) {
+      navigate("/");
+    }
     sendRequest("GET", GET_TOP_MUNDIAL);
   }, []);
   /**sweet alert para la carga de datos */
@@ -157,12 +173,14 @@ export const RankingMundialAdmin = () => {
               value={jugador?.puntos_totales}
             />
           </div>
-          <button
-            className="mx-3 mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={onSave}
-          >
-            Guardar
-          </button>
+          {getPermiso(PERMISO_GUARDAR_JUGADOR_TOP) && (
+            <button
+              className="mx-3 mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={onSave}
+            >
+              Guardar
+            </button>
+          )}
         </div>
       </div>
       <div className="table-container bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -236,12 +254,16 @@ export const RankingMundialAdmin = () => {
                       />
                     </TableCell>
                     <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <button onClick={() => actualizarJugador(reg.id)}>
-                        <FaSave />
-                      </button>
-                      <button onClick={() => eliminarJugadorTop(reg.id)}>
-                        <MdDelete />
-                      </button>
+                      {getPermiso(PERMISO_ACTUALIZAR_JUGADOR_TOP) && (
+                        <button onClick={() => actualizarJugador(reg.id)}>
+                          <FaSave />
+                        </button>
+                      )}
+                      {getPermiso(PERMISO_ELIMINAR_JUGADOR_TOP) && (
+                        <button onClick={() => eliminarJugadorTop(reg.id)}>
+                          <MdDelete />
+                        </button>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))

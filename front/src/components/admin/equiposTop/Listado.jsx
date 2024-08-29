@@ -1,6 +1,11 @@
 import Tooltip from "../../../utils/Tooltip";
 import PropTypes from "prop-types";
 import { MdDelete } from "react-icons/md";
+import {
+  PERMISO_AGREGAR_EQUIPO_TOP,
+  PERMISO_ELIMINAR_EQUIPO_TOP,
+} from "../../../utils/permisos";
+import { getPermiso } from "../../auth/helpers";
 
 const Listado = ({ arrData, titulo, setIsVisible, onDeleteTeam }) => {
   /** render */
@@ -10,14 +15,16 @@ const Listado = ({ arrData, titulo, setIsVisible, onDeleteTeam }) => {
         <h2 className="uppercase text-xl text-center text-white mr-2">
           {titulo}
         </h2>
-        <Tooltip header="Agregar Equipo" position="top">
-          <button
-            className="border border-white mt-1 w-6 h-6 text-white rounded-full flex items-center justify-center hover:bg-cyan-800"
-            onClick={() => setIsVisible(true)}
-          >
-            <p className="mb-1 text-2xl font-bold">+</p>
-          </button>
-        </Tooltip>
+        {getPermiso(PERMISO_AGREGAR_EQUIPO_TOP) && (
+          <Tooltip header="Agregar Equipo" position="top">
+            <button
+              className="border border-white mt-1 w-6 h-6 text-white rounded-full flex items-center justify-center hover:bg-cyan-800"
+              onClick={() => setIsVisible(true)}
+            >
+              <p className="mb-1 text-2xl font-bold">+</p>
+            </button>
+          </Tooltip>
+        )}
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
@@ -102,9 +109,11 @@ const Listado = ({ arrData, titulo, setIsVisible, onDeleteTeam }) => {
                   </Tooltip>
                 </td>
                 <td>
-                  <button onClick={() => onDeleteTeam(reg.id)}>
-                    <MdDelete />
-                  </button>
+                  {getPermiso(PERMISO_ELIMINAR_EQUIPO_TOP) && (
+                    <button onClick={() => onDeleteTeam(reg.id)}>
+                      <MdDelete />
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}

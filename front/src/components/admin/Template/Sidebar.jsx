@@ -7,18 +7,65 @@ import { IoLogOutSharp, IoCloseSharp } from "react-icons/io5";
 import { MdCatchingPokemon } from "react-icons/md";
 import { FaGear } from "react-icons/fa6";
 import React, { useState } from "react";
-import { logOut } from "../../auth/helpers";
+import { getPermiso, logOut } from "../../auth/helpers";
+import {
+  PUBLICO,
+  VER_ADMIN,
+  VER_ADMIN_CATALOGOS,
+  VER_ADMIN_EQUIPOS_TOP,
+  VER_ADMIN_LIGA_LOCAL,
+  VER_ADMIN_PERMISOS_APP,
+  VER_ADMIN_RANKING_MUNDIAL,
+} from "../../../utils/permisos";
+import {
+  ADMIN,
+  ADMIN_CATALOGOS,
+  ADMIN_EQUIPOS_TOP,
+  ADMIN_RANKING_LOCAL,
+  ADMIN_RANKING_MUNDIAL,
+  ADMIN_REL_PERMISOS,
+} from "../../../utils/urls";
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const menus = [
-    { name: "Dashboard", link: "/admin", icon: LuLayoutDashboard },
-    { name: "Ranking Mundial", link: "/admin/rankingMundial", icon: BiWorld },
-    { name: "Liga Local", link: "/admin/ligaLocal", icon: BsGeoAltFill },
-    { name: "Equipos Top", link: "/admin/equiposTop", icon: MdCatchingPokemon },
-    { name: "Permisos App", link: "/admin/permisos", icon: FaGear },
-    { name: "Catálogos", link: "/admin/catalogos", icon: FaGear },
-    { name: "Inicio", link: "/", icon: IoMdHome },
+    {
+      permiso: VER_ADMIN,
+      name: "Dashboard",
+      link: ADMIN,
+      icon: LuLayoutDashboard,
+    },
+    {
+      permiso: VER_ADMIN_RANKING_MUNDIAL,
+      name: "Ranking Mundial",
+      link: ADMIN_RANKING_MUNDIAL,
+      icon: BiWorld,
+    },
+    {
+      permiso: VER_ADMIN_LIGA_LOCAL,
+      name: "Liga Local",
+      link: ADMIN_RANKING_LOCAL,
+      icon: BsGeoAltFill,
+    },
+    {
+      permiso: VER_ADMIN_EQUIPOS_TOP,
+      name: "Equipos Top",
+      link: ADMIN_EQUIPOS_TOP,
+      icon: MdCatchingPokemon,
+    },
+    {
+      permiso: PUBLICO,
+      name: "Permisos App",
+      link: ADMIN_REL_PERMISOS,
+      icon: FaGear,
+    },
+    {
+      permiso: PUBLICO,
+      name: "Catálogos",
+      link: ADMIN_CATALOGOS,
+      icon: FaGear,
+    },
+    { permiso: PUBLICO, name: "Inicio", link: "/", icon: IoMdHome },
   ];
   const [sidebar, setSidebar] = useState(false);
   const handleSidebar = () => {
@@ -45,31 +92,34 @@ const Sidebar = () => {
         <div className="flex flex-col justify-between sm:h-0 lg:h-[850px] 2xl:h-[850px] ">
           <nav>
             <ul>
-              {menus?.map((menu, i) => (
-                <li
-                  className="text-xl p-2 font-semibold hover:bg-gradient-to-r from-cyan-500 to-blue-500 hover:text-white transition-colors rounded-lg"
-                  key={i}
-                >
-                  {sidebar ? (
-                    <NavLink
-                      to={menu?.link}
-                      className="group flex items-center gap-2"
-                      onClick={handleSidebar}
+              {menus?.map(
+                (menu, i) =>
+                  (getPermiso(menu.permiso) || menu.permiso === PUBLICO) && (
+                    <li
+                      className="text-xl p-2 font-semibold hover:bg-gradient-to-r from-cyan-500 to-blue-500 hover:text-white transition-colors rounded-lg"
+                      key={i}
                     >
-                      {React.createElement(menu?.icon)}
-                      {menu?.name}
-                    </NavLink>
-                  ) : (
-                    <NavLink
-                      to={menu?.link}
-                      className="group flex items-center gap-2"
-                    >
-                      {React.createElement(menu?.icon)}
-                      {menu?.name}
-                    </NavLink>
-                  )}
-                </li>
-              ))}
+                      {sidebar ? (
+                        <NavLink
+                          to={menu?.link}
+                          className="group flex items-center gap-2"
+                          onClick={handleSidebar}
+                        >
+                          {React.createElement(menu?.icon)}
+                          {menu?.name}
+                        </NavLink>
+                      ) : (
+                        <NavLink
+                          to={menu?.link}
+                          className="group flex items-center gap-2"
+                        >
+                          {React.createElement(menu?.icon)}
+                          {menu?.name}
+                        </NavLink>
+                      )}
+                    </li>
+                  )
+              )}
             </ul>
           </nav>
           <div className="flex flex-col gap-4">

@@ -14,7 +14,11 @@ import {
   GET_CATALOGOS_LIGA_EQUIPOS,
   GET_EQUIPOS_TOP,
   GET_POKEMONS,
+  LOGIN,
 } from "../../../utils/urls";
+import { useNavigate } from "react-router-dom";
+import { getPermiso, isTokenExpired } from "../../auth/helpers";
+import { VER_ADMIN_EQUIPOS_TOP } from "../../../utils/permisos";
 
 const EquiposTopAdmin = () => {
   /** hooks */
@@ -23,8 +27,16 @@ const EquiposTopAdmin = () => {
   const [ligaMaster, setLigaMaster] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
   const { data, error, sendRequest } = useAxiosBack();
-  /**useEffects */
+  const navigate = useNavigate();
+  /** useEffect */
   useEffect(() => {
+    if (isTokenExpired()) {
+      localStorage.removeItem("token");
+      navigate(LOGIN);
+    }
+    if (!getPermiso(VER_ADMIN_EQUIPOS_TOP)) {
+      navigate("/");
+    }
     const fetchData = async () => {
       await sendRequest("GET", GET_CATALOGOS_LIGA_EQUIPOS, {}, "liga");
       await sendRequest("GET", GET_EQUIPOS_TOP, {}, "equipos");
