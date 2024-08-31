@@ -1,11 +1,10 @@
 import "./NavbarStruct.css";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink,useLocation } from "react-router-dom";
 import { IoMenu } from "react-icons/io5";
 import logo from "../../../img/logo.png";
 import { getEmailFromToken, isTokenExpired } from "../../auth/helpers";
 import { FaRegUserCircle, FaTimes } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
 import {
   ADMIN,
   EQUIPOS_TOP,

@@ -178,12 +178,13 @@ function RankingRegional() {
                           {reg?.puntos}
                         </TableCell>
                         <TableCell className="border-b border-gray-200 bg-white text-sm">
+                          <div className="grid grid-cols-3 grid-rows-1 gap-4">
                           {Array.isArray(reg?.equipo_competidores)
                             ? (reg.equipo_competidores || []).map((pokemon) => (
                                 <Fragment key={pokemon?.id}>
                                   <div className="justify-content-between">
                                     <div className="relative inline-block tooltip  my-1 ">
-                                      <a
+                                    <a
                                         to=""
                                         className="hover:text-gray-400 font-medium"
                                       >
@@ -219,9 +220,12 @@ function RankingRegional() {
                                       </div>
                                     </div>
                                   </div>
+
                                 </Fragment>
                               ))
                             : null}
+
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}
