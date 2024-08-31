@@ -18,8 +18,8 @@ const Template = () => {
     <div className="page">
       {isHome ? (
         <div className="landing-home">
-          <NavbarStruct />
-          <div className="text-center texto-descripcion text-zinc-800	">
+          <div className="bg-sky-950 bg-opacity-20		"><NavbarStruct /></div>
+          <div className="text-center texto-descripcion	">
             <div className="flex justify-center items-center">
               <img
                 className="w-3/12 text-center"
@@ -31,7 +31,7 @@ const Template = () => {
             <div className="btn-cta-content pt-1 pb-40 text-6xl	">
               <button
                 onClick={onRegister}
-                className=" px-5 transition-colors duration-150 border border-blue-800 rounded-lg focus:shadow-outline hover:bg-blue-800 hover:text-indigo-100"
+                className=" px-5 transition-colors duration-150 rounded-lg focus:shadow-outline hover:bg-blue-800 hover:text-indigo-100"
               >
                 <span className="py-5 font-bold text-amber-300 ">Unete</span>
               </button>

@@ -57,7 +57,7 @@ console.log(isHome);
 	return (
 		// <div className={`${isHome ? " nav-color-transparent" : "nav-color"} `}>
 
-		<div className={`${isHome ? " nav-color-transparent" : "nav-color"} `}>
+		<div className={`text-white ${isHome ? " nav-color-transparent" : "nav-color"} `} >
 			<nav>
 				<div className="h-10vh flex justify-between lg:py-4 py-3 flex-1">
 					<div className="flex items-center">

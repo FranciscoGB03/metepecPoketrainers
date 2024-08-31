@@ -1,5 +1,8 @@
 const EquiposTop = () => {
-  return <div>Equipos top</div>;
+  return <div>
+    <h1> Equipos top</h1>
+
+  </div>;
 };
 
 export default EquiposTop;
