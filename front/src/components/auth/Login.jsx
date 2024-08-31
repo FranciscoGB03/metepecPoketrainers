@@ -6,6 +6,7 @@ import figureHeader from "../../../public/img/chico_saludando.jpeg";
 import { isTokenExpired } from "./helpers";
 import { Link, useNavigate } from "react-router-dom";
 import { showErrorAlert, showSuccessAlert } from "../../utils/alertUtils";
+import { LOGIN } from "../../utils/urls";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -42,7 +43,7 @@ const Login = () => {
     if (!password) newErrors.password = "La contraseña es obligatoria.";
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
-      await sendRequest("POST", "/login", { email, password });
+      await sendRequest("POST", LOGIN, { email, password });
     }
   };
 
@@ -61,7 +62,9 @@ const Login = () => {
               <div>
                 <div className="mt-5 ">
                   <div>
-                    <label htmlFor='email' className="text-lg font-medium">Email</label>
+                    <label htmlFor="email" className="text-lg font-medium">
+                      Email
+                    </label>
                     <input
                       type="emai"
                       name="email"
@@ -75,7 +78,9 @@ const Login = () => {
                     )}
                   </div>
                   <div>
-                    <label htmlFor="password" className="text-lg font-medium">Contraseña</label>
+                    <label htmlFor="password" className="text-lg font-medium">
+                      Contraseña
+                    </label>
                     <input
                       name="password"
                       className="w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent"
@@ -118,7 +123,11 @@ const Login = () => {
             </div>
             <div className="hidden md:block ">
               <div className=" w-full ">
-                <img alt="persona saludando" className="trainer-img" src={figureHeader} />
+                <img
+                  alt="persona saludando"
+                  className="trainer-img"
+                  src={figureHeader}
+                />
               </div>
             </div>
           </div>

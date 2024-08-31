@@ -22,6 +22,13 @@ import {
 } from "./functions";
 import { IoEllipsisHorizontal } from "react-icons/io5";
 import PropTypes from "prop-types";
+import {
+  PERMISO_ACTUALIZAR_COMPETIDOR_LOCAL,
+  PERMISO_AGREGAR_POKEMON,
+  PERMISO_ELIMINAR_COMPETIDOR_LOCAL,
+  PERMISO_ELIMINAR_POKEMON,
+} from "../../../utils/permisos";
+import { getPermiso } from "../../auth/helpers";
 
 const Listado = ({ data, setData, sendRequest, openModal }) => {
   const [menuOpen, setMenuOpen] = useState(null);
@@ -137,13 +144,18 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
                                       src={pokemon.pokemon.img_url}
                                       alt={`imagen de: ${pokemon.pokemon.nombre}`}
                                     />
-                                    <button
-                                      onClick={() =>
-                                        eliminarPokemon(sendRequest, pokemon.id)
-                                      }
-                                    >
-                                      <MdDelete />
-                                    </button>
+                                    {getPermiso(PERMISO_ELIMINAR_POKEMON) && (
+                                      <button
+                                        onClick={() =>
+                                          eliminarPokemon(
+                                            sendRequest,
+                                            pokemon.id
+                                          )
+                                        }
+                                      >
+                                        <MdDelete />
+                                      </button>
+                                    )}
                                   </Link>
                                   <div className="flex flex-col bg-gradient-to-b from-sky-600 to-teal-400 w-60 h-auto rounded-md z-20 absolute right-0 invisible tooltip-item p-4 text-white">
                                     <strong className="uppercase pb-1">
@@ -168,18 +180,20 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
                     <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       {reg.editing ? (
                         <>
-                          <button
-                            onClick={() =>
-                              handleSave(
-                                data,
-                                sendRequest,
-                                reg.id,
-                                "competidores"
-                              )
-                            }
-                          >
-                            <FaSave /> Guardar
-                          </button>
+                          {getPermiso(PERMISO_ACTUALIZAR_COMPETIDOR_LOCAL) && (
+                            <button
+                              onClick={() =>
+                                handleSave(
+                                  data,
+                                  sendRequest,
+                                  reg.id,
+                                  "competidores"
+                                )
+                              }
+                            >
+                              <FaSave /> Guardar
+                            </button>
+                          )}
                           <button
                             onClick={() =>
                               handleCancelEdit(
@@ -203,38 +217,48 @@ const Listado = ({ data, setData, sendRequest, openModal }) => {
                           </button>
                           {menuOpen === reg.id && (
                             <div className="menu absolute justify-items-center rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 ">
-                              <button
-                                className="menu-item flex items-center p-3  text-md w-full hover:bg-gray-100"
-                                onClick={() => openModal(reg.id)}
-                              >
-                                <FaSave className="text-xl" />
-                                <p className="pl-3">Agregar Pokemon</p>
-                              </button>
-                              <button
-                                className="menu-item flex items-center p-3  text-md w-full hover:bg-gray-100"
-                                onClick={() =>
-                                  handleEdit(
-                                    data,
-                                    setData,
-                                    reg.id,
-                                    "competidores"
-                                  )
-                                }
-                              >
-                                <FaEdit className="text-xl" />
-                                <p className="pl-3  text-center">Editar</p>
-                              </button>
-                              <button
-                                className="menu-item flex items-center p-3  text-md w-full hover:bg-gray-100"
-                                onClick={() =>
-                                  eliminarJugador(sendRequest, reg.id)
-                                }
-                              >
-                                <MdDelete className="text-xl" />
-                                <p className="pl-3  text-center">
-                                  Eliminar Competidor
-                                </p>
-                              </button>
+                              {getPermiso(PERMISO_AGREGAR_POKEMON) && (
+                                <button
+                                  className="menu-item flex items-center p-3  text-md w-full hover:bg-gray-100"
+                                  onClick={() => openModal(reg.id)}
+                                >
+                                  <FaSave className="text-xl" />
+                                  <p className="pl-3">Agregar Pokemon</p>
+                                </button>
+                              )}
+                              {getPermiso(
+                                PERMISO_ACTUALIZAR_COMPETIDOR_LOCAL
+                              ) && (
+                                <button
+                                  className="menu-item flex items-center p-3  text-md w-full hover:bg-gray-100"
+                                  onClick={() =>
+                                    handleEdit(
+                                      data,
+                                      setData,
+                                      reg.id,
+                                      "competidores"
+                                    )
+                                  }
+                                >
+                                  <FaEdit className="text-xl" />
+                                  <p className="pl-3  text-center">Editar</p>
+                                </button>
+                              )}
+                              {getPermiso(
+                                PERMISO_ELIMINAR_COMPETIDOR_LOCAL
+                              ) && (
+                                <button
+                                  className="menu-item flex items-center p-3  text-md w-full hover:bg-gray-100"
+                                  onClick={() =>
+                                    eliminarJugador(sendRequest, reg.id)
+                                  }
+                                >
+                                  <MdDelete className="text-xl" />
+                                  <p className="pl-3  text-center">
+                                    Eliminar Competidor
+                                  </p>
+                                </button>
+                              )}
                             </div>
                           )}
                         </div>

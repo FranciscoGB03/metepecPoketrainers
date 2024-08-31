@@ -1,0 +1,21 @@
+export const VER_ADMIN = "ver_admin";
+export const VER_ADMIN_RANKING_MUNDIAL = "ver_admin_ranking_mundial";
+export const PERMISO_GUARDAR_JUGADOR_TOP = "guardar_jugador_top";
+export const PERMISO_ACTUALIZAR_JUGADOR_TOP = "actualizar_jugador_top";
+export const PERMISO_ELIMINAR_JUGADOR_TOP = "eliminar_jugador_top";
+export const VER_ADMIN_LIGA_LOCAL = "ver_admin_liga_local";
+export const PERMISO_GUARDAR_COMPETIDOR_LOCAL = "guardar_competidor_local";
+export const PERMISO_AGREGAR_POKEMON = "agregar_pokemon";
+export const PERMISO_ACTUALIZAR_COMPETIDOR_LOCAL =
+  "actualizar_competidor_local";
+export const PERMISO_ELIMINAR_COMPETIDOR_LOCAL = "eliminar_competidor_local";
+export const PERMISO_ELIMINAR_POKEMON = "eliminar_pokemon";
+export const VER_ADMIN_EQUIPOS_TOP = "ver_admin_equipos_top";
+export const PERMISO_AGREGAR_EQUIPO_TOP = "agregar_equipo_top";
+export const PERMISO_ELIMINAR_EQUIPO_TOP = "eliminar_equipo_top";
+export const VER_ADMIN_PERMISOS_APP = "ver_admin_permisos_app";
+export const PERMISO_GUARDAR_PERMISOS = "guardar_permisos";
+export const VER_ADMIN_CATALOGOS = "ver_admin_catalogos";
+export const PERMISO_GUARDAR_CATALOGOS = "guardar_catalogos";
+export const PERMISO_ELIMINAR_REGISTRO = "eliminar_registro";
+export const PUBLICO = "publico";

@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@tremor/react";
 import useAxiosGet from "../../hooks/useAxiosGetBack";
+import { GET_TOP_MUNDIAL } from "../../utils/urls";
 
 const RankingMundial = () => {
   const { data, error, loading, fetchData } = useAxiosGet();
@@ -21,7 +22,7 @@ const RankingMundial = () => {
   const [paginatedData, setPaginatedData] = useState([]);
   /**useEffect inicial que realiza la consulta */
   useEffect(() => {
-    fetchData("/getTopMundial");
+    fetchData(GET_TOP_MUNDIAL);
   }, []);
 
   /**useEffect que se encarga de setear la info de data a filteredData para mostrar en pantalla */

@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@tremor/react";
 import useAxiosGet from "../../hooks/useAxiosGetBack";
+import { GET_LIGA_LOCAL } from "../../utils/urls";
 
 function RankingRegional() {
   /**hooks */
@@ -22,7 +23,7 @@ function RankingRegional() {
   const [paginatedData, setPaginatedData] = useState([]);
   /**useEffect */
   useEffect(() => {
-    fetchData("/getLigaLocal");
+    fetchData(GET_LIGA_LOCAL);
   }, []);
   /**useEffect que se encarga de setear la info de data a filteredData para mostrar en pantalla */
   useEffect(() => {
@@ -198,7 +199,7 @@ function RankingRegional() {
                                         <strong>
                                           {pokemon?.pokemon?.nombre}
                                         </strong>
-                                        <span >
+                                        <span>
                                           ataque basico:{" "}
                                           {pokemon?.ataque_rapido.nombre_la}
                                         </span>

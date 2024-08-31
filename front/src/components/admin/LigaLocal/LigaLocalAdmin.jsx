@@ -6,8 +6,21 @@ import AgregarPokemonModal from "./AgregarPokemonModal";
 import { showErrorAlert } from "../../../utils/alertUtils";
 import { agregarJugador, handleInputChange } from "./functions";
 import Listado from "./Listado";
-import { getUID } from "../../auth/helpers";
+import { getPermiso, getUID, isTokenExpired } from "../../auth/helpers";
 import { FaChevronDown } from "react-icons/fa";
+import {
+  GET_ATAQUES_CARGADOS,
+  GET_ATAQUES_RAPIDOS,
+  GET_CATALOGOS_LIGA_EQUIPOS,
+  GET_LIGA_LOCAL,
+  GET_POKEMONS,
+  LOGIN,
+} from "../../../utils/urls";
+import {
+  PERMISO_GUARDAR_COMPETIDOR_LOCAL,
+  VER_ADMIN_LIGA_LOCAL,
+} from "../../../utils/permisos";
+import { useNavigate } from "react-router-dom";
 
 const LigaLocalAdmin = () => {
   /**hooks */
@@ -15,14 +28,22 @@ const LigaLocalAdmin = () => {
   const [newCompetidor, setNewCompetidor] = useState(CompetidorModel);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [regId, setRegId] = useState(null);
-  //useEffect
+  const navigate = useNavigate();
+  /** useEffect */
   useEffect(() => {
+    if (isTokenExpired()) {
+      localStorage.removeItem("token");
+      navigate(LOGIN);
+    }
+    if (!getPermiso(VER_ADMIN_LIGA_LOCAL)) {
+      navigate("/");
+    }
     const fetchData = async () => {
-      await sendRequest("GET", "/getCatalogosLigaEquipos", {}, "liga");
-      await sendRequest("GET", "/getPokemons", {}, "pokes");
-      await sendRequest("GET", "/getLigaLocal", {}, "competidores");
-      await sendRequest("GET", "/getAtaquesRapidos", {}, "rapidos");
-      await sendRequest("GET", "/getAtaquesCargados", {}, "cargados");
+      await sendRequest("GET", GET_CATALOGOS_LIGA_EQUIPOS, {}, "liga");
+      await sendRequest("GET", GET_POKEMONS, {}, "pokes");
+      await sendRequest("GET", GET_LIGA_LOCAL, {}, "competidores");
+      await sendRequest("GET", GET_ATAQUES_RAPIDOS, {}, "rapidos");
+      await sendRequest("GET", GET_ATAQUES_CARGADOS, {}, "cargados");
     };
     fetchData();
   }, []);
@@ -62,11 +83,13 @@ const LigaLocalAdmin = () => {
       </h1>
 
       <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <div className="flex"> 
-        <h1 className="text-left text-2xl font-semibold pb-5 ">
-          Competidores de liga local
-        </h1>
-        <div className="text-right pt-3 align-bottom justify-end"><FaChevronDown/></div>
+        <div className="flex">
+          <h1 className="text-left text-2xl font-semibold pb-5 ">
+            Competidores de liga local
+          </h1>
+          <div className="text-right pt-3 align-bottom justify-end">
+            <FaChevronDown />
+          </div>
         </div>
         <div>
           <div className="w-full px-3">
@@ -91,7 +114,11 @@ const LigaLocalAdmin = () => {
                 name="equipo_insignia"
                 value={newCompetidor.equipo_insignia.id}
                 onChange={(e) =>
-                  handleInputChange(e, setNewCompetidor, data.liga.EquipoInsignia)
+                  handleInputChange(
+                    e,
+                    setNewCompetidor,
+                    data.liga.EquipoInsignia
+                  )
                 }
               >
                 {data?.liga?.EquipoInsignia?.map((equipo) => (
@@ -103,9 +130,8 @@ const LigaLocalAdmin = () => {
             </label>
           </div>
           <div className="w-full px-3 pt-3">
-            <label htmlFor="puntos" >Puntos totales:{" "}</label>
+            <label htmlFor="puntos">Puntos totales: </label>
             <input
-
               type="number"
               name="puntos"
               min={0}
@@ -115,19 +141,21 @@ const LigaLocalAdmin = () => {
               onChange={(e) => handleInputChange(e, setNewCompetidor)}
             />
           </div>
-          <button
-            className="mx-3 mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() =>
-              agregarJugador(sendRequest, newCompetidor, setNewCompetidor)
-            }
-          >
-            Guardar
-          </button>
+          {getPermiso(PERMISO_GUARDAR_COMPETIDOR_LOCAL) && (
+            <button
+              className="mx-3 mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={() =>
+                agregarJugador(sendRequest, newCompetidor, setNewCompetidor)
+              }
+            >
+              Guardar
+            </button>
+          )}
         </div>
       </div>
       <div>
         <Listado
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
           data={data}
           setData={setData}
           openModal={openModal}

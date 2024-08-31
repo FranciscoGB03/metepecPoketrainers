@@ -1,4 +1,11 @@
 import { showConfirmationAlert } from "../../../utils/alertUtils";
+import {
+  ACTUALIZA_COMPETIDOR_LIGA_LOCAL,
+  ELIMINAR_COMPETIDOR_LIGA_LOCAL,
+  ELIMINAR_POKEMON_LIGA_LOCAL,
+  GET_LIGA_LOCAL,
+  REGISTRAR_COMPETIDOR_LIGA_LOCAL,
+} from "../../../utils/urls";
 import { CompetidorModel } from "../models/models";
 /**
  * funcion para agregar un competidor a la liga local
@@ -12,11 +19,11 @@ export const agregarJugador = async (
 ) => {
   await sendRequest(
     "POST",
-    "/registrarCompetidor",
+    REGISTRAR_COMPETIDOR_LIGA_LOCAL,
     newCompetidor,
     "addCompetidor"
   );
-  await sendRequest("GET", "/getLigaLocal", {}, "competidores");
+  await sendRequest("GET", GET_LIGA_LOCAL, {}, "competidores");
   setNewCompetidor(CompetidorModel);
 };
 /**
@@ -29,8 +36,13 @@ export const eliminarJugador = async (sendRequest, id) => {
     "¿Realmente desea eliminar el registro?"
   );
   if ((await eliminar).isConfirmed) {
-    await sendRequest("DELETE", "/eliminarCompetidor/" + id, {}, "competidor");
-    await sendRequest("GET", "/getLigaLocal", {}, "competidores");
+    await sendRequest(
+      "DELETE",
+      ELIMINAR_COMPETIDOR_LIGA_LOCAL + id,
+      {},
+      "competidor"
+    );
+    await sendRequest("GET", GET_LIGA_LOCAL, {}, "competidores");
   }
 };
 /**
@@ -144,11 +156,11 @@ export const handleSave = async (data, sendRequest, id, key) => {
   // Enviar la solicitud al servidor para guardar los cambios
   await sendRequest(
     "PUT",
-    `/actualizarCompetidor`,
+    ACTUALIZA_COMPETIDOR_LIGA_LOCAL,
     competidor,
     "actualizaCompetidor"
   );
-  await sendRequest("GET", "/getLigaLocal", {}, "competidores");
+  await sendRequest("GET", GET_LIGA_LOCAL, {}, "competidores");
 };
 
 /**
@@ -161,7 +173,12 @@ export const eliminarPokemon = async (sendRequest, id) => {
     "¿Realmente desea eliminar el registro?"
   );
   if ((await eliminar).isConfirmed) {
-    await sendRequest("DELETE", `/eliminarPokemon/${id}`, {}, "eliminaPoke");
-    await sendRequest("GET", "/getLigaLocal", {}, "competidores");
+    await sendRequest(
+      "DELETE",
+      ELIMINAR_POKEMON_LIGA_LOCAL + id,
+      {},
+      "eliminaPoke"
+    );
+    await sendRequest("GET", GET_LIGA_LOCAL, {}, "competidores");
   }
 };

@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { PokemonCompetidor } from "../models/models";
 import { useEffect, useState } from "react";
 import { SlArrowDown } from "react-icons/sl";
+import { GET_LIGA_LOCAL, REGISTRAR_EQUIPO_LOCAL } from "../../../utils/urls";
 
 /**
  * Modal para agregar pokemons
@@ -46,8 +47,8 @@ const AgregarPokemonModal = ({
   const savePokemon = async () => {
     const pokemones = new Array();
     pokemones.push(pokemon);
-    await sendRequest("POST", "/registrarEquipo", pokemones, "addPokemon");
-    await sendRequest("GET", "/getLigaLocal", {}, "competidores");
+    await sendRequest("POST", REGISTRAR_EQUIPO_LOCAL, pokemones, "addPokemon");
+    await sendRequest("GET", GET_LIGA_LOCAL, {}, "competidores");
     onClose();
   };
   /**validacion de modal */
@@ -105,16 +106,16 @@ const AgregarPokemonModal = ({
               <select
                 className="appearance-none text-sm row-start-1 col-start-1 block w-full mt-2  border border-gray-200
                 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-               name="ataque_rapido"
-              onChange={(e) => handleChange(e, rapidosArray)}
-              value={pokemon.ataque_rapido.id}
+                name="ataque_rapido"
+                onChange={(e) => handleChange(e, rapidosArray)}
+                value={pokemon.ataque_rapido.id}
               >
-              <option value="">Selecciona un Ataque Rápido</option>
-              {rapidosArray.map((rapido) => (
-                <option key={rapido.id} value={rapido.id}>
-                  {rapido.nombre_la}
-                </option>
-              ))}
+                <option value="">Selecciona un Ataque Rápido</option>
+                {rapidosArray.map((rapido) => (
+                  <option key={rapido.id} value={rapido.id}>
+                    {rapido.nombre_la}
+                  </option>
+                ))}
               </select>
               <SlArrowDown className="!absolute right-4 top-6 text-gray-400" />
             </div>
@@ -134,12 +135,12 @@ const AgregarPokemonModal = ({
                 onChange={(e) => handleChange(e, cargadosArray)}
                 value={pokemon.primer_ataque_cargado.id}
               >
-              <option value="">Primer Ataque Cargado</option>
-              {cargadosArray.map((cargado) => (
-                <option key={cargado.id} value={cargado.id}>
-                  {cargado.nombre_la}
-                </option>
-              ))}
+                <option value="">Primer Ataque Cargado</option>
+                {cargadosArray.map((cargado) => (
+                  <option key={cargado.id} value={cargado.id}>
+                    {cargado.nombre_la}
+                  </option>
+                ))}
               </select>
               <SlArrowDown className="!absolute right-4 top-6 text-gray-400" />
             </div>
@@ -156,16 +157,16 @@ const AgregarPokemonModal = ({
                 className="appearance-none text-sm row-start-1 col-start-1 block w-full mt-2  border border-gray-200
                 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 name="segundo_ataque_cargado"
-              onChange={(e) => handleChange(e, cargadosArray)}
-              value={pokemon.segundo_ataque_cargado.id}
-            >
-              <option value="">Segundo Ataque Cargado</option>
-              {cargadosArray.map((cargado) => (
-                <option key={cargado.id} value={cargado.id}>
-                  {cargado.nombre_la}
-                </option>
-              ))}
-            </select>
+                onChange={(e) => handleChange(e, cargadosArray)}
+                value={pokemon.segundo_ataque_cargado.id}
+              >
+                <option value="">Segundo Ataque Cargado</option>
+                {cargadosArray.map((cargado) => (
+                  <option key={cargado.id} value={cargado.id}>
+                    {cargado.nombre_la}
+                  </option>
+                ))}
+              </select>
               <SlArrowDown className="!absolute right-4 top-6 text-gray-400" />
             </div>
           </div>
@@ -180,23 +181,22 @@ const AgregarPokemonModal = ({
               <select
                 className="appearance-none text-sm row-start-1 col-start-1 block w-full mt-2  border border-gray-200
                 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              name="liga"
-              onChange={(e) => handleChange(e, ligasArray)}
-              value={pokemon.liga.id}
-            >
-            <option value="">Selecciona liga</option>
-            {ligasArray.map((liga) => (
-              <option key={liga.id} value={liga.id}>
-                {liga.nombre}
-              </option>
-            ))}
-          </select>
+                name="liga"
+                onChange={(e) => handleChange(e, ligasArray)}
+                value={pokemon.liga.id}
+              >
+                <option value="">Selecciona liga</option>
+                {ligasArray.map((liga) => (
+                  <option key={liga.id} value={liga.id}>
+                    {liga.nombre}
+                  </option>
+                ))}
+              </select>
               <SlArrowDown className="!absolute right-4 top-6 text-gray-400" />
             </div>
           </div>
         </div>
         <div>
-
           <button onClick={savePokemon}>Guardar</button>
         </div>
       </div>

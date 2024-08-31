@@ -7,7 +7,18 @@ import {
   showConfirmationAlert,
   showErrorAlert,
 } from "../../../utils/alertUtils";
-import { DELETE_TOP_TEAM, GET_EQUIPOS_TOP } from "../../../utils/urls";
+import {
+  DELETE_TOP_TEAM,
+  GET_ATAQUES_CARGADOS,
+  GET_ATAQUES_RAPIDOS,
+  GET_CATALOGOS_LIGA_EQUIPOS,
+  GET_EQUIPOS_TOP,
+  GET_POKEMONS,
+  LOGIN,
+} from "../../../utils/urls";
+import { useNavigate } from "react-router-dom";
+import { getPermiso, isTokenExpired } from "../../auth/helpers";
+import { VER_ADMIN_EQUIPOS_TOP } from "../../../utils/permisos";
 
 const EquiposTopAdmin = () => {
   /** hooks */
@@ -16,14 +27,22 @@ const EquiposTopAdmin = () => {
   const [ligaMaster, setLigaMaster] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
   const { data, error, sendRequest } = useAxiosBack();
-  /**useEffects */
+  const navigate = useNavigate();
+  /** useEffect */
   useEffect(() => {
+    if (isTokenExpired()) {
+      localStorage.removeItem("token");
+      navigate(LOGIN);
+    }
+    if (!getPermiso(VER_ADMIN_EQUIPOS_TOP)) {
+      navigate("/");
+    }
     const fetchData = async () => {
-      await sendRequest("GET", "/getCatalogosLigaEquipos", {}, "liga");
-      await sendRequest("GET", "/getEquiposTop", {}, "equipos");
-      await sendRequest("GET", "/getPokemons", {}, "pokes");
-      await sendRequest("GET", "/getAtaquesRapidos", {}, "rapidos");
-      await sendRequest("GET", "/getAtaquesCargados", {}, "cargados");
+      await sendRequest("GET", GET_CATALOGOS_LIGA_EQUIPOS, {}, "liga");
+      await sendRequest("GET", GET_EQUIPOS_TOP, {}, "equipos");
+      await sendRequest("GET", GET_POKEMONS, {}, "pokes");
+      await sendRequest("GET", GET_ATAQUES_RAPIDOS, {}, "rapidos");
+      await sendRequest("GET", GET_ATAQUES_CARGADOS, {}, "cargados");
     };
     fetchData();
   }, []);

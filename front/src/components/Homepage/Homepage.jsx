@@ -6,10 +6,11 @@ import aboutUsImage from "../../../public/img/aboutus.png";
 import { useState } from "react";
 import contactUsImage from "../../../public/img/dragonai.svg";
 import fondo from "../../../public/img/fondo.png";
+import { REGISTER } from "../../utils/urls";
 const Homepage = () => {
   const navigate = useNavigate();
   const onRegister = () => {
-    navigate("/register");
+    navigate(REGISTER);
   };
   const [name, setName] = useState("");
   const [lastname, setLastname] = useState("");
