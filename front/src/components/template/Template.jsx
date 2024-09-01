@@ -32,9 +32,10 @@ const Template = () => {
             <div className="btn-cta-content pt-1 pb-40 text-6xl	">
               <button
                 onClick={onRegister}
-                className=" px-5 transition-colors duration-150 rounded-lg focus:shadow-outline hover:bg-blue-800 hover:text-indigo-100"
               >
-                <span className="py-5 font-bold text-amber-300 ">Unete</span>
+                <span className="py-5 font-bold text-amber-300 transition-colors duration-150 transition-colors duration-150 rounded-lg focus:shadow-outline  hover:text-orange-600">
+                  Unete
+                </span>
               </button>
             </div>
           </div>

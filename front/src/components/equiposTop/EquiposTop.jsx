@@ -104,6 +104,7 @@ const EquiposTop = () => {
                           <h3 className="text-xl uppercase font-bold">
                             Ataques:
                           </h3>
+                          <hr className="border-solid	border-amber-900 m-2"/>
                           <div className="mt-2 ml-2">
                               {liga.ataque_rapido1.nombre_es?
                                 <p className="">
@@ -142,6 +143,7 @@ const EquiposTop = () => {
                           <h3 className="text-xl uppercase font-bold">
                             Ataques:
                           </h3>
+                          <hr className="border-solid	border-amber-900 m-2"/>
                           <div className="mt-2 ml-2">
                               {liga.ataque_rapido2.nombre_es?
                                 <p className="">
@@ -180,6 +182,7 @@ const EquiposTop = () => {
                           <h3 className="text-xl uppercase font-bold">
                             Ataques:
                           </h3>
+                          <hr className="border-solid	border-amber-900 m-2"/>
                           <div className="mt-2 ml-2">
                               {liga.ataque_rapido3.nombre_es?
                                 <p className="">
