@@ -77,7 +77,7 @@ const Sidebar = () => {
   };
   return (
     // <div className="md:w-2/5 lg:w-1/5 xl:w-1/5 text-center items-center ">
-    <div className="md:w-2/5 lg:w-[25%] md:h-full xl:w-[25%]text-center items-center ">
+    <div className="md:w-2/5 lg:w-[25%] md:h-full xl:w-[25%]text-center items-center  h-full">
       <div
         className={`fixed lg:static w-[79%] md:w-[40%] lg:w-full top-0 z-50 bg-cyan-950 text-white transition-all ${
           sidebar ? "-left-0" : "-left-full"

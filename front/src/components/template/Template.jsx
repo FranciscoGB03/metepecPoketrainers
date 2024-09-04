@@ -33,7 +33,7 @@ const Template = () => {
               <button
                 onClick={onRegister}
               >
-                <span className="py-5 font-bold text-amber-300 transition-colors duration-150 transition-colors duration-150 rounded-lg focus:shadow-outline  hover:text-orange-600">
+                <span className="py-5 font-bold text-amber-300 transition-colors duration-150 rounded-lg focus:shadow-outline  hover:text-orange-600">
                   Unete
                 </span>
               </button>

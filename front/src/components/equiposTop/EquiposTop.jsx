@@ -85,7 +85,7 @@ const EquiposTop = () => {
                   key={index}
                 >
                   <div className="w-8 h-8 flex justify-center items-center bg-sky-500	rounded-full text-white">
-                    {index}
+                    {liga.posicion}
                   </div>
                   <div className="col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                     <div className="bg-amber-100 max-w-sm rounded overflow-hidden shadow-lg	">
