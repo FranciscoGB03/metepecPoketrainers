@@ -78,6 +78,24 @@ func GetAllPermissionsByRole(db *sql.DB) http.HandlerFunc {
 	}
 }
 
+func GetAllPermissionsByRoleName(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		vars := mux.Vars(r)
+		//obteniendo el id a eliminar
+		idStr := vars["rol"]
+		adminRepo := repositories.NewAdminRepository(db)
+		permisos, err := adminRepo.GetAllPermissionsByRoleName(idStr)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		sort.Slice(permisos, func(i, j int) bool {
+			return permisos[i].Nombre < permisos[j].Nombre
+		})
+		json.NewEncoder(w).Encode(permisos)
+	}
+}
+
 func GetAllRoles(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		adminRepo := repositories.NewAdminRepository(db)

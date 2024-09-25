@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { isTokenExpired } from "./helpers";
+import { getRolFromToken, isTokenExpired } from "./helpers";
 import useAxiosBack from "../../hooks/useAxiosBack";
-import { GET_ALL_PERMISSIONS_BY_ROL } from "../../utils/urls";
+import { GET_ALL_PERMISSIONS_BY_ROL_NAME } from "../../utils/urls";
 /** generacion de un contexto para tener valores y funciones globales */
 const AuthorizationContext = createContext();
 
@@ -11,9 +11,11 @@ export const AuthorizationProvider = ({ children }) => {
   const [permisos, setPermisos] = useState([]);
   /**  funcion  para cargar los permisos por rol */
   const fetchData = async () => {
+    /** recuperacion del rol */
+    const rol = getRolFromToken();
     await sendRequest(
       "GET",
-      GET_ALL_PERMISSIONS_BY_ROL + "1",
+      GET_ALL_PERMISSIONS_BY_ROL_NAME + rol,
       {},
       "permissions"
     );

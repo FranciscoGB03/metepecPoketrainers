@@ -91,6 +91,38 @@ func (r *AdminRepository) GetAllPermissions() ([]models.Permiso, error) {
 	}
 	return permisos, nil
 }
+
+func (r *AdminRepository) GetAllPermissionsByRoleName(rol string) ([]models.Permiso, error) {
+	var permisos []models.Permiso
+	query := `SELECT p.id, p.nombre 
+				FROM rel_rol_permisos rrp 
+				LEFT JOIN 
+					permisos p ON rrp.permiso_id = p.id
+				LEFT  JOIN 
+					rol r on  rrp.rol_id =r.id 
+				WHERE
+					r.nombre = ?
+			`
+	// Obtencion de la  consulta
+	rows, err := r.db.Query(query, rol)
+	if err != nil {
+		return permisos, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var permiso models.Permiso
+		if err := rows.Scan(&permiso.ID, &permiso.Nombre); err != nil {
+			return permisos, err
+		}
+		permisos = append(permisos, permiso)
+	}
+	if err := rows.Err(); err != nil {
+		return permisos, err
+	}
+	return permisos, nil
+}
+
 func (r *AdminRepository) GetAllPermissionsByRole(rolId int) ([]models.Permiso, error) {
 	var permisos []models.Permiso
 	query := `SELECT p.id, p.nombre 

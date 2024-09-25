@@ -29,7 +29,9 @@ func SetupRouter(db *sql.DB, jwtKey []byte) *mux.Router {
 	router.HandleFunc("/getAllPermisos", handlers.GetAllPermissions(db)).Methods("GET")
 	//Roles
 	router.HandleFunc("/getAllRoles", handlers.GetAllRoles(db)).Methods("GET")
-	//Permisos por rol
+	// permisos  por  rol  name
+	router.HandleFunc("/getAllPermissionsByRoleName/{rol}", handlers.GetAllPermissionsByRoleName(db)).Methods("GET")
+	//Permisos por rol id
 	router.HandleFunc("/getAllPermissionsByRole/{rolId}", handlers.GetAllPermissionsByRole(db)).Methods("GET")
 	//Guadado de permisos por rol
 	protectedPost.HandleFunc("/savePermissionsByRole", handlers.SavePermissionsByRole(db)).Methods("POST")

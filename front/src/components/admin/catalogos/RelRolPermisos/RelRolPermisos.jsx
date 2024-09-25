@@ -54,16 +54,17 @@ function RelRolPermisos() {
   /** functions */
   const onSelectedRole = async (rol) => {
     const rol_id = rol.target.value;
-
-    setSelectedRole(rol_id);
-    const response = await sendRequest(
-      "GET",
-      GET_ALL_PERMISSIONS_BY_ROL + rol_id,
-      {},
-      "permissionsByRol"
-    );
-    setRolePermissions(response || []);
-    console.log(rolePermissions);
+    if (rol_id !== "") {
+      setSelectedRole(rol_id);
+      const response = await sendRequest(
+        "GET",
+        GET_ALL_PERMISSIONS_BY_ROL + rol_id,
+        {},
+        "permissionsByRol"
+      );
+      setRolePermissions(response || []);
+      console.log(rolePermissions);
+    }
   };
 
   const togglePermission = (permission) => {
@@ -80,23 +81,23 @@ function RelRolPermisos() {
   };
   /** metodo  para guardar permisos por rol */
   const onSave = async () => {
-    if(selectedRole === null){
-     return showErrorAlert("Error: debe seleccionar un rol");
+    if (selectedRole === null) {
+      return showErrorAlert("Error: debe seleccionar un rol");
     }
-    const rol_id=parseInt(selectedRole);
-     await sendRequest(
-       "POST",
-       SAVE_PERMISSION_BY_ROLE,
-       { rol: rol_id, permisos: rolePermissions },
-       "save"
-     );
-     const response = await sendRequest(
-       "GET",
-       GET_ALL_PERMISSIONS_BY_ROL + rol_id,
-       {},
-       "permissionsByRol"
-     );
-     setRolePermissions(response || []);
+    const rol_id = parseInt(selectedRole);
+    await sendRequest(
+      "POST",
+      SAVE_PERMISSION_BY_ROLE,
+      { rol: rol_id, permisos: rolePermissions },
+      "save"
+    );
+    const response = await sendRequest(
+      "GET",
+      GET_ALL_PERMISSIONS_BY_ROL + rol_id,
+      {},
+      "permissionsByRol"
+    );
+    setRolePermissions(response || []);
   };
   /**render */
   return (
@@ -115,6 +116,7 @@ function RelRolPermisos() {
               className="text-lg pl-5 pr-5"
               onChange={(e) => onSelectedRole(e)}
             >
+              <option value="">Elige una opción</option>
               {roles.map((role) => (
                 <option className="m-4" value={role.id} key={role.id}>
                   {role.nombre}
@@ -127,24 +129,21 @@ function RelRolPermisos() {
           </div>
         </div>
 
-        <div className="m-2" >
-         
-            {permissions.map((permission) => (
-              <div  className="flex" key={permission.id}>
-                <div>
-                  <input
-                    type="checkbox"
-                    checked={rolePermissions.some(
-                      (perm) => perm.id === permission.id
-                    )}
-                    onChange={() => togglePermission(permission)}
-                  />
-                </div>
-                <div className="ml-4">
-                  {permission.nombre}
-                </div>
+        <div className="m-2">
+          {permissions.map((permission) => (
+            <div className="flex" key={permission.id}>
+              <div>
+                <input
+                  type="checkbox"
+                  checked={rolePermissions.some(
+                    (perm) => perm.id === permission.id
+                  )}
+                  onChange={() => togglePermission(permission)}
+                />
               </div>
-            ))}
+              <div className="ml-4">{permission.nombre}</div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

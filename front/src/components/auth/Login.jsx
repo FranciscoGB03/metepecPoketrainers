@@ -33,9 +33,9 @@ const Login = () => {
   useEffect(() => {
     const token = data?.data?.token;
     if (token) {
-      fetchData();
-      showSuccessAlert("Acceso correcto!!");
       localStorage.setItem("token", token);
+      showSuccessAlert("Acceso correcto!!");
+      fetchData();
       navigate("/");
     }
   }, [data, navigate]);
