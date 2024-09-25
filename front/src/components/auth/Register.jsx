@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoEyeOffSharp } from "react-icons/io5";
 import { IoMdEye } from "react-icons/io";
 import { REGISTER } from "../../utils/urls";
+import { useAuthorization } from "./AuthorizationProvider";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -17,6 +18,7 @@ const Register = () => {
   const { data, error, sendRequest } = useAxiosBack();
   const [showPass, setShownPass] = useState(false);
   const [showVerifyPass, setshowVerifyPass] = useState(false);
+  const { fetchData } = useAuthorization();
 
   const navigate = useNavigate();
 
@@ -33,6 +35,7 @@ const Register = () => {
     const token = data?.data?.token;
     if (token) {
       localStorage.setItem("token", token);
+      fetchData();
       navigate("/");
     }
   }, [data, navigate]);

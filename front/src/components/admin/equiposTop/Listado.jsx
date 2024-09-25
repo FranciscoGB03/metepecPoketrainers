@@ -5,9 +5,10 @@ import {
   PERMISO_AGREGAR_EQUIPO_TOP,
   PERMISO_ELIMINAR_EQUIPO_TOP,
 } from "../../../utils/permisos";
-import { getPermiso } from "../../auth/helpers";
+import { useAuthorization } from "../../auth/AuthorizationProvider";
 
 const Listado = ({ arrData, titulo, setIsVisible, onDeleteTeam }) => {
+  const { getPermiso } = useAuthorization();
   /** render */
   return (
     <div className="border rounded-md border-blue-400 flex flex-col overflow-y-auto max-h-screen hover:bg-gray-600/10">

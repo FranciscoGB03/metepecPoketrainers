@@ -24,7 +24,7 @@ import {
   LOGIN,
   UPDATE_JUGADOR_TOP,
 } from "../../../utils/urls";
-import { getPermiso, isTokenExpired } from "../../auth/helpers";
+import { isTokenExpired } from "../../auth/helpers";
 import {
   PERMISO_ACTUALIZAR_JUGADOR_TOP,
   PERMISO_ELIMINAR_JUGADOR_TOP,
@@ -32,6 +32,7 @@ import {
   VER_ADMIN_RANKING_MUNDIAL,
 } from "../../../utils/permisos";
 import { useNavigate } from "react-router-dom";
+import { useAuthorization } from "../../auth/AuthorizationProvider";
 /**
  * @returns Componte para la edición de jugadores top
  */
@@ -40,6 +41,8 @@ export const RankingMundialAdmin = () => {
   const [jugador, setJugador] = useState(JugadorTop);
   const { data, setData, error, loading, sendRequest } = useAxiosBack();
   const navigate = useNavigate();
+  const { getPermiso } = useAuthorization();
+
   /** useEffect */
   useEffect(() => {
     if (isTokenExpired()) {
