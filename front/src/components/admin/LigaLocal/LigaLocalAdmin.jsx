@@ -6,7 +6,7 @@ import AgregarPokemonModal from "./AgregarPokemonModal";
 import { showErrorAlert } from "../../../utils/alertUtils";
 import { agregarJugador, handleInputChange } from "./functions";
 import Listado from "./Listado";
-import { getPermiso, getUID, isTokenExpired } from "../../auth/helpers";
+import { getUID, isTokenExpired } from "../../auth/helpers";
 import { FaChevronDown } from "react-icons/fa";
 import {
   GET_ATAQUES_CARGADOS,
@@ -21,6 +21,7 @@ import {
   VER_ADMIN_LIGA_LOCAL,
 } from "../../../utils/permisos";
 import { useNavigate } from "react-router-dom";
+import { useAuthorization } from "../../auth/AuthorizationProvider";
 
 const LigaLocalAdmin = () => {
   /**hooks */
@@ -29,6 +30,7 @@ const LigaLocalAdmin = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [regId, setRegId] = useState(null);
   const navigate = useNavigate();
+  const { getPermiso } = useAuthorization();
   /** useEffect */
   useEffect(() => {
     if (isTokenExpired()) {

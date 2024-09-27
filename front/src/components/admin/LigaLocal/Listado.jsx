@@ -28,10 +28,11 @@ import {
   PERMISO_ELIMINAR_COMPETIDOR_LOCAL,
   PERMISO_ELIMINAR_POKEMON,
 } from "../../../utils/permisos";
-import { getPermiso } from "../../auth/helpers";
+import { useAuthorization } from "../../auth/AuthorizationProvider";
 
 const Listado = ({ data, setData, sendRequest, openModal }) => {
   const [menuOpen, setMenuOpen] = useState(null);
+  const { getPermiso } = useAuthorization();
   const handleMenuToggle = (index) => {
     setMenuOpen(menuOpen === index ? null : index);
   };

@@ -17,8 +17,9 @@ import {
   LOGIN,
 } from "../../../utils/urls";
 import { useNavigate } from "react-router-dom";
-import { getPermiso, isTokenExpired } from "../../auth/helpers";
+import { isTokenExpired } from "../../auth/helpers";
 import { VER_ADMIN_EQUIPOS_TOP } from "../../../utils/permisos";
+import { useAuthorization } from "../../auth/AuthorizationProvider";
 
 const EquiposTopAdmin = () => {
   /** hooks */
@@ -28,6 +29,7 @@ const EquiposTopAdmin = () => {
   const [isVisible, setIsVisible] = useState(false);
   const { data, error, sendRequest } = useAxiosBack();
   const navigate = useNavigate();
+  const { getPermiso } = useAuthorization();
   /** useEffect */
   useEffect(() => {
     if (isTokenExpired()) {

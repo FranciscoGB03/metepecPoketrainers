@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { getPermiso, getRolFromToken, isTokenExpired } from "../auth/helpers";
+import { getRolFromToken, isTokenExpired } from "../auth/helpers";
 import { useEffect } from "react";
 import { LOGIN } from "../../utils/urls";
+import { useAuthorization } from "../auth/AuthorizationProvider";
 
 const Admin = () => {
   const navigate = useNavigate();
+  const { getPermiso } = useAuthorization();
   useEffect(() => {
     if (isTokenExpired()) {
       localStorage.removeItem("token");

@@ -7,6 +7,7 @@ import { isTokenExpired } from "./helpers";
 import { Link, useNavigate } from "react-router-dom";
 import { showErrorAlert, showSuccessAlert } from "../../utils/alertUtils";
 import { LOGIN } from "../../utils/urls";
+import { useAuthorization } from "./AuthorizationProvider";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +15,7 @@ const Login = () => {
   const { data, error, sendRequest } = useAxiosBack();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
+  const { fetchData } = useAuthorization();
 
   useEffect(() => {
     if (!isTokenExpired()) {
@@ -31,8 +33,9 @@ const Login = () => {
   useEffect(() => {
     const token = data?.data?.token;
     if (token) {
-      showSuccessAlert("Acceso correcto!!");
       localStorage.setItem("token", token);
+      showSuccessAlert("Acceso correcto!!");
+      fetchData();
       navigate("/");
     }
   }, [data, navigate]);

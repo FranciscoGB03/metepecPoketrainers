@@ -47,3 +47,4 @@ export const GET_ALL_PERMISSIONS = "/getAllPermisos";
 export const ADD_PERMISSION = "/catalogos/permisos";
 export const DELETE_PERMISSION = "/catalogos/permisos/";
 export const UPDATE_PERMISSION = "/catalogos/permisos";
+export const GET_ALL_PERMISSIONS_BY_ROL_NAME = "/getAllPermissionsByRoleName/";
