@@ -63,7 +63,7 @@ const NavbarStruct = () => {
   return (
     // <div className={`${isHome ? " nav-color-transparent" : "nav-color"} `}>
 
-    <div className={`${isHome ? " nav-color-transparent" : "nav-color"} `}>
+    <div className={`${isHome ? " nav-color-transparent" : "nav-color"} text-white`}>
       <nav>
         <div className="h-10vh flex justify-between lg:py-4 py-3 flex-1">
           <div className="flex items-center">
@@ -88,9 +88,6 @@ const NavbarStruct = () => {
                 </NavLink>
                 <NavLink href="#deets">
                   <li className="py-7">Nosotros</li>
-                </NavLink>
-                <NavLink href="#deets">
-                  <li className="py-7">Contactanos</li>
                 </NavLink>
                 {isTokenExpired() ? (
                   <NavLink to="/login">

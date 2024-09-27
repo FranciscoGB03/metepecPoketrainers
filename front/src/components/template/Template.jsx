@@ -18,8 +18,10 @@ const Template = () => {
   return (
     <div className="page">
       {isHome ? (
-        <div className="landing-home">
-          <div className="bg-sky-950 bg-opacity-20		"><NavbarStruct /></div>
+        <div className="w-full h-full landing-home">
+          <div className="bg-sky-950 bg-opacity-20">
+            <NavbarStruct />
+          </div>
           <div className="text-center texto-descripcion	">
             <div className="flex justify-center items-center">
               <img

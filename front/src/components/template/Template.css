@@ -20,7 +20,9 @@
     gap:10px;
 }
 .landing-home{
-    background-image: url("./../../../public/img/fondo.png");
-    background-repeat: no-repeat;
-    background-size: 100% auto;
+    background-image: url("./../../../public/img/Trainers_B.jpg");
+    background-position: center;
+    background-size: cover;
+  background-repeat:no-repeat ;
+  max-width: 100%;
 }
